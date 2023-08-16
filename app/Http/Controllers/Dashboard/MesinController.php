@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lokasi;
 use App\Models\Mesin;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class MesinController extends Controller
     public function index()
     {
         // list mesin
-        $mesin = Mesin::filter(request())->paginate($_GET['row'] ?? 1);
+        $mesin = Mesin::filter(request())->paginate($_GET['row'] ?? 10);
 
         return view('pages.dashboard.mesin.index', compact('mesin'));
     }
@@ -26,7 +27,8 @@ class MesinController extends Controller
     {
         $method = "store";
         $url = route('mesin.store');
-        return view('pages.dashboard.mesin.create', compact('method', 'url'));
+        $lokasi = Lokasi::all();
+        return view('pages.dashboard.mesin._form', compact('method', 'url', 'lokasi'));
     }
 
     /**
@@ -37,7 +39,10 @@ class MesinController extends Controller
         $request->validate([
             'name' => 'required|unique:mesin,name',
             'merk' => 'required',
-            'kapasitas' => 'required'
+            'kapasitas' => 'required',
+            'lokasi' => 'required',
+            'tahun_pembuatan' => 'required',
+            'periode_pakai' => 'required'
         ]);
 
         $d = Mesin::count();
@@ -47,6 +52,9 @@ class MesinController extends Controller
         $mesin->name = $request->name;
         $mesin->merk = $request->merk;
         $mesin->kapasitas = $request->kapasitas;
+        $mesin->lokasi_id = $request->lokasi;
+        $mesin->tahun_pembuatan = $request->tahun_pembuatan;
+        $mesin->periode_pakai = $request->periode_pakai;
 
         $mesin->save();
 
@@ -69,7 +77,8 @@ class MesinController extends Controller
         $method = "update";
         $url = route('mesin.update', $id);
         $mesin = Mesin::findOrFail($id);
-        return view('pages.dashboard.mesin.create', compact('method', 'url', 'mesin'));
+        $lokasi = Lokasi::all();
+        return view('pages.dashboard.mesin._form', compact('method', 'url', 'mesin', 'lokasi'));
     }
 
     /**
@@ -80,13 +89,19 @@ class MesinController extends Controller
         $request->validate([
             'name' => 'required|unique:mesin,name,' . $id,
             'merk' => 'required',
-            'kapasitas' => 'required'
+            'kapasitas' => 'required',
+            'lokasi' => 'required',
+            'tahun_pembuatan' => 'required',
+            'periode_pakai' => 'required'
         ]);
 
         $mesin = Mesin::findOrFail($id);
         $mesin->name = $request->name;
         $mesin->merk = $request->merk;
         $mesin->kapasitas = $request->kapasitas;
+        $mesin->lokasi_id = $request->lokasi;
+        $mesin->tahun_pembuatan = $request->tahun_pembuatan;
+        $mesin->periode_pakai = $request->periode_pakai;
 
         $mesin->save();
 

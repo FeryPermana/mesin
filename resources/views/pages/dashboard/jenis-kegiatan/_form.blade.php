@@ -3,10 +3,10 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>Tambah Mesin</h3>
+                    <h3>{{ $method == 'update' ? 'Ubah Jenis Kegiatan' : 'Tambah Jenis Kegiatan' }}</h3>
                 </div>
                 <div class="col-md-6 text-end">
-                    <a href="{{ route('mesin.index') }}"
+                    <a href="{{ route('jenis-kegiatan.index') }}"
                         class="btn btn-primary">Kembali</a>
                 </div>
             </div>
@@ -20,40 +20,27 @@
                 @endif
                 <div class="mb-3">
                     <label for="name"
-                        class="form-label">Nama</label>
+                        class="form-label">Jenis Kegiatan</label>
                     <input type="text"
                         name="name"
                         class="form-control @error('name') border-danger @enderror"
                         id="name"
-                        value="{{ old('name', @$mesin->name) }}">
+                        value="{{ old('name', @$jeniskegiatan->name) }}">
                     @error('name')
                         <div id="name"
                             class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="merk"
-                        class="form-label">Merk</label>
+                    <label for="standart"
+                        class="form-label">Standart</label>
                     <input type="text"
-                        name="merk"
-                        class="form-control @error('merk') border-danger @enderror"
-                        id="merk"
-                        value="{{ old('merk', @$mesin->merk) }}">
-                    @error('merk')
-                        <div id="merk"
-                            class="form-text text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="kapasitas"
-                        class="form-label">Kapasitas</label>
-                    <input type="text"
-                        name="kapasitas"
-                        class="form-control @error('kapasitas') border-danger @enderror"
-                        id="kapasitas"
-                        value="{{ old('kapasitas', @$mesin->kapasitas) }}">
-                    @error('kapasitas')
-                        <div id="kapasitas"
+                        name="standart"
+                        class="form-control @error('standart') border-danger @enderror"
+                        id="standart"
+                        value="{{ old('standart', @$jeniskegiatan->standart) }}">
+                    @error('standart')
+                        <div id="standart"
                             class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>

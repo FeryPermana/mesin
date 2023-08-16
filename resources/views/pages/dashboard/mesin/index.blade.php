@@ -41,33 +41,50 @@
                 </div>
             </form>
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-bordered">
                     <thead>
                         <th>No</th>
                         <th>Nama</th>
                         <th>Merk</th>
                         <th>Kapasitas</th>
+                        <th>Lokasi</th>
+                        <th>Tahun Pembuatan</th>
+                        <th>Periode Pakai</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
-                        @foreach ($mesin as $m)
+                        @forelse ($mesin as $m)
                             <tr>
                                 <td>{{ increment($mesin, $loop) }}</td>
                                 <td>{{ $m->name }}</td>
                                 <td>{{ $m->merk }}</td>
                                 <td>{{ $m->kapasitas }}</td>
+                                <td>{{ $m->lokasi->lokasi }}</td>
+                                <td>{{ $m->tahun_pembuatan }}</td>
+                                <td>{{ $m->periode_pakai }}</td>
                                 <td>
                                     <a href="{{ route('mesin.edit', $m->id) }}"
-                                        class="btn btn-warning"><i class="ti ti-pencil"></i> Edit</a>
+                                        class="btn btn-warning btn-sm"><i class="ti ti-pencil"></i></a>
 
-                                    <button class="btn btn-danger delete-data"
+                                    <button class="btn btn-danger btn-sm delete-data"
                                         data-url="{{ route('mesin.destroy', $m->id) }}"
                                         data-id="{{ $m->id }}">
-                                        <i class="ti ti-trash"></i> Delete
+                                        <i class="ti ti-trash"></i>
                                     </button>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5">
+                                    <div class="text-center">
+                                        <div class="alert alert-warning"
+                                            role="alert">
+                                            Data tidak ada
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

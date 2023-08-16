@@ -11,6 +11,8 @@ class Mesin extends Model
 
     protected $table = "mesin";
 
+    protected $fillable = ['code', 'name', 'merk', 'kapasitas', 'lokasi_id', 'tahun_pembuatan', 'periode_pakai'];
+
     public function scopeFilter($query, $params)
     {
         if (@$params->search) {
@@ -18,5 +20,10 @@ class Mesin extends Model
                 $query->where('name', 'LIKE', '%' . $params->search . '%');
             });
         }
+    }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class);
     }
 }

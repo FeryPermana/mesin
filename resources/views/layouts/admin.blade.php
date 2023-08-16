@@ -11,6 +11,8 @@
         href="{{ asset('assets/images/logos/favicon.png') }}" />
     <link rel="stylesheet"
         href="{{ asset('assets/css/styles.min.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('plugins/dropify/dropify.min.css') }}">
     @stack('styles')
 </head>
 
@@ -98,8 +100,15 @@
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="./authentication-login.html"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <form action="{{ route('logout') }}"
+                                            class="d-none"
+                                            id="formlogout"
+                                            method="POST">
+                                            @csrf
+                                        </form>
+                                        <a href="#"
+                                            class="btn btn-outline-primary mx-3 mt-2 d-block"
+                                            onclick="document.getElementById('formlogout').submit()">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -108,9 +117,7 @@
                 </nav>
             </header>
             <!--  Header End -->
-            <div class="container-fluid">
-                {{ $slot }}
-            </div>
+            {{ $slot }}
         </div>
     </div>
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
@@ -121,6 +128,8 @@
     <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+    <script src="{{ asset('plugins/dropify/dropify.min.js') }}"></script>
+    <script src="{{ asset('plugins/dropify/upload-init.js') }}"></script>
 
     @stack('scripts')
 </body>
