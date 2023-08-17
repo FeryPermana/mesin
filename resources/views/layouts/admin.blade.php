@@ -30,9 +30,11 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html"
+                    <a href="#"
                         class="text-nowrap logo-img">
-                        <h4>Pengerjaan Mesin</h4>
+                        <img src="{{ asset('assets/images/logos/tanobel-logo-w300.png') }}"
+                            alt=""
+                            width="100%">
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
                         id="sidebarCollapse">

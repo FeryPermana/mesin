@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
             <form>
-                <div class="row">
+                <div class="row my-5">
                     <div class="col-2 pr-md-0 mb-3 mb-md-0">
                         @php
                             $rows = [10, 50, 100, 500];
@@ -39,35 +39,7 @@
                         </select>
                     </div>
 
-                    <div class="col-3 pr-md-0 mb-3 mb-md-0">
-                        <select name="shift"
-                            class="form-control custom-select"
-                            onchange="this.form.submit()">
-                            <option value=""
-                                selected>Shift</option>
-                            @foreach ($shift as $sh)
-                                <option value="{{ $sh->id }}"
-                                    {{ @$_GET['shift'] == $sh->id ? 'selected' : '' }}>
-                                    {{ $sh->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-3 pr-md-0 mb-3 mb-md-0">
-                        <select name="lineproduksi"
-                            class="form-control custom-select"
-                            onchange="this.form.submit()">
-                            <option value=""
-                                selected>Line Produksi</option>
-                            @foreach ($lineproduksi as $lp)
-                                <option value="{{ $lp->id }}"
-                                    {{ @$_GET['lineproduksi'] == $lp->id ? 'selected' : '' }}>
-                                    {{ $lp->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-md-5 my-3 ml-auto">
+                    <div class="col-md-5 ml-auto">
                         <div class="custom-search">
                             <input type="text"
                                 class="form-control"
@@ -81,23 +53,23 @@
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
-                        <th>No</th>
                         <th>Nama</th>
+                        <th>Merk</th>
                         <th>Lokasi</th>
-                        <th>Line Produksi</th>
-                        <th>Shift</th>
+                        <th>Tahun Pembuatan</th>
+                        <th>Periode Pakai</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
                         @forelse ($maintenance as $m)
                             <tr>
-                                <td>{{ increment($maintenance, $loop) }}</td>
-                                <td>{{ $m->mesin->name }}</td>
-                                <td>{{ $m->mesin->lokasi->lokasi }}</td>
-                                <td>{{ $m->lineproduksi->name }}</td>
-                                <td>{{ $m->shift->name }}</td>
+                                <td>{{ $m[0]->mesin->name }}</td>
+                                <td>{{ $m[0]->mesin->merk }}</td>
+                                <td>{{ $m[0]->mesin->lokasi->lokasi }}</td>
+                                <td>{{ $m[0]->mesin->tahun_pembuatan }}</td>
+                                <td>{{ $m[0]->mesin->periode_pakai }}</td>
                                 <td>
-                                    <a href=""
+                                    <a href="{{ route('maintenance-harian.show', $m[0]->mesin->id) }}"
                                         class="btn btn-warning">Detail</a>
                                 </td>
                             </tr>
@@ -115,9 +87,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-            <div class="d-flex justify-content-end">
-                {{ $maintenance->withQueryString()->links() }}
             </div>
 
         </div>

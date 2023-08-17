@@ -54,6 +54,11 @@ class Pengerjaan extends Model
         return $this->belongsTo(Mesin::class);
     }
 
+    public function operator()
+    {
+        return $this->belongsTo(User::class, 'nik', 'nik');
+    }
+
     public function checklist()
     {
         return $this->hasMany(checklist::class);

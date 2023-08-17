@@ -21,7 +21,7 @@ class PerawatanController extends Controller
         $shift = Shift::all();
         $jeniskegiatan = JenisKegiatan::all();
 
-        $pengerjaan = Pengerjaan::with('checklist')->filter(request())->whereNik(auth()->user()->nik)->get();
+        $pengerjaan = Pengerjaan::with('checklist')->filter(request())->get();
 
         $data = [
             'mesin' => $mesin,

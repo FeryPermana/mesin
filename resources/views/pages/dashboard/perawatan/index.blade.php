@@ -189,7 +189,7 @@
                 </div>
             </form>
             <br>
-            @if (@$_GET['mesin'] && @$_GET['lineproduksi'] && @$_GET['mesin'])
+            @if (@$_GET['mesin'] && @$_GET['lineproduksi'] && @$_GET['shift'])
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
@@ -241,7 +241,7 @@
                                     $p = 32 - count($pengerjaan);
                                 @endphp
                                 @for ($i = 1; $i < $p; $i++)
-                                    <td></td>
+                                    <td>-</td>
                                 @endfor
                             </tr>
                         @endforeach
