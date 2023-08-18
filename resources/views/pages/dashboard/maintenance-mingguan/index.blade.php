@@ -3,17 +3,13 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>List User</h3>
-                </div>
-                <div class="col-md-6 text-end">
-                    <a href="{{ route('user.create') }}"
-                        class="btn btn-primary">Tambah</a>
+                    <h3>Maintenance Mingguan</h3>
                 </div>
             </div>
         </div>
         <div class="card-body">
             <form>
-                <div class="row">
+                <div class="row my-5">
                     <div class="col-2 pr-md-0 mb-3 mb-md-0">
                         @php
                             $rows = [10, 50, 100, 500];
@@ -29,7 +25,21 @@
                         </select>
                     </div>
 
-                    <div class="col-md-5 mb-3 ml-auto">
+                    <div class="col-3 pr-md-0 mb-3 mb-md-0">
+                        <select name="mesin"
+                            class="form-control custom-select"
+                            onchange="this.form.submit()">
+                            <option value=""
+                                selected>Mesin</option>
+                            @foreach ($mesin as $mes)
+                                <option value="{{ $mes->id }}"
+                                    {{ @$_GET['mesin'] == $mes->id ? 'selected' : '' }}>
+                                    {{ $mes->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-5 ml-auto">
                         <div class="custom-search">
                             <input type="text"
                                 class="form-control"
@@ -38,42 +48,34 @@
                                 value="{{ @$_GET['search'] }}">
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <a href="{{ route('user.create') }}"
-                            class="btn btn-primary">Tambah</a>
-                    </div>
                 </div>
             </form>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
-                        <th>No</th>
                         <th>Nama</th>
-                        <th>Role</th>
+                        <th>Merk</th>
                         <th>Lokasi</th>
+                        <th>Tahun Pembuatan</th>
+                        <th>Periode Pakai</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
-                        @forelse ($users as $user)
+                        @forelse ($maintenance as $m)
                             <tr>
-                                <td>{{ increment($users, $loop) }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->role_name }}</td>
-                                <td>{{ $user->lokasi->lokasi ?? '' }}</td>
+                                <td>{{ $m[0]->mesin->name }}</td>
+                                <td>{{ $m[0]->mesin->merk }}</td>
+                                <td>{{ $m[0]->mesin->lokasi->lokasi }}</td>
+                                <td>{{ $m[0]->mesin->tahun_pembuatan }}</td>
+                                <td>{{ $m[0]->mesin->periode_pakai }}</td>
                                 <td>
-                                    <a href="{{ route('user.edit', $user->id) }}"
-                                        class="btn btn-warning btn-sm"><i class="ti ti-pencil"></i> Edit</a>
-
-                                    <button class="btn btn-danger btn-sm delete-data"
-                                        data-url="{{ route('user.destroy', $user->id) }}"
-                                        data-id="{{ $user->id }}">
-                                        <i class="ti ti-trash"></i> Delete
-                                    </button>
+                                    <a href="{{ route('maintenance-mingguan.show', $m[0]->mesin->id) }}"
+                                        class="btn btn-warning">Detail</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">
+                                <td colspan="6">
                                     <div class="text-center">
                                         <div class="alert alert-warning"
                                             role="alert">
@@ -85,9 +87,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-            <div class="d-flex justify-content-end">
-                {{ $users->withQueryString()->links() }}
             </div>
 
         </div>

@@ -7,12 +7,12 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>Perawatan Harian</h3>
+                    <h3>Perawatan Mingguan</h3>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <form action="{{ route('perawatan.store') }}"
+            <form action="{{ route('perawatan-mingguan.store') }}"
                 method="POST"
                 enctype="multipart/form-data">
                 @csrf
@@ -183,7 +183,7 @@
                     <div class="col-md-3">
                         <button type="submit"
                             class="btn btn-primary">Filter</button>
-                        <a href="{{ route('perawatan.index') }}"
+                        <a href="{{ route('perawatan-mingguan.index') }}"
                             class="btn btn-warning">Reset</a>
                     </div>
                 </div>
@@ -208,7 +208,7 @@
                                 class="text-center">Pelaksanaan</th>
                         </tr>
                         <tr>
-                            @for ($i = 1; $i < 32; $i++)
+                            @for ($i = 1; $i < 5; $i++)
                                 <th>{{ $i }}</th>
                             @endfor
                         </tr>
@@ -222,7 +222,7 @@
                                 <td>{{ $j->standart }}</td>
                                 @foreach ($pengerjaan as $p)
                                     @php
-                                        $checklists = $p->checklist;
+                                        $checklists = $p->checklistmingguan;
                                         
                                         $arraycheck = [];
                                         foreach ($checklists as $checklist) {
@@ -236,7 +236,7 @@
                                     @endif
                                 @endforeach
                                 @php
-                                    $p = 32 - count($pengerjaan);
+                                    $p = 5 - count($pengerjaan);
                                 @endphp
                                 @for ($i = 1; $i < $p; $i++)
                                     <td>-</td>

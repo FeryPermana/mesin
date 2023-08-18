@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Checklist;
+use App\Models\ChecklistMingguan;
 use App\Models\JenisKegiatan;
 use App\Models\LineProduksi;
 use App\Models\Mesin;
 use App\Models\Pengerjaan;
-use App\Models\Perawatan;
+use App\Models\PengerjaanMingguan;
 use App\Models\Shift;
 use Illuminate\Http\Request;
 
-class PerawatanController extends Controller
+class PerawatanMingguanController extends Controller
 {
     public function index()
     {
@@ -21,7 +22,7 @@ class PerawatanController extends Controller
         $shift = Shift::all();
         $jeniskegiatan = JenisKegiatan::all();
 
-        $pengerjaan = Pengerjaan::with('checklist')->filter(request())->get();
+        $pengerjaan = PengerjaanMingguan::with('checklistmingguan')->filter(request())->get();
 
         $data = [
             'mesin' => $mesin,
@@ -31,7 +32,7 @@ class PerawatanController extends Controller
             'pengerjaan' => $pengerjaan,
         ];
 
-        return view('pages.dashboard.perawatan.index', $data);
+        return view('pages.dashboard.perawatan-mingguan.index', $data);
     }
 
     public function store(Request $request)
@@ -46,12 +47,12 @@ class PerawatanController extends Controller
             'gambar' => 'required'
         ]);
 
-        $countpengerjaan = Pengerjaan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->get()->count();
+        $countpengerjaan = PengerjaanMingguan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->get()->count();
 
-        if ($countpengerjaan == 31) {
+        if ($countpengerjaan == 4) {
             return redirect()->back()->with('error', 'checklist sudah selesai !!');
         } else {
-            $pengerjaan = new Pengerjaan();
+            $pengerjaan = new PengerjaanMingguan();
             $pengerjaan->tanggal = $request->tanggal;
             $pengerjaan->mesin_id = $request->mesin;
             $pengerjaan->shift_id = $request->shift;
@@ -75,18 +76,18 @@ class PerawatanController extends Controller
             $jenkeg = JenisKegiatan::all();
             foreach ($jenkeg as $jk) {
                 if (in_array($jk->id, $jenis_kegiatan)) {
-                    $checklist = new Checklist();
+                    $checklist = new ChecklistMingguan();
                     $checklist->jenis_kegiatan_id = $jk->id;
-                    $checklist->pengerjaan_id = $pengerjaan->id;
+                    $checklist->pengerjaan_mingguan_id = $pengerjaan->id;
                     $checklist->is_check = 1;
-                    $checklist->harian = date('d');
+                    $checklist->mingguan = date('d');
                     $checklist->save();
                 } else {
-                    $checklist = new Checklist();
+                    $checklist = new ChecklistMingguan();
                     $checklist->jenis_kegiatan_id = $jk->id;
-                    $checklist->pengerjaan_id = $pengerjaan->id;
+                    $checklist->pengerjaan_mingguan_id = $pengerjaan->id;
                     $checklist->is_check = 0;
-                    $checklist->harian = date('d');
+                    $checklist->mingguan = date('d');
                     $checklist->save();
                 }
             }

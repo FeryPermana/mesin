@@ -33,13 +33,13 @@ class LoginController extends Controller
                 return redirect()->route('mesin.index')->with('success', 'Berhasil login');
             }
             if ($user->role == '3') {
-                return redirect()->route('teknisi-downtime.index')->with('success', 'Berhasil login');
+                return redirect()->route('perawatan-mingguan.index')->with('success', 'Berhasil login');
             }
             if ($user->role == '4') {
                 return redirect()->route('produksi.index')->with('success', 'Berhasil login');
             }
             if ($user->role == '5') {
-                return redirect()->route('operator-downtime.index')->with('success', 'Berhasil login');
+                return redirect()->route('perawatan.index')->with('success', 'Berhasil login');
             }
         };
 
