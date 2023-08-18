@@ -12,6 +12,7 @@ use App\Models\Shift;
 use Illuminate\Http\Request;
 use App\Exports\HarianExport;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class MaintenanceHarianController extends Controller
 {
@@ -61,7 +62,24 @@ class MaintenanceHarianController extends Controller
 
         if (@$_GET['harian']) {
             toastr()->success('Berhasil export');
+            // $pdf = PDF::loadView('exports.harian', [
+            //     'mesin' => $mesin,
+            //     'jeniskegiatan' => $jeniskegiatan,
+            //     'pengerjaan' => $pengerjaan
+            // ])->setPaper('landscape');
+
+            // return $pdf->download('export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.pdf');
             return Excel::download(new HarianExport($pengerjaan), 'export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . ' .xlsx');
+        }
+
+        if (@$_GET['print']) {
+            return view('pages.dashboard.maintenance-harian.preview', [
+                'lineproduksiname' => $lineproduksiname,
+                'shiftname' => $shiftname,
+                'jeniskegiatan' => $jeniskegiatan,
+                'pengerjaan' => $pengerjaan,
+                'mesin' => $mesin,
+            ]);
         }
 
         return view('pages.dashboard.maintenance-harian.show', $data);

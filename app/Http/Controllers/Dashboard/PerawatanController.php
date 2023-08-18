@@ -46,46 +46,52 @@ class PerawatanController extends Controller
             'gambar' => 'required'
         ]);
 
-        $pengerjaan = new Pengerjaan();
-        $pengerjaan->tanggal = $request->tanggal;
-        $pengerjaan->mesin_id = $request->mesin;
-        $pengerjaan->shift_id = $request->shift;
-        $pengerjaan->nik = auth()->user()->nik;
-        $pengerjaan->lineproduksi_id = $request->lineproduksi;
+        $countpengerjaan = Pengerjaan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->get()->count();
 
-        $gambar = "";
-        if ($request->hasFile('gambar')) {
-            $image = $request->gambar;
-            $gambar = time() . $image->getClientOriginalName();
-            $image->move('upload', $gambar);
+        if ($countpengerjaan == 32) {
+            return redirect()->back()->with('error', 'checklist sudah selesai !!');
+        } else {
+            $pengerjaan = new Pengerjaan();
+            $pengerjaan->tanggal = $request->tanggal;
+            $pengerjaan->mesin_id = $request->mesin;
+            $pengerjaan->shift_id = $request->shift;
+            $pengerjaan->nik = auth()->user()->nik;
+            $pengerjaan->lineproduksi_id = $request->lineproduksi;
 
-            $gambar = "upload/" . $gambar;
-        }
+            $gambar = "";
+            if ($request->hasFile('gambar')) {
+                $image = $request->gambar;
+                $gambar = time() . $image->getClientOriginalName();
+                $image->move('upload', $gambar);
 
-        $pengerjaan->gambar = $gambar;
-        $pengerjaan->save();
-
-        $jenis_kegiatan = $request->jenis_kegiatan;
-
-        $jenkeg = JenisKegiatan::all();
-        foreach ($jenkeg as $jk) {
-            if (in_array($jk->id, $jenis_kegiatan)) {
-                $checklist = new Checklist();
-                $checklist->jenis_kegiatan_id = $jk->id;
-                $checklist->pengerjaan_id = $pengerjaan->id;
-                $checklist->is_check = 1;
-                $checklist->harian = date('d');
-                $checklist->save();
-            } else {
-                $checklist = new Checklist();
-                $checklist->jenis_kegiatan_id = $jk->id;
-                $checklist->pengerjaan_id = $pengerjaan->id;
-                $checklist->is_check = 0;
-                $checklist->harian = date('d');
-                $checklist->save();
+                $gambar = "upload/" . $gambar;
             }
-        }
 
-        return redirect()->back()->with('success', 'berhasil');
+            $pengerjaan->gambar = $gambar;
+            $pengerjaan->save();
+
+            $jenis_kegiatan = $request->jenis_kegiatan;
+
+            $jenkeg = JenisKegiatan::all();
+            foreach ($jenkeg as $jk) {
+                if (in_array($jk->id, $jenis_kegiatan)) {
+                    $checklist = new Checklist();
+                    $checklist->jenis_kegiatan_id = $jk->id;
+                    $checklist->pengerjaan_id = $pengerjaan->id;
+                    $checklist->is_check = 1;
+                    $checklist->harian = date('d');
+                    $checklist->save();
+                } else {
+                    $checklist = new Checklist();
+                    $checklist->jenis_kegiatan_id = $jk->id;
+                    $checklist->pengerjaan_id = $pengerjaan->id;
+                    $checklist->is_check = 0;
+                    $checklist->harian = date('d');
+                    $checklist->save();
+                }
+            }
+
+            return redirect()->back()->with('success', 'berhasil');
+        }
     }
 }

@@ -1,4 +1,4 @@
-<li class="sidebar-item">
+{{-- <li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('operator-downtime.*') ? 'active' : '' }}"
         href="{{ route('operator-downtime.index') }}"
         aria-expanded="false">
@@ -7,7 +7,7 @@
         </span>
         <span class="hide-menu">Input DownTime</span>
     </a>
-</li>
+</li> --}}
 {{-- <li class="nav-small-cap">
     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
     <span class="hide-menu">Perawatan</span>

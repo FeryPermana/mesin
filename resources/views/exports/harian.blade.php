@@ -1,4 +1,4 @@
-<table>
+<table class="table table-bordered">
     <tr>
         <th rowspan="2">No</th>
         <th rowspan="2">
@@ -6,8 +6,9 @@
                 Jenis Kegiatan
             </div>
         </th>
-        <th rowspan="2">
-            <div style="text-align: center;">
+        <th rowspan="2"
+            style="text-align: center;">
+            <div>
                 Standart
             </div>
         </th>
@@ -16,7 +17,7 @@
     </tr>
     <tr>
         @for ($i = 1; $i < 32; $i++)
-            <th>{{ $i }}</th>
+            <th style="text-align: center;">{{ $i }}</th>
         @endfor
     </tr>
     @php
@@ -25,8 +26,8 @@
     @foreach ($jeniskegiatan as $j)
         <tr>
             <td style="text-align: center;">{{ $no++ }}</td>
-            <td style="text-align: center;">{{ $j->name }}</td>
-            <td style="text-align: center;">{{ $j->standart }}</td>
+            <td>{{ $j->name }}</td>
+            <td>{{ $j->standart }}</td>
             @foreach ($pengerjaan as $p)
                 @php
                     $checklists = $p->checklist;
