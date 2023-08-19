@@ -39,10 +39,14 @@
                         <div class="col-md-6">
                             <button type="submit"
                                 class="btn btn-primary">Filter</button>
-                            <a href="{{ route('maintenance-mingguan.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
-                                class="btn btn-success">Excel</a>
+                            {{-- <a href="{{ route('maintenance-mingguan.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
+                                class="btn btn-success">Excel</a> --}}
                             <a href="{{ route('maintenance-mingguan.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-warning">Print</a>
+                            <button type="submit"
+                                name="image"
+                                value="1"
+                                class="btn btn-danger">Gambar</button>
                         </div>
                     </div>
                 </form>

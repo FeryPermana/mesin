@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JenisKegiatan;
 use App\Models\LineProduksi;
 use App\Models\Mesin;
+use App\Models\PengerjaanBulanan;
 use App\Models\PengerjaanMingguan;
 use App\Models\Shift;
 use Illuminate\Http\Request;
@@ -14,8 +15,8 @@ class MaintenanceBulananController extends Controller
 {
     public function index()
     {
-        $maintenance = PengerjaanMingguan::join('mesin', 'pengerjaan_mingguan.mesin_id', '=', 'mesin.id')
-            ->select('pengerjaan_mingguan.*', 'mesin.name as mesin_name')
+        $maintenance = PengerjaanBulanan::join('mesin', 'pengerjaan_bulanan.mesin_id', '=', 'mesin.id')
+            ->select('pengerjaan_bulanan.*', 'mesin.name as mesin_name')
             ->filter(request())
             ->get()
             ->groupBy('mesin_name');
@@ -26,7 +27,7 @@ class MaintenanceBulananController extends Controller
             'lineproduksi' => LineProduksi::all(),
         ];
 
-        return view('pages.dashboard.maintenance-mingguan.index', $data);
+        return view('pages.dashboard.maintenance-bulanan.index', $data);
     }
 
     public function show($mesin_id)
@@ -46,7 +47,7 @@ class MaintenanceBulananController extends Controller
             $lineproduksiname = LineProduksi::whereId($_GET['lineproduksi'])->first()->name;
         }
 
-        $pengerjaan = PengerjaanMingguan::with('checklistmingguan')->where('mesin_id', $mesin_id)->filter(request())->get();
+        $pengerjaan = PengerjaanBulanan::with('checklistbulanan')->where('mesin_id', $mesin_id)->filter(request())->get();
 
         $data = [
             'lineproduksi' => $lineproduksi,
@@ -69,7 +70,7 @@ class MaintenanceBulananController extends Controller
         // }
 
         if (@$_GET['print']) {
-            return view('pages.dashboard.maintenance-mingguan.preview', [
+            return view('pages.dashboard.maintenance-bulanan.preview', [
                 'lineproduksiname' => $lineproduksiname,
                 'shiftname' => $shiftname,
                 'jeniskegiatan' => $jeniskegiatan,
@@ -78,6 +79,18 @@ class MaintenanceBulananController extends Controller
             ]);
         }
 
-        return view('pages.dashboard.maintenance-mingguan.show', $data);
+        if (@$_GET['image']) {
+            return view('pages.dashboard.maintenance-bulanan.image', [
+                'lineproduksiname' => $lineproduksiname,
+                'shiftname' => $shiftname,
+                'lineproduksi' => $lineproduksi,
+                'shift' => $shift,
+                'jeniskegiatan' => $jeniskegiatan,
+                'pengerjaan' => $pengerjaan,
+                'mesin' => $mesin,
+            ]);
+        }
+
+        return view('pages.dashboard.maintenance-bulanan.show', $data);
     }
 }

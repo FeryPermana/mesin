@@ -39,9 +39,9 @@
                         <div class="col-md-6">
                             <button type="submit"
                                 class="btn btn-primary">Filter</button>
-                            {{-- <a href="{{ route('maintenance-harian.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
+                            {{-- <a href="{{ route('maintenance-bulanan.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-success">Excel</a> --}}
-                            <a href="{{ route('maintenance-harian.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
+                            <a href="{{ route('maintenance-bulanan.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-warning">Print</a>
                             <button type="submit"
                                 name="image"
@@ -70,7 +70,7 @@
                                     class="text-center">Pelaksanaan</th>
                             </tr>
                             <tr>
-                                @for ($i = 1; $i < 32; $i++)
+                                @for ($i = 1; $i < 2; $i++)
                                     <th>{{ $i }}</th>
                                 @endfor
                             </tr>
@@ -84,7 +84,7 @@
                                     <td>{{ $j->standart }}</td>
                                     @foreach ($pengerjaan as $p)
                                         @php
-                                            $checklists = $p->checklist;
+                                            $checklists = $p->checklistbulanan;
                                             
                                             $arraycheck = [];
                                             foreach ($checklists as $checklist) {
@@ -98,7 +98,7 @@
                                         @endif
                                     @endforeach
                                     @php
-                                        $p = 32 - count($pengerjaan);
+                                        $p = 2 - count($pengerjaan);
                                     @endphp
                                     @for ($i = 1; $i < $p; $i++)
                                         <td>-</td>
@@ -111,7 +111,7 @@
                                 @foreach ($pengerjaan as $p)
                                     <td><i class="text-sm">{{ $p->operator->name }}</i></td>
                                     @php
-                                        $p = 32 - count($pengerjaan);
+                                        $p = 2 - count($pengerjaan);
                                     @endphp
                                 @endforeach
                                 @for ($i = 1; $i < $p; $i++)

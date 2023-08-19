@@ -22,3 +22,13 @@
         <span class="hide-menu">Perawatan Mingguan</span>
     </a>
 </li>
+<li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('perawatan-bulanan.index*') ? 'active' : '' }}"
+        href="{{ route('perawatan-bulanan.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-article"></i>
+        </span>
+        <span class="hide-menu">Perawatan Bulanan</span>
+    </a>
+</li>

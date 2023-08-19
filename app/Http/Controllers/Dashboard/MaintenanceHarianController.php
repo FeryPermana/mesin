@@ -82,6 +82,18 @@ class MaintenanceHarianController extends Controller
             ]);
         }
 
+        if (@$_GET['image']) {
+            return view('pages.dashboard.maintenance-harian.image', [
+                'lineproduksiname' => $lineproduksiname,
+                'shiftname' => $shiftname,
+                'lineproduksi' => $lineproduksi,
+                'shift' => $shift,
+                'jeniskegiatan' => $jeniskegiatan,
+                'pengerjaan' => $pengerjaan,
+                'mesin' => $mesin,
+            ]);
+        }
+
         return view('pages.dashboard.maintenance-harian.show', $data);
     }
 }

@@ -89,7 +89,6 @@
             <span class="hide-menu">Maintenance Harian</span>
         </a>
     </li>
-
     <li class="sidebar-item">
         <a class="sidebar-link {{ request()->routeIs('maintenance-mingguan.*') ? 'active' : '' }}"
             href="{{ route('maintenance-mingguan.index') }}"
@@ -98,6 +97,16 @@
                 <i class="ti ti-alarm"></i>
             </span>
             <span class="hide-menu">Maintenance Mingguan</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('maintenance-bulanan.*') ? 'active' : '' }}"
+            href="{{ route('maintenance-bulanan.index') }}"
+            aria-expanded="false">
+            <span>
+                <i class="ti ti-alarm"></i>
+            </span>
+            <span class="hide-menu">Maintenance Bulanan</span>
         </a>
     </li>
 @endif
