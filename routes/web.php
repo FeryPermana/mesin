@@ -51,12 +51,12 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('/perawatan-bulanan', [PerawatanBulananController::class, 'index'])->name('perawatan-bulanan.index')->middleware(['auth', 'role:3']);
     Route::post('/perawatan-bulanan', [PerawatanBulananController::class, 'store'])->name('perawatan-mingguan.store')->middleware(['auth', 'role:3']);
     // Route::resource('harian', HarianController::class)->middleware(['auth', 'role:5']);
-    Route::get('maintenance-harian', [MaintenanceHarianController::class, 'index'])->name('maintenance-harian.index')->middleware(['auth', 'role:1']);
-    Route::get('maintenance-harian/{mesin_id}', [MaintenanceHarianController::class, 'show'])->name('maintenance-harian.show')->middleware(['auth', 'role:1']);
-    Route::get('maintenance-mingguan', [MaintenanceMingguanController::class, 'index'])->name('maintenance-mingguan.index')->middleware(['auth', 'role:1']);
-    Route::get('maintenance-mingguan/{mesin_id}', [MaintenanceMingguanController::class, 'show'])->name('maintenance-mingguan.show')->middleware(['auth', 'role:1']);
-    Route::get('maintenance-bulanan', [MaintenanceBulananController::class, 'index'])->name('maintenance-bulanan.index')->middleware(['auth', 'role:1']);
-    Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1']);
+    Route::get('maintenance-harian', [MaintenanceHarianController::class, 'index'])->name('maintenance-harian.index')->middleware(['auth', 'role:1,2']);
+    Route::get('maintenance-harian/{mesin_id}', [MaintenanceHarianController::class, 'show'])->name('maintenance-harian.show')->middleware(['auth', 'role:1,2']);
+    Route::get('maintenance-mingguan', [MaintenanceMingguanController::class, 'index'])->name('maintenance-mingguan.index')->middleware(['auth', 'role:1,2']);
+    Route::get('maintenance-mingguan/{mesin_id}', [MaintenanceMingguanController::class, 'show'])->name('maintenance-mingguan.show')->middleware(['auth', 'role:1,2']);
+    Route::get('maintenance-bulanan', [MaintenanceBulananController::class, 'index'])->name('maintenance-bulanan.index')->middleware(['auth', 'role:1,2']);
+    Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
 });
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
