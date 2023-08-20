@@ -16,12 +16,10 @@ class Role
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        foreach ($roles as $role) {
-            if (Auth::check() && Auth::user()->role == $role) {
-                return $next($request);
-            } else {
-                return abort(401, 'User tidak memiliki hak akses');
-            }
+        if (Auth::check() && in_array(Auth::user()->role, $roles)) {
+            return $next($request);
+        } else {
+            return abort(401, 'User tidak memiliki hak akses');
         }
     }
 }
