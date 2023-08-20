@@ -11,8 +11,12 @@
                 <span class="hide-menu">Dashboard</span>
             </a>
         </li> --}}
-
-        @include('layouts.partials.menu-supadm')
+        @if (auth()->user()->role == '1')
+            @include('layouts.partials.menu-supadm')
+        @endif
+        @if (auth()->user()->role == '2')
+            @include('layouts.partials.menu-kabag')
+        @endif
         @if (auth()->user()->role == '3')
             @include('layouts.partials.menu-teknisi')
         @endif
