@@ -1,5 +1,19 @@
 <li class="nav-small-cap">
     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+    <span class="hide-menu">MASTER</span>
+</li>
+<li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
+        href="{{ route('user.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-user"></i>
+        </span>
+        <span class="hide-menu">User</span>
+    </a>
+</li>
+<li class="nav-small-cap">
+    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
     <span class="hide-menu">REPORT</span>
 </li>
 <li class="sidebar-item">
