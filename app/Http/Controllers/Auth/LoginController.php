@@ -17,14 +17,14 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $credentials = $request->validate([
-            'name' => ['required', 'string'],
+            'nik' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $user = User::where('name', 'LIKE', "%{$request->name}%")->first();
+            $user = User::where('nik', 'LIKE', "%{$request->nik}%")->first();
 
             if ($user->role == '1') {
                 return redirect()->route('mesin.index')->with('success', 'Berhasil login');

@@ -73,6 +73,8 @@ class MaintenanceHarianController extends Controller
         }
 
         if (@$_GET['print']) {
+            toastr()->success('Ctrl + Shift + p untuk print');
+
             return view('pages.dashboard.maintenance-harian.preview', [
                 'lineproduksiname' => $lineproduksiname,
                 'shiftname' => $shiftname,
