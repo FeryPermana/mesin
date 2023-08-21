@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\ExportController;
 use App\Http\Controllers\Dashboard\HarianController;
 use App\Http\Controllers\Dashboard\JamKerjaController;
 use App\Http\Controllers\Dashboard\JenisKegiatanController;
+use App\Http\Controllers\Dashboard\LineproduksiController;
 use App\Http\Controllers\Dashboard\LokasiController;
 use App\Http\Controllers\Dashboard\MaintenanceBulananController;
 use App\Http\Controllers\Dashboard\MaintenanceHarianController;
@@ -41,6 +42,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('jamkerja', JamKerjaController::class)->middleware(['auth', 'role:1']);
     Route::resource('downtime', DowntimeController::class)->middleware(['auth', 'role:1']);
     Route::resource('jenis-kegiatan', JenisKegiatanController::class)->middleware(['auth', 'role:1']);
+    Route::resource('line-produksi', LineproduksiController::class)->middleware(['auth', 'role:1']);
     Route::resource('teknisi-downtime', TeknisiDowntimeController::class)->middleware(['auth', 'role:3']);
     Route::resource('operator-downtime', OperatorDowntimeController::class)->middleware(['auth', 'role:5']);
     Route::resource('produksi', ProduksiController::class)->middleware(['auth', 'role:4']);
