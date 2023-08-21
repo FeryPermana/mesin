@@ -12,31 +12,42 @@
                 <div class="row my-5">
                     <div class="col-2 pr-md-0 mb-3 mb-md-0">
                         @php
-                        $rows = [10, 50, 100, 500];
+                            $rows = [10, 50, 100, 500];
                         @endphp
-                        <select name="row" class="form-control custom-select" onchange="this.form.submit()">
+                        <select name="row"
+                            class="form-control custom-select"
+                            onchange="this.form.submit()">
                             @foreach ($rows as $row)
-                            <option value="{{ $row }}" {{ @$_GET['row'] == $row ? 'selected' : '' }}>
-                                {{ $row }}
-                            </option>
+                                <option value="{{ $row }}"
+                                    {{ @$_GET['row'] == $row ? 'selected' : '' }}>
+                                    {{ $row }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="col-3 pr-md-0 mb-3 mb-md-0">
-                        <select name="mesin" class="form-control custom-select" onchange="this.form.submit()">
-                            <option value="" selected>Mesin</option>
+                        <select name="mesin"
+                            class="form-control custom-select"
+                            onchange="this.form.submit()">
+                            <option value=""
+                                selected>Mesin</option>
                             @foreach ($mesin as $mes)
-                            <option value="{{ $mes->id }}" {{ @$_GET['mesin'] == $mes->id ? 'selected' : '' }}>
-                                {{ $mes->name }}
-                            </option>
+                                <option value="{{ $mes->id }}"
+                                    {{ @$_GET['mesin'] == $mes->id ? 'selected' : '' }}>
+                                    {{ $mes->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-5 ml-auto">
                         <div class="custom-search">
-                            <input type="text" class="form-control" name="search" placeholder="Cari nama..." value="{{ @$_GET['search'] }}">
+                            <input type="text"
+                                class="form-control"
+                                name="search"
+                                placeholder="Cari nama..."
+                                value="{{ @$_GET['search'] }}">
                         </div>
                     </div>
                 </div>
@@ -53,26 +64,44 @@
                     </thead>
                     <tbody>
                         @forelse ($maintenance as $m)
-                        <tr>
-                            <td>{{ $m[0]->mesin->name }}</td>
-                            <td>{{ $m[0]->mesin->merk }}</td>
-                            <td>{{ $m[0]->mesin->lokasi->lokasi }}</td>
-                            <td>{{ $m[0]->mesin->tahun_pembuatan }}</td>
-                            <td>{{ $m[0]->mesin->periode_pakai }}</td>
-                            <td>
-                                <a href="{{ route('maintenance-mingguan.show', $m[0]->mesin->id) }}" class="btn btn-warning">Detail</a>
-                            </td>
-                        </tr>
+                            @if (auth()->user()->role != 1)
+                                @if (auth()->user()->lokasi_id == $m[0]->mesin->lokasi_id)
+                                    <tr>
+                                        <td>{{ $m[0]->mesin->name }}</td>
+                                        <td>{{ $m[0]->mesin->merk }}</td>
+                                        <td>{{ $m[0]->mesin->lokasi->lokasi }}</td>
+                                        <td>{{ $m[0]->mesin->tahun_pembuatan }}</td>
+                                        <td>{{ $m[0]->mesin->periode_pakai }}</td>
+                                        <td>
+                                            <a href="{{ route('maintenance-harian.show', $m[0]->mesin->id) }}"
+                                                class="btn btn-warning">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @else
+                                <tr>
+                                    <td>{{ $m[0]->mesin->name }}</td>
+                                    <td>{{ $m[0]->mesin->merk }}</td>
+                                    <td>{{ $m[0]->mesin->lokasi->lokasi }}</td>
+                                    <td>{{ $m[0]->mesin->tahun_pembuatan }}</td>
+                                    <td>{{ $m[0]->mesin->periode_pakai }}</td>
+                                    <td>
+                                        <a href="{{ route('maintenance-harian.show', $m[0]->mesin->id) }}"
+                                            class="btn btn-warning">Detail</a>
+                                    </td>
+                                </tr>
+                            @endif
                         @empty
-                        <tr>
-                            <td colspan="6">
-                                <div class="text-center">
-                                    <div class="alert alert-warning" role="alert">
-                                        Data tidak ada
+                            <tr>
+                                <td colspan="6">
+                                    <div class="text-center">
+                                        <div class="alert alert-warning"
+                                            role="alert">
+                                            Data tidak ada
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>

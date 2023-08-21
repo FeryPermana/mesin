@@ -21,6 +21,11 @@ class JenisKegiatan extends Model
         }
     }
 
+    public function mesin()
+    {
+        return $this->belongsToMany(Mesin::class);
+    }
+
     public function checklist()
     {
         return $this->hasMany(Checklist::class);

@@ -22,6 +22,11 @@ class Mesin extends Model
         }
     }
 
+    public function jenis_kegiatan()
+    {
+        return $this->belongsToMany(JenisKegiatan::class);
+    }
+
     public function lokasi()
     {
         return $this->belongsTo(Lokasi::class);

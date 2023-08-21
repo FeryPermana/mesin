@@ -7,7 +7,8 @@
                         <h3>List User</h3>
                     </div>
                     <div class="col-md-6 text-end">
-                        <a href="{{ route('user.create') }}" class="btn btn-primary">Tambah</a>
+                        <a href="{{ route('user.create') }}"
+                            class="btn btn-primary">Tambah</a>
                     </div>
                 </div>
             </div>
@@ -15,20 +16,27 @@
                 <div class="row">
                     <div class="col-2 pr-md-0 mb-3 mb-md-0">
                         @php
-                        $rows = [10, 50, 100, 500];
+                            $rows = [10, 50, 100, 500];
                         @endphp
-                        <select name="row" class="form-control custom-select" onchange="this.form.submit()">
+                        <select name="row"
+                            class="form-control custom-select"
+                            onchange="this.form.submit()">
                             @foreach ($rows as $row)
-                            <option value="{{ $row }}" {{ @$_GET['row'] == $row ? 'selected' : '' }}>
-                                {{ $row }}
-                            </option>
+                                <option value="{{ $row }}"
+                                    {{ @$_GET['row'] == $row ? 'selected' : '' }}>
+                                    {{ $row }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-5 mb-3 ml-auto">
                         <div class="custom-search">
-                            <input type="text" class="form-control" name="search" placeholder="Cari nama..." value="{{ @$_GET['search'] }}">
+                            <input type="text"
+                                class="form-control"
+                                name="search"
+                                placeholder="Cari nama..."
+                                value="{{ @$_GET['search'] }}">
                         </div>
                     </div>
                 </div>
@@ -36,37 +44,65 @@
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
-                        <th>No</th>
                         <th>Nama</th>
                         <th>Role</th>
-                        <th>Lokasi</th>
+                        @if (auth()->user()->role == 1)
+                            <th>Lokasi</th>
+                        @endif
                         <th>Aksi</th>
                     </thead>
                     <tbody>
                         @forelse ($users as $user)
-                        <tr>
-                            <td>{{ increment($users, $loop) }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->role_name }}</td>
-                            <td>{{ $user->lokasi->lokasi ?? '' }}</td>
-                            <td>
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm"><i class="ti ti-pencil"></i> Edit</a>
+                            @if (auth()->user()->role == 2)
+                                @if (auth()->user()->lokasi_id == $user->lokasi_id && $user->role != 2)
+                                    <tr>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->role_name }}</td>
+                                        @if (auth()->user()->role == 1)
+                                            <td>{{ $user->lokasi->lokasi ?? '' }}</td>
+                                        @endif
+                                        <td>
+                                            <a href="{{ route('user.edit', $user->id) }}"
+                                                class="btn btn-warning btn-sm"><i class="ti ti-pencil"></i> Edit</a>
 
-                                <button class="btn btn-danger btn-sm delete-data" data-url="{{ route('user.destroy', $user->id) }}" data-id="{{ $user->id }}">
-                                    <i class="ti ti-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>
+                                            <button class="btn btn-danger btn-sm delete-data"
+                                                data-url="{{ route('user.destroy', $user->id) }}"
+                                                data-id="{{ $user->id }}">
+                                                <i class="ti ti-trash"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @else
+                                <tr>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->role_name }}</td>
+                                    @if (auth()->user()->role == 1)
+                                        <td>{{ $user->lokasi->lokasi ?? '' }}</td>
+                                    @endif
+                                    <td>
+                                        <a href="{{ route('user.edit', $user->id) }}"
+                                            class="btn btn-warning btn-sm"><i class="ti ti-pencil"></i> Edit</a>
+
+                                        <button class="btn btn-danger btn-sm delete-data"
+                                            data-url="{{ route('user.destroy', $user->id) }}"
+                                            data-id="{{ $user->id }}">
+                                            <i class="ti ti-trash"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endif
                         @empty
-                        <tr>
-                            <td colspan="4">
-                                <div class="text-center">
-                                    <div class="alert alert-warning" role="alert">
-                                        Data tidak ada
+                            <tr>
+                                <td colspan="4">
+                                    <div class="text-center">
+                                        <div class="alert alert-warning"
+                                            role="alert">
+                                            Data tidak ada
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
