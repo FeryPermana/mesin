@@ -11,6 +11,7 @@ use App\Models\Perawatan;
 use App\Models\Shift;
 use Illuminate\Http\Request;
 use App\Exports\HarianExport;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
@@ -23,6 +24,7 @@ class MaintenanceHarianController extends Controller
             ->filter(request())
             ->get()
             ->groupBy('mesin_name');
+
         $data = [
             'maintenance' => $maintenance,
             'mesin' => Mesin::all(),
@@ -38,7 +40,11 @@ class MaintenanceHarianController extends Controller
         $mesin = Mesin::findOrFail($mesin_id);
         $lineproduksi = LineProduksi::all();
         $shift = Shift::all();
-        $jeniskegiatan = JenisKegiatan::all();
+        $jeniskegiatan = DB::table('jenis_kegiatan')
+            ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
+            ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
+            ->where('jeniskegiatanmesin.mesin_id', $mesin_id)
+            ->get();
 
         $shiftname = "";
         if (@$_GET['shift']) {

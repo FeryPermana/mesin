@@ -12,11 +12,43 @@
                     </div>
                 </div>
             </div>
+            <div class="alert alert-warning">
+                Pilih Mesin terlebih dahulu !!
+            </div>
+            <form action=""
+                method="GET">
+                <div class="mb-3">
+                    <label for="mesinkey"
+                        class="form-label">Mesin</label>
+                    <select name="mesinkey"
+                        required
+                        id="mesin"
+                        class="form-control @error('mesin') border-danger @enderror"
+                        onchange="this.form.submit()">
+                        <option value=""
+                            selected
+                            disabled>-- Pilih Mesin --</option>
+                        @foreach ($mesin as $m)
+                            @if (auth()->user()->lokasi_id == $m->lokasi_id)
+                                <option value="{{ $m->id }}"
+                                    {{ @$_GET['mesinkey'] == $m->id ? 'selected' : '' }}>{{ $m->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    @error('mesin')
+                        <div id="mesin"
+                            class="form-text text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </form>
             <form action="{{ route('perawatan.store') }}"
                 method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
+                    <input type="hidden"
+                        name="mesin"
+                        value="{{ @$_GET['mesinkey'] }}">
                     <label for="tanggal"
                         class="form-label">Tanggal Now</label>
                     <input type="date"
@@ -26,27 +58,6 @@
                         value="{{ old('tanggal') }}">
                     @error('tanggal')
                         <div id="tanggal"
-                            class="form-text text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="mesin"
-                        class="form-label">Mesin</label>
-                    <select name="mesin"
-                        id="mesin"
-                        class="form-control @error('mesin') border-danger @enderror">
-                        <option value=""
-                            selected
-                            disabled>-- Pilih Mesin --</option>
-                        @foreach ($mesin as $m)
-                            @if (auth()->user()->lokasi_id == $m->lokasi_id)
-                                <option value="{{ $m->id }}"
-                                    {{ old('mesin') == $m->id ? 'selected' : '' }}>{{ $m->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    @error('mesin')
-                        <div id="mesin"
                             class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -145,6 +156,9 @@
                 Harus memilih semua indikator terlebih dahulu
             </div>
             <form action="">
+                <input type="hidden"
+                    name="mesinkey"
+                    value="{{ @$_GET['mesinkey'] }}">
                 <div class="row">
                     <div class="col-md-3">
                         <select name="mesin"

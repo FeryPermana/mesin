@@ -13,7 +13,7 @@
     <span class="hide-menu">Perawatan</span>
 </li> --}}
 <li class="sidebar-item">
-    <a class="sidebar-link {{ request()->routeIs('perawatan.index.*') ? 'active' : '' }}"
+    <a class="sidebar-link {{ request()->routeIs('perawatan.*') ? 'active' : '' }}"
         href="{{ route('perawatan.index') }}"
         aria-expanded="false">
         <span>

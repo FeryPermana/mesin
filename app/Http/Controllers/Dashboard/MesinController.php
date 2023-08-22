@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisKegiatan;
+use App\Models\JenisKegiatanMesin;
 use App\Models\Lokasi;
 use App\Models\Mesin;
 use Illuminate\Http\Request;
@@ -28,7 +30,8 @@ class MesinController extends Controller
         $method = "store";
         $url = route('mesin.store');
         $lokasi = Lokasi::all();
-        return view('pages.dashboard.mesin._form', compact('method', 'url', 'lokasi'));
+        $jeniskegiatan = JenisKegiatan::all();
+        return view('pages.dashboard.mesin._form', compact('method', 'url', 'lokasi', 'jeniskegiatan'));
     }
 
     /**
@@ -58,6 +61,13 @@ class MesinController extends Controller
 
         $mesin->save();
 
+        foreach ($request->jenis_kegiatan as $jk) {
+            JenisKegiatanMesin::create([
+                'jenis_kegiatan_id' => $jk,
+                'mesin_id' => $mesin->id,
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Data berhasil disimpan');
     }
 
@@ -78,7 +88,9 @@ class MesinController extends Controller
         $url = route('mesin.update', $id);
         $mesin = Mesin::findOrFail($id);
         $lokasi = Lokasi::all();
-        return view('pages.dashboard.mesin._form', compact('method', 'url', 'mesin', 'lokasi'));
+        $jeniskegiatan = JenisKegiatan::all();
+
+        return view('pages.dashboard.mesin._form', compact('method', 'url', 'mesin', 'lokasi', 'jeniskegiatan'));
     }
 
     /**
@@ -92,7 +104,8 @@ class MesinController extends Controller
             'kapasitas' => 'required',
             'lokasi' => 'required',
             'tahun_pembuatan' => 'required',
-            'periode_pakai' => 'required'
+            'periode_pakai' => 'required',
+            'jenis_kegiatan' => 'required'
         ]);
 
         $mesin = Mesin::findOrFail($id);
@@ -104,6 +117,14 @@ class MesinController extends Controller
         $mesin->periode_pakai = $request->periode_pakai;
 
         $mesin->save();
+
+        JenisKegiatanMesin::where('mesin_id', $mesin->id)->delete();
+        foreach ($request->jenis_kegiatan as $jk) {
+            JenisKegiatanMesin::create([
+                'jenis_kegiatan_id' => $jk,
+                'mesin_id' => $mesin->id,
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Data berhasil diubah');
     }

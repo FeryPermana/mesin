@@ -11,4 +11,14 @@ class JenisKegiatanMesin extends Model
 
     protected $table =  "jeniskegiatanmesin";
     protected $fillable = ['jenis_kegiatan_id', 'mesin_id'];
+
+    public function jeniskegiatan()
+    {
+        return $this->belongsTo(JenisKegiatan::class, 'id');
+    }
+
+    public function mesin()
+    {
+        return $this->belongsTo(Mesin::class);
+    }
 }

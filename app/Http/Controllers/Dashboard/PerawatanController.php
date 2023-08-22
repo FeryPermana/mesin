@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Checklist;
 use App\Models\JenisKegiatan;
+use App\Models\JenisKegiatanMesin;
 use App\Models\LineProduksi;
 use App\Models\Mesin;
 use App\Models\Pengerjaan;
 use App\Models\Perawatan;
 use App\Models\Shift;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PerawatanController extends Controller
 {
@@ -20,6 +22,14 @@ class PerawatanController extends Controller
         $lineproduksi = LineProduksi::all();
         $shift = Shift::all();
         $jeniskegiatan = JenisKegiatan::all();
+
+        if (@$_GET['mesinkey']) {
+            $jeniskegiatan = DB::table('jenis_kegiatan')
+                ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
+                ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
+                ->where('jeniskegiatanmesin.mesin_id', @$_GET['mesinkey'])
+                ->get();
+        }
 
         $pengerjaan = Pengerjaan::with('checklist')->filter(request())->get();
 
@@ -36,13 +46,12 @@ class PerawatanController extends Controller
 
     public function store(Request $request)
     {
-        // return $request->all();
+        //return $request->all();
         $request->validate([
             'tanggal' => 'required',
             'mesin' => 'required',
             'shift' => 'required',
             'lineproduksi' => 'required',
-            'jenis_kegiatan' => 'required',
             'gambar' => 'required'
         ]);
 
@@ -70,9 +79,13 @@ class PerawatanController extends Controller
             $pengerjaan->gambar = $gambar;
             $pengerjaan->save();
 
-            $jenis_kegiatan = $request->jenis_kegiatan;
+            $jenis_kegiatan = $request->jenis_kegiatan ?? [];
 
-            $jenkeg = JenisKegiatan::all();
+            $jenkeg = DB::table('jenis_kegiatan')
+                ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
+                ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
+                ->where('jeniskegiatanmesin.mesin_id', $request->mesin)
+                ->get();
             foreach ($jenkeg as $jk) {
                 if (in_array($jk->id, $jenis_kegiatan)) {
                     $checklist = new Checklist();

@@ -73,7 +73,7 @@
                                         <td>{{ $m[0]->mesin->tahun_pembuatan }}</td>
                                         <td>{{ $m[0]->mesin->periode_pakai }}</td>
                                         <td>
-                                            <a href="{{ route('maintenance-harian.show', $m[0]->mesin->id) }}"
+                                            <a href="{{ route('maintenance-bulanan.show', $m[0]->mesin->id) }}"
                                                 class="btn btn-warning">Detail</a>
                                         </td>
                                     </tr>
@@ -86,7 +86,7 @@
                                     <td>{{ $m[0]->mesin->tahun_pembuatan }}</td>
                                     <td>{{ $m[0]->mesin->periode_pakai }}</td>
                                     <td>
-                                        <a href="{{ route('maintenance-harian.show', $m[0]->mesin->id) }}"
+                                        <a href="{{ route('maintenance-bulanan.show', $m[0]->mesin->id) }}"
                                             class="btn btn-warning">Detail</a>
                                     </td>
                                 </tr>

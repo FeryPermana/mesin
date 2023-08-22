@@ -51,7 +51,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('/perawatan-mingguan', [PerawatanMingguanController::class, 'index'])->name('perawatan-mingguan.index')->middleware(['auth', 'role:3']);
     Route::post('/perawatan-mingguan', [PerawatanMingguanController::class, 'store'])->name('perawatan-mingguan.store')->middleware(['auth', 'role:3']);
     Route::get('/perawatan-bulanan', [PerawatanBulananController::class, 'index'])->name('perawatan-bulanan.index')->middleware(['auth', 'role:3']);
-    Route::post('/perawatan-bulanan', [PerawatanBulananController::class, 'store'])->name('perawatan-mingguan.store')->middleware(['auth', 'role:3']);
+    Route::post('/perawatan-bulanan', [PerawatanBulananController::class, 'store'])->name('perawatan-bulanan.store')->middleware(['auth', 'role:3']);
     // Route::resource('harian', HarianController::class)->middleware(['auth', 'role:5']);
     Route::get('maintenance-harian', [MaintenanceHarianController::class, 'index'])->name('maintenance-harian.index')->middleware(['auth', 'role:1,2']);
     Route::get('maintenance-harian/{mesin_id}', [MaintenanceHarianController::class, 'show'])->name('maintenance-harian.show')->middleware(['auth', 'role:1,2']);

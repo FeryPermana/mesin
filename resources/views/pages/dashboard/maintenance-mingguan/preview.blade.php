@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+        content="ie=edge">
     <title>Mingguan</title>
 
     <style>
@@ -48,22 +50,28 @@
 
 <body>
     <div class="container">
-        <div class="grid-container" style="margin-bottom: -30px;">
+        <div class="grid-container"
+            style="margin-bottom: -30px;">
             <div class="item">
-                <img src="{{ asset('assets/images/logos/tanobel-logo-w300.png') }}" alt="" width="100">
+                <img src="{{ asset('assets/images/logos/tanobel-logo-w300.png') }}"
+                    alt=""
+                    width="100">
                 @php
-                $date = new DateTime($pengerjaan[0]->tanggal);
-                $monthYearString = generateMonthYearStringFromDate($date);
+                    $date = new DateTime($pengerjaan[0]->tanggal);
+                    $monthYearString = generateMonthYearStringFromDate($date);
                 @endphp
                 <p>Periode Bulan/Tahun : {{ $monthYearString }}<br>
                     <strong>{{ $shiftname }}</strong>
                 </p>
             </div>
-            <div class="item" style="text-align: center;">
+            <div class="item"
+                style="text-align: center;">
                 <h2>{{ $mesin->name }}</h2>
             </div>
             <div class="item">
-                <table class="table-dokumen" border="0" style="border-color: white;">
+                <table class="table-dokumen"
+                    border="0"
+                    style="border-color: white;">
                     <tr>
                         <td>No. Dokumen</td>
                         <td>:</td>
@@ -82,7 +90,9 @@
                 </table>
             </div>
         </div>
-        <table class="table-hasil" width="1000px;" style="margin: auto;">
+        <table class="table-hasil"
+            width="1000px;"
+            style="margin: auto;">
             <tr>
                 <th rowspan="2">No</th>
                 <th rowspan="2">
@@ -95,53 +105,57 @@
                         Standart
                     </div>
                 </th>
-                <th colspan="31" style="text-align: center;">Pelaksanaan</th>
+                <th colspan="31"
+                    style="text-align: center;">Pelaksanaan</th>
             </tr>
             <tr>
-                @for ($i = 1; $i < 5; $i++) <th>{{ $i }}</th>
-                    @endfor
+                @for ($i = 1; $i < 5; $i++)
+                    <th>{{ $i }}</th>
+                @endfor
             </tr>
             @php
-            $no = 1;
+                $no = 1;
             @endphp
             @foreach ($jeniskegiatan as $j)
-            <tr>
-                <td>{{ $no++ }}</td>
-                <td>{{ $j->name }}</td>
-                <td>{{ $j->standart }}</td>
-                @foreach ($pengerjaan as $p)
-                @php
-                $checklists = $p->checklistmingguan;
-
-                $arraycheck = [];
-                foreach ($checklists as $checklist) {
-                $arraycheck[] = $checklist->is_check ? $checklist->jenis_kegiatan_id : 0;
-                }
-                @endphp
-                @if (in_array($j->id, $arraycheck))
-                <td style="text-align: center;">v</td>
-                @else
-                <td style="text-align: center;">-</td>
-                @endif
-                @endforeach
-                @php
-                $p = 5 - count($pengerjaan);
-                @endphp
-                @for ($i = 1; $i < $p; $i++) <td style="text-align: center;">-</td>
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $j->name }}</td>
+                    <td>{{ $j->standart }}</td>
+                    @foreach ($pengerjaan as $p)
+                        @php
+                            $checklists = $p->checklistmingguan;
+                            
+                            $arraycheck = [];
+                            foreach ($checklists as $checklist) {
+                                $arraycheck[] = $checklist->is_check ? $checklist->jenis_kegiatan_id : 0;
+                            }
+                        @endphp
+                        @if (in_array($j->id, $arraycheck))
+                            <td style="text-align: center;">v</td>
+                        @else
+                            <td style="text-align: center;">-</td>
+                        @endif
+                    @endforeach
+                    @php
+                        $p = 5 - count($pengerjaan);
+                    @endphp
+                    @for ($i = 1; $i < $p; $i++)
+                        <td style="text-align: center;">-</td>
                     @endfor
-            </tr>
+                </tr>
             @endforeach
             <tr>
                 <td colspan="2"><strong>Dikerjakan</strong></td>
                 <td>Operator</td>
                 @foreach ($pengerjaan as $p)
-                <td><i style="font-size: 8px;">{{ $p->operator->name }}</i></td>
-                @php
-                $p = 5 - count($pengerjaan);
-                @endphp
+                    <td><i style="font-size: 15px;">{{ $p->operator->name }}</i></td>
+                    @php
+                        $p = 5 - count($pengerjaan);
+                    @endphp
                 @endforeach
-                @for ($i = 1; $i < $p; $i++) <td>-</td>
-                    @endfor
+                @for ($i = 1; $i < $p; $i++)
+                    <td>-</td>
+                @endfor
             </tr>
         </table>
         <div style="display: flex; justify-content: space-between;">
