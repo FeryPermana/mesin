@@ -30,8 +30,11 @@ class MesinController extends Controller
         $method = "store";
         $url = route('mesin.store');
         $lokasi = Lokasi::all();
+        $bulan = bulan_list();
+
         $jeniskegiatan = JenisKegiatan::all();
-        return view('pages.dashboard.mesin._form', compact('method', 'url', 'lokasi', 'jeniskegiatan'));
+
+        return view('pages.dashboard.mesin._form', compact('method', 'url', 'lokasi', 'jeniskegiatan', 'bulan'));
     }
 
     /**
@@ -45,7 +48,8 @@ class MesinController extends Controller
             'kapasitas' => 'required',
             'lokasi' => 'required',
             'tahun_pembuatan' => 'required',
-            'periode_pakai' => 'required'
+            'periode_pakai' => 'required',
+            'bulan' => 'required'
         ]);
 
         $d = Mesin::count();
@@ -61,11 +65,19 @@ class MesinController extends Controller
 
         $mesin->save();
 
-        foreach ($request->jenis_kegiatan as $jk) {
-            JenisKegiatanMesin::create([
-                'jenis_kegiatan_id' => $jk,
-                'mesin_id' => $mesin->id,
-            ]);
+        if (JenisKegiatanMesin::where('mesin_id', $mesin->id)->where('bulan', $request->bulan)->where('tahun', date('Y'))->first()) {
+            return redirect()->back()->with('error', 'Data dengan bulan ini sudah ada')->withInput();
+        } else {
+            foreach ($request->jenis_kegiatan as $jk) {
+                foreach ($request->jenis_kegiatan as $jk) {
+                    JenisKegiatanMesin::create([
+                        'jenis_kegiatan_id' => $jk,
+                        'mesin_id' => $mesin->id,
+                        'bulan' => $request->bulan,
+                        'tahun' => date('Y')
+                    ]);
+                }
+            }
         }
 
         return redirect()->back()->with('success', 'Data berhasil disimpan');
@@ -89,8 +101,9 @@ class MesinController extends Controller
         $mesin = Mesin::findOrFail($id);
         $lokasi = Lokasi::all();
         $jeniskegiatan = JenisKegiatan::all();
+        $bulan = bulan_list();
 
-        return view('pages.dashboard.mesin._form', compact('method', 'url', 'mesin', 'lokasi', 'jeniskegiatan'));
+        return view('pages.dashboard.mesin._form', compact('method', 'url', 'mesin', 'lokasi', 'jeniskegiatan', 'bulan'));
     }
 
     /**
@@ -118,15 +131,20 @@ class MesinController extends Controller
 
         $mesin->save();
 
-        JenisKegiatanMesin::where('mesin_id', $mesin->id)->delete();
-        foreach ($request->jenis_kegiatan as $jk) {
-            JenisKegiatanMesin::create([
-                'jenis_kegiatan_id' => $jk,
-                'mesin_id' => $mesin->id,
-            ]);
+        if (JenisKegiatanMesin::where('mesin_id', $mesin->id)->where('bulan', $request->bulan)->where('tahun', date('Y'))->first()) {
+            return redirect()->back()->with('error', 'Data dengan bulan ini sudah ada')->withInput();
+        } else {
+            foreach ($request->jenis_kegiatan as $jk) {
+                JenisKegiatanMesin::create([
+                    'jenis_kegiatan_id' => $jk,
+                    'mesin_id' => $mesin->id,
+                    'bulan' => $request->bulan,
+                    'tahun' => date('Y')
+                ]);
+            }
         }
 
-        return redirect()->back()->with('success', 'Data berhasil diubah');
+        return redirect()->back()->with('success', 'Data berhasil disimpan');
     }
 
     /**

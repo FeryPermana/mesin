@@ -10,7 +10,7 @@ class JenisKegiatanMesin extends Model
     use HasFactory;
 
     protected $table =  "jeniskegiatanmesin";
-    protected $fillable = ['jenis_kegiatan_id', 'mesin_id'];
+    protected $fillable = ['jenis_kegiatan_id', 'mesin_id', 'bulan', 'tahun'];
 
     public function jeniskegiatan()
     {

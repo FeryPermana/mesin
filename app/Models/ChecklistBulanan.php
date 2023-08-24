@@ -11,7 +11,7 @@ class ChecklistBulanan extends Model
 
     protected $table = "checklist_bulanan";
 
-    protected $fillable = ['bulanan', 'bersih', 'jenis_kegiatan_id', 'pengerjaan_bulanan_id', 'is_check'];
+    protected $fillable = ['bulan', 'bersih', 'jenis_kegiatan_id', 'pengerjaan_bulanan_id', 'is_check', 'bulanan', 'tahun'];
 
     public function pengerjaanbulanan()
     {

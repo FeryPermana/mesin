@@ -26,6 +26,8 @@ class PerawatanBulananController extends Controller
                 ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
                 ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
                 ->where('jeniskegiatanmesin.mesin_id', @$_GET['mesinkey'])
+                ->where('jeniskegiatanmesin.bulan', bulanSaatIni())
+                ->where('jeniskegiatanmesin.tahun', date('Y'))
                 ->get();
         }
 

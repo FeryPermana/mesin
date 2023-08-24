@@ -100,7 +100,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="periode_pakai"
-                                class="form-label">Tahun Pembuatan</label>
+                                class="form-label">Periode Pakai</label>
                             <input type="text"
                                 name="periode_pakai"
                                 class="form-control @error('periode_pakai') border-danger @enderror"
@@ -114,6 +114,26 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="bulan"
+                                class="form-label">Bulan</label>
+                            <select name="bulan"
+                                id="bulan"
+                                class="form-control @error('bulan') border-danger @enderror">
+                                <option value=""
+                                    disabled
+                                    selected>-- Pilih Bulan --</option>
+                                @foreach ($bulan as $b)
+                                    <option value="{{ $b }}">
+                                        {{ $b }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('bulan')
+                                <div id="bulan"
+                                    class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <label class="form-label">Jenis Kegiatan</label>
                         <table class="table table-bordered">
                             <tr>
@@ -127,8 +147,10 @@
                             </tr>
                             @foreach ($jeniskegiatan as $jk)
                                 @php
-                                    $jeniskegiatanmesin = App\Models\JenisKegiatanMesin::where('mesin_id', $mesin->id)
+                                    $jeniskegiatanmesin = App\Models\JenisKegiatanMesin::where('mesin_id', @$mesin->id)
                                         ->where('jenis_kegiatan_id', $jk->id)
+                                        ->where('bulan', bulanSaatIni())
+                                        ->where('tahun', date('Y'))
                                         ->first();
                                 @endphp
                                 <tr>

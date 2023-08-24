@@ -11,7 +11,7 @@ class ChecklistMingguan extends Model
 
     protected $table = "checklist_mingguan";
 
-    protected $fillable = ['mingguan', 'bersih', 'jenis_kegiatan_id', 'pengerjaan_mingguan_id', 'is_check'];
+    protected $fillable = ['mingguan', 'bersih', 'jenis_kegiatan_id', 'pengerjaan_mingguan_id', 'is_check', 'bulan', 'tahun'];
 
     public function pengerjaanmingguan()
     {

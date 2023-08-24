@@ -28,6 +28,8 @@ class PerawatanMingguanController extends Controller
                 ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
                 ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
                 ->where('jeniskegiatanmesin.mesin_id', @$_GET['mesinkey'])
+                ->where('jeniskegiatanmesin.bulan', bulanSaatIni())
+                ->where('jeniskegiatanmesin.tahun', date('Y'))
                 ->get();
         }
 
@@ -84,6 +86,8 @@ class PerawatanMingguanController extends Controller
                 ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
                 ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
                 ->where('jeniskegiatanmesin.mesin_id', $request->mesin)
+                ->where('jeniskegiatanmesin.bulan', bulanSaatIni())
+                ->where('jeniskegiatanmesin.tahun', date('Y'))
                 ->get();
 
             foreach ($jenkeg as $jk) {
@@ -93,6 +97,8 @@ class PerawatanMingguanController extends Controller
                     $checklist->pengerjaan_mingguan_id = $pengerjaan->id;
                     $checklist->is_check = 1;
                     $checklist->mingguan = date('d');
+                    $checklist->bulan = bulanSaatIni();
+                    $checklist->tahun = date('Y');
                     $checklist->save();
                 } else {
                     $checklist = new ChecklistMingguan();
@@ -100,6 +106,8 @@ class PerawatanMingguanController extends Controller
                     $checklist->pengerjaan_mingguan_id = $pengerjaan->id;
                     $checklist->is_check = 0;
                     $checklist->mingguan = date('d');
+                    $checklist->bulan = bulanSaatIni();
+                    $checklist->tahun = date('Y');
                     $checklist->save();
                 }
             }

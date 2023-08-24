@@ -10,6 +10,7 @@ use App\Models\PengerjaanBulanan;
 use App\Models\PengerjaanMingguan;
 use App\Models\Shift;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MaintenanceBulananController extends Controller
 {
@@ -35,7 +36,13 @@ class MaintenanceBulananController extends Controller
         $mesin = Mesin::findOrFail($mesin_id);
         $lineproduksi = LineProduksi::all();
         $shift = Shift::all();
-        $jeniskegiatan = JenisKegiatan::all();
+        $jeniskegiatan = DB::table('jenis_kegiatan')
+            ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
+            ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
+            ->where('jeniskegiatanmesin.mesin_id', $mesin_id)
+            ->where('jeniskegiatanmesin.bulan', @$_GET['bulan'] ?? bulanSaatIni())
+            ->where('jeniskegiatanmesin.tahun', @$_GET['tahun'] ?? date('Y'))
+            ->get();
 
         $shiftname = "";
         if (@$_GET['shift']) {

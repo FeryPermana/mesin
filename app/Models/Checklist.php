@@ -12,7 +12,7 @@ class Checklist extends Model
 
     protected $table = "checklist";
 
-    protected $fillable = ['harian', 'bersih', 'jenis_kegiatan_id', 'pengerjaan_id', 'is_check'];
+    protected $fillable = ['harian', 'bersih', 'jenis_kegiatan_id', 'pengerjaan_id', 'is_check', 'bulan', 'tahun'];
 
     public function pengerjaan()
     {
