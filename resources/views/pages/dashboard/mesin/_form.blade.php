@@ -114,55 +114,71 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="bulan"
-                                class="form-label">Bulan</label>
-                            <select name="bulan"
-                                id="bulan"
-                                class="form-control @error('bulan') border-danger @enderror">
-                                <option value=""
-                                    disabled
-                                    selected>-- Pilih Bulan --</option>
-                                @foreach ($bulan as $b)
-                                    <option value="{{ $b }}">
-                                        {{ $b }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('bulan')
-                                <div id="bulan"
-                                    class="form-text text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <label class="form-label">Jenis Kegiatan</label>
-                        <table class="table table-bordered">
-                            <tr>
-                                <td>
-                                    <input type="checkbox"
-                                        id="selectAll"
-                                        type="checkbox">
-                                </td>
-                                <td>Centang Semua</td>
-                                <td></td>
-                            </tr>
-                            @foreach ($jeniskegiatan as $jk)
-                                @php
-                                    $jeniskegiatanmesin = App\Models\JenisKegiatanMesin::where('mesin_id', @$mesin->id)
-                                        ->where('jenis_kegiatan_id', $jk->id)
-                                        ->where('bulan', bulanSaatIni())
-                                        ->where('tahun', date('Y'))
-                                        ->first();
-                                @endphp
+                        @if ($method == 'update')
+                            <input type="hidden"
+                                name="type"
+                                value="{{ @$_GET['type'] }}">
+                            <div class="mb-3">
+                                <label for="bulan"
+                                    class="form-label">Bulan</label>
+                                <select name="bulan"
+                                    id="bulan"
+                                    class="form-control @error('bulan') border-danger @enderror">
+                                    <option value=""
+                                        disabled
+                                        selected>-- Pilih Bulan --</option>
+                                    @foreach ($bulan as $b)
+                                        <option value="{{ $b }}"
+                                            {{ $b == bulanSaatIni() ? 'selected' : '' }}>
+                                            {{ $b }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('bulan')
+                                    <div id="bulan"
+                                        class="form-text text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <label class="form-label">Jenis Checklist</label>
+                            <br>
+                            <a href="{{ route('mesin.edit', $mesin->id) }}?type=harian"
+                                class="btn {{ @$_GET['type'] == 'harian' ? 'btn-primary' : 'btn-outline-primary' }}">Harian</a>
+                            <a href="{{ route('mesin.edit', $mesin->id) }}?type=mingguan"
+                                class="btn {{ @$_GET['type'] == 'mingguan' ? 'btn-primary' : 'btn-outline-primary' }}">Mingguan</a>
+                            <a href="{{ route('mesin.edit', $mesin->id) }}?type=bulanan"
+                                class="btn {{ @$_GET['type'] == 'bulanan' ? 'btn-primary' : 'btn-outline-primary' }}">Bulanan</a>
+                            <br><br>
+                            <label class="form-label">Jenis Kegiatan</label>
+                            <table class="table table-bordered">
                                 <tr>
-                                    <td><input type="checkbox"
-                                            name="jenis_kegiatan[]"
-                                            value="{{ $jk->id }}"
-                                            {{ $jeniskegiatanmesin ? 'checked' : '' }}></td>
-                                    <td>{{ $jk->name }}</td>
-                                    <td>{{ $jk->standart }}</td>
+                                    <td>
+                                        <input type="checkbox"
+                                            id="selectAll"
+                                            type="checkbox">
+                                    </td>
+                                    <td>Centang Semua</td>
+                                    <td></td>
                                 </tr>
-                            @endforeach
-                        </table>
+                                @foreach ($jeniskegiatan as $jk)
+                                    @php
+                                        $jeniskegiatanmesin = App\Models\JenisKegiatanMesin::where('mesin_id', @$mesin->id)
+                                            ->where('jenis_kegiatan_id', $jk->id)
+                                            ->where('bulan', @$_GET['bulan'] ?? bulanSaatIni())
+                                            ->where('tahun', date('Y'))
+                                            ->where('type', @$_GET['type'])
+                                            ->first();
+                                    @endphp
+                                    <tr>
+                                        <td><input type="checkbox"
+                                                name="jenis_kegiatan[]"
+                                                value="{{ $jk->id }}"
+                                                {{ $jeniskegiatanmesin ? 'checked' : '' }}></td>
+                                        <td>{{ $jk->name }}</td>
+                                        <td>{{ $jk->standart }}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        @endif
                     </div>
                 </div>
                 <button type="submit"

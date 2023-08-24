@@ -46,6 +46,7 @@ class MaintenanceHarianController extends Controller
             ->where('jeniskegiatanmesin.mesin_id', $mesin_id)
             ->where('jeniskegiatanmesin.bulan', @$_GET['bulan'] ?? bulanSaatIni())
             ->where('jeniskegiatanmesin.tahun', @$_GET['tahun'] ?? date('Y'))
+            ->where('jeniskegiatanmesin.type', 'harian')
             ->get();
 
         $shiftname = "";

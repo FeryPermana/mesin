@@ -61,6 +61,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
 });
 
-Route::get('/login', [LoginController::class, 'login'])->name('login');
+
+Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

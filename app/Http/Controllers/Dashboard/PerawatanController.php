@@ -30,6 +30,7 @@ class PerawatanController extends Controller
                 ->where('jeniskegiatanmesin.mesin_id', @$_GET['mesinkey'])
                 ->where('jeniskegiatanmesin.bulan', bulanSaatIni())
                 ->where('jeniskegiatanmesin.tahun', date('Y'))
+                ->where('jeniskegiatanmesin.type', 'harian')
                 ->get();
         }
 
@@ -89,6 +90,7 @@ class PerawatanController extends Controller
                 ->where('jeniskegiatanmesin.mesin_id', $request->mesin)
                 ->where('jeniskegiatanmesin.bulan', bulanSaatIni())
                 ->where('jeniskegiatanmesin.tahun', date('Y'))
+                ->where('jeniskegiatanmesin.type', 'harian')
                 ->get();
 
             foreach ($jenkeg as $jk) {
@@ -113,7 +115,7 @@ class PerawatanController extends Controller
                 }
             }
 
-            return redirect()->back()->with('success', 'berhasil');
+            return redirect('/dashboard/perawatan?mesinkey=' . $pengerjaan->mesin_id . '&mesin=' . $pengerjaan->mesin_id . '&shift=' . $pengerjaan->shift_id . '&lineproduksi=' . $pengerjaan->lineproduksi_id)->with('success', 'berhasil');
         }
     }
 }

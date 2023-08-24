@@ -49,7 +49,6 @@ class MesinController extends Controller
             'lokasi' => 'required',
             'tahun_pembuatan' => 'required',
             'periode_pakai' => 'required',
-            'bulan' => 'required'
         ]);
 
         $d = Mesin::count();
@@ -65,22 +64,22 @@ class MesinController extends Controller
 
         $mesin->save();
 
-        if (JenisKegiatanMesin::where('mesin_id', $mesin->id)->where('bulan', $request->bulan)->where('tahun', date('Y'))->first()) {
-            return redirect()->back()->with('error', 'Data dengan bulan ini sudah ada')->withInput();
-        } else {
-            foreach ($request->jenis_kegiatan as $jk) {
-                foreach ($request->jenis_kegiatan as $jk) {
-                    JenisKegiatanMesin::create([
-                        'jenis_kegiatan_id' => $jk,
-                        'mesin_id' => $mesin->id,
-                        'bulan' => $request->bulan,
-                        'tahun' => date('Y')
-                    ]);
-                }
-            }
-        }
+        // if (JenisKegiatanMesin::where('mesin_id', $mesin->id)->where('bulan', $request->bulan)->where('tahun', date('Y'))->first()) {
+        //     return redirect()->back()->with('error', 'Data dengan bulan ini sudah ada')->withInput();
+        // } else {
+        //     foreach ($request->jenis_kegiatan as $jk) {
+        //         foreach ($request->jenis_kegiatan as $jk) {
+        //             JenisKegiatanMesin::create([
+        //                 'jenis_kegiatan_id' => $jk,
+        //                 'mesin_id' => $mesin->id,
+        //                 'bulan' => $request->bulan,
+        //                 'tahun' => date('Y')
+        //             ]);
+        //         }
+        //     }
+        // }
 
-        return redirect()->back()->with('success', 'Data berhasil disimpan');
+        return redirect()->route('mesin.edit', $mesin->id)->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -131,13 +130,14 @@ class MesinController extends Controller
 
         $mesin->save();
 
-        if (JenisKegiatanMesin::where('mesin_id', $mesin->id)->where('bulan', $request->bulan)->where('tahun', date('Y'))->first()) {
+        if (JenisKegiatanMesin::where('mesin_id', $mesin->id)->where('bulan', $request->bulan)->where('type', $request->type)->where('tahun', date('Y'))->first()) {
             return redirect()->back()->with('error', 'Data dengan bulan ini sudah ada')->withInput();
         } else {
             foreach ($request->jenis_kegiatan as $jk) {
                 JenisKegiatanMesin::create([
                     'jenis_kegiatan_id' => $jk,
                     'mesin_id' => $mesin->id,
+                    'type' => $request->type,
                     'bulan' => $request->bulan,
                     'tahun' => date('Y')
                 ]);
