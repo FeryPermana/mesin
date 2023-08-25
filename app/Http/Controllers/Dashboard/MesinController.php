@@ -45,7 +45,6 @@ class MesinController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
         $request->validate([
             'name' => 'required|unique:mesin,name',
             'merk' => 'required',
@@ -58,15 +57,17 @@ class MesinController extends Controller
 
         $d = Mesin::count();
 
-        $mesin = new Mesin();
-        $mesin->code = 'MC00' . ($d + 1);
-        $mesin->name = $request->name;
-        $mesin->merk = $request->merk;
-        $mesin->kapasitas = $request->kapasitas;
-        $mesin->lokasi_id = $request->lokasi;
-        $mesin->tahun_pembuatan = $request->tahun_pembuatan;
-        $mesin->periode_pakai = $request->periode_pakai;
-        $mesin->lineproduksi_id = $request->lineproduksi;
+        $mesin = Mesin::create([
+            'code' => 'MC00' . ($d + 1),
+            'name' => $request->name,
+            'merk' => $request->merk,
+            'kapasitas' => $request->kapasitas,
+            'lokasi_id' => $request->lokasi,
+            'tahun_pembuatan' => $request->tahun_pembuatan,
+            'periode_pakai' => $request->periode_pakai,
+        ]);
+
+        $data = Mesin::where('name', $request->name)->first();
 
         foreach ($request->lineproduksi as $lp) {
             if (HasLine::where('mesin_id', $mesin->id)->where('lineproduksi_id', $lp)->first()) {
@@ -74,12 +75,11 @@ class MesinController extends Controller
             } else {
                 HasLine::create([
                     'lineproduksi_id' => $lp,
-                    'mesin_id' => $mesin->id,
+                    'mesin_id' => $data->id,
                 ]);
             }
         }
 
-        $mesin->save();
 
         // if (JenisKegiatanMesin::where('mesin_id', $mesin->id)->where('bulan', $request->bulan)->where('tahun', date('Y'))->first()) {
         //     return redirect()->back()->with('error', 'Data dengan bulan ini sudah ada')->withInput();
