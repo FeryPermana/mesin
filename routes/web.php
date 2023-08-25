@@ -63,5 +63,8 @@ Route::prefix('/dashboard')->group(function () {
 
 
 Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::get('/login', function () {
+    return redirect('/');
+});
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

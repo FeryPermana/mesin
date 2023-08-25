@@ -19,4 +19,9 @@ class LineProduksi extends Model
             });
         }
     }
+
+    public function hasline()
+    {
+        return $this->hasMany(HasLine::class);
+    }
 }

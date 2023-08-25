@@ -19,7 +19,11 @@ class PerawatanMingguanController extends Controller
     public function index()
     {
         $mesin = Mesin::all();
-        $lineproduksi = LineProduksi::all();
+        $lineproduksi = DB::table('lineproduksi')
+            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+            ->select('lineproduksi.*', 'lineproduksi.name')
+            ->where('hasline.mesin_id', @$_GET['mesinkey'])
+            ->get();;
         $shift = Shift::all();
         $jeniskegiatan = JenisKegiatan::all();
 

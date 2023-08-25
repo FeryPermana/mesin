@@ -35,6 +35,29 @@
                                     class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        <label class="form-label">Line Produksi</label>
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <input type="checkbox"
+                                    id="selectLine"
+                                    type="checkbox">
+                                &nbsp;&nbsp;Centang Semua
+                            </div>
+                            @foreach ($lineproduksi as $lp)
+                                @php
+                                    $hasline = App\Models\HasLine::where('mesin_id', @$mesin->id)
+                                        ->where('lineproduksi_id', $lp->id)
+                                        ->first();
+                                @endphp
+                                <div class="col-6 mb-2">
+                                    <input type="checkbox"
+                                        name="lineproduksi[]"
+                                        value="{{ $lp->id }}"
+                                        {{ $hasline ? 'checked' : '' }}>
+                                    &nbsp;&nbsp;{{ $lp->name }}
+                                </div>
+                            @endforeach
+                        </div>
                         <div class="mb-3">
                             <label for="merk"
                                 class="form-label">Merk</label>
@@ -189,6 +212,9 @@
     @push('scripts')
         <script>
             $("#selectAll").click(function() {
+                $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+            });
+            $("#selectLine").click(function() {
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
             });
         </script>

@@ -19,7 +19,7 @@ class Role
         if (Auth::check() && in_array(Auth::user()->role, $roles)) {
             return $next($request);
         } else {
-            return abort(401, 'User tidak memiliki hak akses');
+            return redirect('/');
         }
     }
 }

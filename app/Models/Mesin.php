@@ -11,7 +11,7 @@ class Mesin extends Model
 
     protected $table = "mesin";
 
-    protected $fillable = ['code', 'name', 'merk', 'kapasitas', 'lokasi_id', 'tahun_pembuatan', 'periode_pakai'];
+    protected $fillable = ['code', 'name', 'merk', 'kapasitas', 'lokasi_id', 'tahun_pembuatan', 'periode_pakai', 'lineproduksi_id'];
 
     public function scopeFilter($query, $params)
     {
@@ -27,8 +27,18 @@ class Mesin extends Model
         return $this->hasMany(JenisKegiatanMesin::class);
     }
 
+    public function hasline()
+    {
+        return $this->hasMany(HasLine::class);
+    }
+
     public function lokasi()
     {
         return $this->belongsTo(Lokasi::class);
+    }
+
+    public function lineproduksi()
+    {
+        return $this->belongsTo(LineProduksi::class);
     }
 }
