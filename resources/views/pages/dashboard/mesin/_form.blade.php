@@ -36,7 +36,8 @@
                             @enderror
                         </div>
                         <label class="form-label">Line Produksi</label>
-                        <div class="row">
+                        <div class="row"
+                            id="checkline">
                             <div class="col-12 mb-2">
                                 <input type="checkbox"
                                     id="selectLine"
@@ -215,7 +216,7 @@
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
             });
             $("#selectLine").click(function() {
-                $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+                $("#checkline input[type=checkbox]").prop('checked', $(this).prop('checked'));
             });
         </script>
     @endpush

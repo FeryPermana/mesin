@@ -2,7 +2,7 @@
     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
     <span class="hide-menu">MASTER</span>
 </li>
-{{-- <li class="sidebar-item">
+<li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('teknisi-downtime.*') ? 'active' : '' }}"
         href="{{ route('teknisi-downtime.index') }}"
         aria-expanded="false">
@@ -11,7 +11,7 @@
         </span>
         <span class="hide-menu">Input Downtime</span>
     </a>
-</li> --}}
+</li>
 <li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('perawatan-mingguan.index*') ? 'active' : '' }}"
         href="{{ route('perawatan-mingguan.index') }}"

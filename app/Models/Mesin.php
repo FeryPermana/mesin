@@ -41,4 +41,9 @@ class Mesin extends Model
     {
         return $this->belongsTo(LineProduksi::class);
     }
+
+    public function perawatan()
+    {
+        return $this->hasMany(Perawatan::class);
+    }
 }

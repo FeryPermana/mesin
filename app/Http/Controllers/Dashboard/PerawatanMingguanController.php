@@ -23,7 +23,8 @@ class PerawatanMingguanController extends Controller
             ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
             ->select('lineproduksi.*', 'lineproduksi.name')
             ->where('hasline.mesin_id', @$_GET['mesinkey'])
-            ->get();;
+            ->get();
+
         $shift = Shift::all();
         $jeniskegiatan = JenisKegiatan::all();
 
