@@ -90,6 +90,16 @@
         <span class="hide-menu">REPORT</span>
     </li>
     <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('maintenance-downtime.*') ? 'active' : '' }}"
+            href="{{ route('maintenance-downtime.index') }}"
+            aria-expanded="false">
+            <span>
+                <i class="ti ti-article"></i>
+            </span>
+            <span class="hide-menu">Maintenance Downtime</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
         <a class="sidebar-link {{ request()->routeIs('maintenance-harian.*') ? 'active' : '' }}"
             href="{{ route('maintenance-harian.index') }}"
             aria-expanded="false">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\JenisKegiatanController;
 use App\Http\Controllers\Dashboard\LineproduksiController;
 use App\Http\Controllers\Dashboard\LokasiController;
 use App\Http\Controllers\Dashboard\MaintenanceBulananController;
+use App\Http\Controllers\Dashboard\MaintenanceDowntimeController;
 use App\Http\Controllers\Dashboard\MaintenanceHarianController;
 use App\Http\Controllers\Dashboard\MaintenanceMingguanController;
 use App\Http\Controllers\Dashboard\MesinController;
@@ -59,6 +60,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-mingguan/{mesin_id}', [MaintenanceMingguanController::class, 'show'])->name('maintenance-mingguan.show')->middleware(['auth', 'role:1,2']);
     Route::get('maintenance-bulanan', [MaintenanceBulananController::class, 'index'])->name('maintenance-bulanan.index')->middleware(['auth', 'role:1,2']);
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
+    Route::resource('maintenance-downtime', MaintenanceDowntimeController::class)->middleware(['auth', 'role:1,2']);
 });
 
 

@@ -81,70 +81,76 @@
                 @if (@$_GET['lineproduksi'] && @$_GET['shift'])
                     <div class="table-responsive">
                         <table class="table table-bordered">
-                            <tr>
-                                <th rowspan="2">No</th>
-                                <th rowspan="2">
-                                    <div style="width: 250px;">
-                                        Jenis Kegiatan
-                                    </div>
-                                </th>
-                                <th rowspan="2">
-                                    <div>
-                                        Standart
-                                    </div>
-                                </th>
-                                <th colspan="31"
-                                    class="text-center">Pelaksanaan</th>
-                            </tr>
-                            <tr>
-                                @for ($i = 1; $i < 5; $i++)
-                                    <th>{{ $i }}</th>
-                                @endfor
-                            </tr>
-                            @php
-                                $no = 1;
-                            @endphp
-                            @foreach ($jeniskegiatan as $j)
+                            <thead>
                                 <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $j->name }}</td>
-                                    <td>{{ $j->standart }}</td>
-                                    @foreach ($pengerjaan as $p)
-                                        @php
-                                            $checklists = $p->checklistmingguan;
-                                            
-                                            $arraycheck = [];
-                                            foreach ($checklists as $checklist) {
-                                                $arraycheck[] = $checklist->is_check ? $checklist->jenis_kegiatan_id : 0;
-                                            }
-                                        @endphp
-                                        @if (in_array($j->id, $arraycheck))
-                                            <td><i class="ti ti-check"></i></td>
-                                        @else
-                                            <td>-</td>
-                                        @endif
-                                    @endforeach
-                                    @php
-                                        $p = 5 - count($pengerjaan);
-                                    @endphp
-                                    @for ($i = 1; $i < $p; $i++)
-                                        <td>-</td>
-                                    @endfor
+                                    <th>
+                                        <div style="width: 50px;">
+                                            Line
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 60px;">
+                                            Lokasi
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 60px;">
+                                            Shift
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 70px;">
+                                            Jam Kerja
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 200px;">
+                                            Downtime
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 200px;">
+                                            Mulai
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 200px">
+                                            Finish
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 200px;">
+                                            Action Plan
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="width: 200px;">
+                                            Lama Waktu
+                                        </div>
+                                    </th>
+                                    <th>Gambar</th>
                                 </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="2"><strong>Dikerjakan</strong></td>
-                                <td>Operator</td>
-                                @foreach ($pengerjaan as $p)
-                                    <td><i class="text-sm">{{ $p->operator->name }}</i></td>
-                                    @php
-                                        $p = 5 - count($pengerjaan);
-                                    @endphp
+                            </thead>
+                            <tbody>
+                                @foreach ($perawatan as $prw)
+                                    <tr>
+                                        <td>{{ $prw->lineproduksi->name }}</td>
+                                        <td>{{ $prw->lokasi->lokasi }}</td>
+                                        <td>{{ $prw->shift->name }}</td>
+                                        <td>{{ $prw->jamkerja->name }}</td>
+                                        <td>{{ $prw->downtime->name }}</td>
+                                        <td>{{ $prw->tanggal }}</td>
+                                        <td>{{ $prw->finish }}</td>
+                                        <td>{{ $prw->action_plan }}</td>
+                                        <td>{{ $prw->lama_waktu }}</td>
+                                        <td>
+                                            <img src="{{ asset($prw->gambar) }}"
+                                                alt=""
+                                                width="100">
+                                        </td>
+                                    </tr>
                                 @endforeach
-                                @for ($i = 1; $i < $p; $i++)
-                                    <td>-</td>
-                                @endfor
-                            </tr>
+                            </tbody>
                         </table>
                     </div>
                 @else
