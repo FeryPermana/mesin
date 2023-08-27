@@ -65,15 +65,15 @@ class MaintenanceMingguanController extends Controller
             'mesin' => $mesin,
         ];
 
-        // if (@$_GET['print']) {
-        //     return view('pages.dashboard.maintenance-mingguan.preview', [
-        //         'lineproduksiname' => $lineproduksiname,
-        //         'shiftname' => $shiftname,
-        //         'jeniskegiatan' => $jeniskegiatan,
-        //         'pengerjaan' => $pengerjaan,
-        //         'mesin' => $mesin,
-        //     ]);
-        // }
+        if (@$_GET['print']) {
+            return view('pages.dashboard.maintenance-mingguan.preview', [
+                'lineproduksiname' => $lineproduksiname,
+                'shiftname' => $shiftname,
+                'jeniskegiatan' => $jeniskegiatan,
+                'pengerjaan' => $pengerjaan,
+                'mesin' => $mesin,
+            ]);
+        }
 
         if (@$_GET['image']) {
             return view('pages.dashboard.maintenance-mingguan.image', [
