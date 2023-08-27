@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\DowntimeExport;
 use App\Http\Controllers\Controller;
 use App\Models\LineProduksi;
 use App\Models\Mesin;
@@ -10,6 +11,7 @@ use App\Models\Perawatan;
 use App\Models\Shift;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MaintenanceDowntimeController extends Controller
 {
@@ -45,17 +47,17 @@ class MaintenanceDowntimeController extends Controller
             ->where('jeniskegiatanmesin.type', 'harian')
             ->get();
 
-        // $shiftname = "";
-        // if (@$_GET['shift']) {
-        //     $shiftname = Shift::whereId($_GET['shift'])->first()->name;
-        // }
+        $shiftname = "";
+        if (@$_GET['shift']) {
+            $shiftname = Shift::whereId($_GET['shift'])->first()->name;
+        }
 
-        // $lineproduksiname = "";
-        // if (@$_GET['lineproduksi']) {
-        //     $lineproduksiname = LineProduksi::whereId($_GET['lineproduksi'])->first()->name;
-        // }
+        $lineproduksiname = "";
+        if (@$_GET['lineproduksi']) {
+            $lineproduksiname = LineProduksi::whereId($_GET['lineproduksi'])->first()->name;
+        }
 
-        $perawatan = Perawatan::where('mesin_id', $mesin_id)->filter(request())->get();
+        $perawatan = Perawatan::with('mesin', 'lineproduksi', 'lokasi')->filter(request())->where('mesin_id', $mesin_id)->get();
 
         $data = [
             'lineproduksi' => $lineproduksi,
@@ -65,41 +67,12 @@ class MaintenanceDowntimeController extends Controller
             'mesin' => $mesin,
         ];
 
-        // if (@$_GET['harian']) {
-        //     toastr()->success('Berhasil export');
-        //     // $pdf = PDF::loadView('exports.harian', [
-        //     //     'mesin' => $mesin,
-        //     //     'jeniskegiatan' => $jeniskegiatan,
-        //     //     'pengerjaan' => $pengerjaan
-        //     // ])->setPaper('landscape');
+        if (@$_GET['export-downtime']) {
+            toastr()->success('Berhasil export');
 
-        //     // return $pdf->download('export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.pdf');
-        //     return Excel::download(new HarianExport($pengerjaan), 'export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . ' .xlsx');
-        // }
-
-        // if (@$_GET['print']) {
-        //     toastr()->success('Ctrl + Shift + p untuk print');
-
-        //     return view('pages.dashboard.maintenance-downtime.preview', [
-        //         'lineproduksiname' => $lineproduksiname,
-        //         'shiftname' => $shiftname,
-        //         'jeniskegiatan' => $jeniskegiatan,
-        //         'pengerjaan' => $pengerjaan,
-        //         'mesin' => $mesin,
-        //     ]);
-        // }
-
-        // if (@$_GET['image']) {
-        //     return view('pages.dashboard.maintenance-downtime.image', [
-        //         'lineproduksiname' => $lineproduksiname,
-        //         'shiftname' => $shiftname,
-        //         'lineproduksi' => $lineproduksi,
-        //         'shift' => $shift,
-        //         'jeniskegiatan' => $jeniskegiatan,
-        //         'pengerjaan' => $pengerjaan,
-        //         'mesin' => $mesin,
-        //     ]);
-        // }
+            // return $pdf->download('export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.pdf');
+            return Excel::download(new DowntimeExport($perawatan), 'export maintenance downtime ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . ' .xlsx');
+        }
 
         return view('pages.dashboard.maintenance-downtime.show', $data);
     }

@@ -10,6 +10,7 @@ use App\Models\PengerjaanMingguan;
 use App\Models\Shift;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MaintenanceMingguanController extends Controller
 {
@@ -64,27 +65,15 @@ class MaintenanceMingguanController extends Controller
             'mesin' => $mesin,
         ];
 
-        // if (@$_GET['harian']) {
-        //     toastr()->success('Berhasil export');
-        //     // $pdf = PDF::loadView('exports.harian', [
-        //     //     'mesin' => $mesin,
-        //     //     'jeniskegiatan' => $jeniskegiatan,
-        //     //     'pengerjaan' => $pengerjaan
-        //     // ])->setPaper('landscape');
-
-        //     // return $pdf->download('export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.pdf');
-        //     return Excel::download(new HarianExport($pengerjaan), 'export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . ' .xlsx');
+        // if (@$_GET['print']) {
+        //     return view('pages.dashboard.maintenance-mingguan.preview', [
+        //         'lineproduksiname' => $lineproduksiname,
+        //         'shiftname' => $shiftname,
+        //         'jeniskegiatan' => $jeniskegiatan,
+        //         'pengerjaan' => $pengerjaan,
+        //         'mesin' => $mesin,
+        //     ]);
         // }
-
-        if (@$_GET['print']) {
-            return view('pages.dashboard.maintenance-mingguan.preview', [
-                'lineproduksiname' => $lineproduksiname,
-                'shiftname' => $shiftname,
-                'jeniskegiatan' => $jeniskegiatan,
-                'pengerjaan' => $pengerjaan,
-                'mesin' => $mesin,
-            ]);
-        }
 
         if (@$_GET['image']) {
             return view('pages.dashboard.maintenance-mingguan.image', [

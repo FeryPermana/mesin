@@ -36,7 +36,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        {{-- <div class="col-md-2">
+                        <div class="col-md-2">
                             <select name="bulan"
                                 class="form-control custom-select">
                                 <option value=""
@@ -62,13 +62,13 @@
                                         {{ $tahun }}</option>
                                 @endfor
                             </select>
-                        </div> --}}
+                        </div>
                         <div class="col-md-4">
                             <button type="submit"
                                 class="btn btn-primary">Filter</button>
-                            {{-- <a href="{{ route('maintenance-downtime.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
+                            {{-- <a href="{{ route('maintenance-harian.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-success">Excel</a> --}}
-                            <a href="{{ route('maintenance-downtime.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
+                            <a href="{{ route('maintenance-mingguan.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-warning">Print</a>
                             <button type="submit"
                                 name="image"
