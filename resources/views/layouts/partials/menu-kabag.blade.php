@@ -17,6 +17,16 @@
     <span class="hide-menu">REPORT</span>
 </li>
 <li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('report-presensi.*') ? 'active' : '' }}"
+        href="{{ route('report-presensi.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-star"></i>
+        </span>
+        <span class="hide-menu">Report Presensi</span>
+    </a>
+</li>
+<li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('maintenance-downtime.*') ? 'active' : '' }}"
         href="{{ route('maintenance-downtime.index') }}"
         aria-expanded="false">

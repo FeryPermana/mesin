@@ -12,8 +12,16 @@ class ReportPresensiController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role == 1) {
+            $presensi = Presensi::filter(request())->paginate(@$_GET['row'] ?? 10);
+        } else {
+            $presensi = Presensi::filter(request())->whereHas('user', function ($query) {
+                $query->where('lokasi_id', auth()->user()->lokasi_id);
+            })->paginate(@$_GET['row'] ?? 10);
+        }
+
         $data = [
-            'presensi' => Presensi::filter(request())->paginate(@$_GET['row'] ?? 10),
+            'presensi' => $presensi,
             'lineproduksi' => LineProduksi::all(),
             'shift' => Shift::all()
         ];
