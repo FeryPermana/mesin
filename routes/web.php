@@ -18,7 +18,9 @@ use App\Http\Controllers\Dashboard\OperatorDowntimeController;
 use App\Http\Controllers\Dashboard\PerawatanBulananController;
 use App\Http\Controllers\Dashboard\PerawatanController;
 use App\Http\Controllers\Dashboard\PerawatanMingguanController;
+use App\Http\Controllers\Dashboard\PresensiController;
 use App\Http\Controllers\Dashboard\ProduksiController;
+use App\Http\Controllers\Dashboard\ReportPresensiController;
 use App\Http\Controllers\Dashboard\ShiftController;
 use App\Http\Controllers\Dashboard\TeknisiDowntimeController;
 use App\Http\Controllers\Dashboard\TutorialMesinController;
@@ -39,6 +41,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/dashboard')->group(function () {
     Route::resource('mesin', MesinController::class)->middleware(['auth', 'role:1,2']);
+    Route::resource('report-presensi', ReportPresensiController::class)->middleware(['auth', 'role:1,2']);
     Route::get('/mesin/{id}/file', [MesinController::class, 'file'])->name('mesin.file')->middleware(['auth', 'role:1,2']);
     Route::put('/mesin/{id}/lesson', [MesinController::class, 'lesson'])->name('mesin.lesson')->middleware(['auth', 'role:1,2']);
     Route::resource('lokasi', LokasiController::class)->middleware(['auth', 'role:1,2']);
@@ -66,6 +69,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
     Route::resource('maintenance-downtime', MaintenanceDowntimeController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth', 'role:3,5']);
+    Route::resource('presensi', PresensiController::class)->middleware(['auth', 'role:3,5']);
 });
 
 

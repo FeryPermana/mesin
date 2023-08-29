@@ -34,7 +34,7 @@
                             class="form-control custom-select"
                             onchange="this.form.submit()">
                             <option value=""
-                                selected>Pilih Mesin</option>
+                                selected>Pilih Lokasi</option>
                             @foreach ($lokasi as $lok)
                                 <option value="{{ $lok->id }}"
                                     {{ @$_GET['lokasi'] == $lok->id ? 'selected' : '' }}>

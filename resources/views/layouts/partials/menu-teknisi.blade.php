@@ -23,6 +23,16 @@
     </a>
 </li>
 <li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('presensi.*') ? 'active' : '' }}"
+        href="{{ route('presensi.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-star"></i>
+        </span>
+        <span class="hide-menu">Presensi</span>
+    </a>
+</li>
+<li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('perawatan-mingguan.*') ? 'active' : '' }}"
         href="{{ route('perawatan-mingguan.index') }}"
         aria-expanded="false">
