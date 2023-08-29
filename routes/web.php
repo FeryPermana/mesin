@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\ExportController;
 use App\Http\Controllers\Dashboard\HarianController;
 use App\Http\Controllers\Dashboard\JamKerjaController;
 use App\Http\Controllers\Dashboard\JenisKegiatanController;
+use App\Http\Controllers\Dashboard\JenisMesinController;
 use App\Http\Controllers\Dashboard\LineproduksiController;
 use App\Http\Controllers\Dashboard\LokasiController;
 use App\Http\Controllers\Dashboard\MaintenanceBulananController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Dashboard\PerawatanMingguanController;
 use App\Http\Controllers\Dashboard\ProduksiController;
 use App\Http\Controllers\Dashboard\ShiftController;
 use App\Http\Controllers\Dashboard\TeknisiDowntimeController;
+use App\Http\Controllers\Dashboard\TutorialMesinController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Models\Perawatan;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +39,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/dashboard')->group(function () {
     Route::resource('mesin', MesinController::class)->middleware(['auth', 'role:1,2']);
+    Route::get('/mesin/{id}/file', [MesinController::class, 'file'])->name('mesin.file')->middleware(['auth', 'role:1,2']);
+    Route::put('/mesin/{id}/lesson', [MesinController::class, 'lesson'])->name('mesin.lesson')->middleware(['auth', 'role:1,2']);
     Route::resource('lokasi', LokasiController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('user', UserController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('shift', ShiftController::class)->middleware(['auth', 'role:1']);
@@ -61,6 +65,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-bulanan', [MaintenanceBulananController::class, 'index'])->name('maintenance-bulanan.index')->middleware(['auth', 'role:1,2']);
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
     Route::resource('maintenance-downtime', MaintenanceDowntimeController::class)->middleware(['auth', 'role:1,2']);
+    Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth', 'role:3,5']);
 });
 
 

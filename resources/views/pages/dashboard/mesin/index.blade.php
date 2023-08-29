@@ -29,8 +29,21 @@
                             @endforeach
                         </select>
                     </div>
-
-                    <div class="col-md-5 mb-3 ml-auto">
+                    <div class="col-2 pr-md-0 mb-3 mb-md-0">
+                        <select name="lokasi"
+                            class="form-control custom-select"
+                            onchange="this.form.submit()">
+                            <option value=""
+                                selected>Pilih Mesin</option>
+                            @foreach ($lokasi as $lok)
+                                <option value="{{ $lok->id }}"
+                                    {{ @$_GET['lokasi'] == $lok->id ? 'selected' : '' }}>
+                                    {{ $lok->lokasi }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3 ml-auto">
                         <div class="custom-search">
                             <input type="text"
                                 class="form-control"
@@ -64,6 +77,11 @@
                                 <td>{{ $m->tahun_pembuatan }}</td>
                                 <td>{{ $m->periode_pakai }}</td>
                                 <td>
+                                    <a href="{{ route('mesin.file', $m->id) }}"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Upload pdf dan video"
+                                        class="btn btn-success btn-sm"><i class="ti ti-file"></i></a>
                                     <a href="{{ route('mesin.edit', $m->id) }}?type=harian"
                                         class="btn btn-warning btn-sm"><i class="ti ti-pencil"></i></a>
 

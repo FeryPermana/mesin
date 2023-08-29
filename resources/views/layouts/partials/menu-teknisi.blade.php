@@ -13,7 +13,17 @@
     </a>
 </li>
 <li class="sidebar-item">
-    <a class="sidebar-link {{ request()->routeIs('perawatan-mingguan.index*') ? 'active' : '' }}"
+    <a class="sidebar-link {{ request()->routeIs('tutorial-mesin.*') ? 'active' : '' }}"
+        href="{{ route('tutorial-mesin.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-video"></i>
+        </span>
+        <span class="hide-menu">Tutorial Mesin</span>
+    </a>
+</li>
+<li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('perawatan-mingguan.*') ? 'active' : '' }}"
         href="{{ route('perawatan-mingguan.index') }}"
         aria-expanded="false">
         <span>
@@ -23,7 +33,7 @@
     </a>
 </li>
 <li class="sidebar-item">
-    <a class="sidebar-link {{ request()->routeIs('perawatan-bulanan.index*') ? 'active' : '' }}"
+    <a class="sidebar-link {{ request()->routeIs('perawatan-bulanan.*') ? 'active' : '' }}"
         href="{{ route('perawatan-bulanan.index') }}"
         aria-expanded="false">
         <span>

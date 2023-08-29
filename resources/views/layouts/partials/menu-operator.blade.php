@@ -13,6 +13,17 @@
     <span class="hide-menu">Perawatan</span>
 </li> --}}
 <li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('tutorial-mesin.*') ? 'active' : '' }}"
+        href="{{ route('tutorial-mesin.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-video"></i>
+        </span>
+        <span class="hide-menu">Tutorial Mesin</span>
+    </a>
+</li>
+
+<li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('perawatan.*') ? 'active' : '' }}"
         href="{{ route('perawatan.index') }}"
         aria-expanded="false">

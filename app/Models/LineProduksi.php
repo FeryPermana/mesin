@@ -24,4 +24,9 @@ class LineProduksi extends Model
     {
         return $this->hasMany(HasLine::class);
     }
+
+    public function tutorialmesin()
+    {
+        return $this->hasMany(TutorialMesin::class);
+    }
 }

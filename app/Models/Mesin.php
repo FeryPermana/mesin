@@ -11,7 +11,7 @@ class Mesin extends Model
 
     protected $table = "mesin";
 
-    protected $fillable = ['code', 'name', 'merk', 'kapasitas', 'lokasi_id', 'tahun_pembuatan', 'periode_pakai', 'lineproduksi_id'];
+    protected $fillable = ['code', 'name', 'merk', 'kapasitas', 'lokasi_id', 'tahun_pembuatan', 'periode_pakai'];
 
     public function scopeFilter($query, $params)
     {
@@ -20,11 +20,17 @@ class Mesin extends Model
                 $query->where('name', 'LIKE', '%' . $params->search . '%');
             });
         }
+
+        if (@$params->lokasi) {
+            $query->where(function ($query) use ($params) {
+                $query->where('lokasi_id', 'LIKE', '%' . $params->lokasi . '%');
+            });
+        }
     }
 
-    public function jeniskegiatanmesin()
+    public function tutorialmesin()
     {
-        return $this->hasMany(JenisKegiatanMesin::class);
+        return $this->hasMany(TutorialMesin::class);
     }
 
     public function hasline()
@@ -45,5 +51,10 @@ class Mesin extends Model
     public function perawatan()
     {
         return $this->hasMany(Perawatan::class);
+    }
+
+    public function jeniskegiatanmesin()
+    {
+        return $this->hasMany(JenisKegiatanMesin::class);
     }
 }

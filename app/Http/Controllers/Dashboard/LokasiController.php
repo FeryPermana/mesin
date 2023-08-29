@@ -13,7 +13,7 @@ class LokasiController extends Controller
      */
     public function index()
     {
-        // list shift
+        // list lokasi
         $lokasi = Lokasi::filter(request())->paginate($_GET['row'] ?? 10);
 
         return view('pages.dashboard.lokasi.index', compact('lokasi'));

@@ -9,7 +9,9 @@ use App\Models\JenisKegiatanMesin;
 use App\Models\LineProduksi;
 use App\Models\Lokasi;
 use App\Models\Mesin;
+use App\Models\TutorialMesin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MesinController extends Controller
 {
@@ -19,9 +21,10 @@ class MesinController extends Controller
     public function index()
     {
         // list mesin
+        $lokasi = Lokasi::all();
         $mesin = Mesin::filter(request())->paginate($_GET['row'] ?? 10);
 
-        return view('pages.dashboard.mesin.index', compact('mesin'));
+        return view('pages.dashboard.mesin.index', compact('mesin', 'lokasi'));
     }
 
     /**
@@ -195,5 +198,70 @@ class MesinController extends Controller
 
             return back()->withInput();
         }
+    }
+
+    public function file(string $id)
+    {
+        $method = "update";
+        $url = route('mesin.lesson', $id);
+        $mesin = Mesin::findOrFail($id);
+        $tutorialmesin = TutorialMesin::where('mesin_id', $mesin->id)->where('lineproduksi_id', @$_GET['lineproduksi'])->first();
+        $lineproduksi = DB::table('lineproduksi')
+            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+            ->select('lineproduksi.*', 'lineproduksi.name')
+            ->where('hasline.mesin_id', $mesin->id)
+            ->get();
+
+        return view('pages.dashboard.mesin.lesson', compact('method', 'url', 'mesin', 'lineproduksi', 'tutorialmesin'));
+    }
+
+    public function lesson(Request $request, string $id)
+    {
+        // return $request->all();
+        $request->validate([
+            'lineproduksi_id' => 'required',
+            'deskripsi' => 'required',
+            'video' => 'required',
+            'file' => 'required|mimes:pdf',
+        ]);
+
+        $tutorialmesin = TutorialMesin::where('lineproduksi_id', $request->lineproduksi_id)->where('mesin_id', $id)->first();
+        if ($tutorialmesin) {
+            $file = $request->hasFile('file') ? "" : $tutorialmesin->file;
+            if ($request->hasFile('file')) {
+                $image = $request->file;
+                $file = time() . $image->getClientOriginalName();
+                $image->move('file', $file);
+
+                $file = "file/" . $file;
+            }
+
+            TutorialMesin::whereId($tutorialmesin->id)->update([
+                'mesin_id' => $id,
+                'lineproduksi_id' => $request->lineproduksi_id,
+                'deskripsi' => $request->deskripsi,
+                'video' => $request->video,
+                'file' => $file,
+            ]);
+        } else {
+            $file = "";
+            if ($request->hasFile('file')) {
+                $image = $request->file;
+                $file = time() . $image->getClientOriginalName();
+                $image->move('file', $file);
+
+                $file = "file/" . $file;
+            }
+
+            TutorialMesin::create([
+                'mesin_id' => $id,
+                'lineproduksi_id' => $request->lineproduksi_id,
+                'deskripsi' => $request->deskripsi,
+                'video' => $request->video,
+                'file' => $file,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Berhasil mengupload tutorial');
     }
 }
