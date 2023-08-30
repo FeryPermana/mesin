@@ -59,7 +59,8 @@ class PerawatanMingguanController extends Controller
             'mesin' => 'required',
             'shift' => 'required',
             'lineproduksi' => 'required',
-            'gambar' => 'required'
+            'gambar' => 'required',
+            'keterangan' => 'required',
         ]);
 
         $countpengerjaan = PengerjaanMingguan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->get()->count();
@@ -73,6 +74,7 @@ class PerawatanMingguanController extends Controller
             $pengerjaan->shift_id = $request->shift;
             $pengerjaan->nik = auth()->user()->nik;
             $pengerjaan->lineproduksi_id = $request->lineproduksi;
+            $pengerjaan->keterangan = $request->keterangan;
 
             $gambar = "";
             if ($request->hasFile('gambar')) {

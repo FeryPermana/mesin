@@ -61,6 +61,7 @@ class MaintenanceHarianController extends Controller
 
         $pengerjaan = Pengerjaan::with('checklist')->where('mesin_id', $mesin_id)->filter(request())->get();
 
+
         $data = [
             'lineproduksi' => $lineproduksi,
             'shift' => $shift,

@@ -125,6 +125,19 @@
                             </table>
                         </div>
                         <div class="col-4">
+                            <div class="mb-3">
+                                <label for="keterangan"
+                                    class="form-label">Keterangan</label>
+                                <input type="text"
+                                    name="keterangan"
+                                    class="form-control @error('keterangan') border-danger @enderror"
+                                    id="keterangan"
+                                    value="{{ old('keterangan') }}">
+                                @error('keterangan')
+                                    <div id="keterangan"
+                                        class="form-text text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <div class="form-group">
                                 <label>Gambar Mesin
                                     <br>

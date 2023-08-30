@@ -58,7 +58,8 @@ class PerawatanBulananController extends Controller
             'shift' => 'required',
             'lineproduksi' => 'required',
             'jenis_kegiatan' => 'required',
-            'gambar' => 'required'
+            'gambar' => 'required',
+            'keterangan',
         ]);
 
         $countpengerjaan = PengerjaanBulanan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->get()->count();
@@ -72,6 +73,7 @@ class PerawatanBulananController extends Controller
             $pengerjaan->shift_id = $request->shift;
             $pengerjaan->nik = auth()->user()->nik;
             $pengerjaan->lineproduksi_id = $request->lineproduksi;
+            $pengerjaan->keterangan = $request->keterangan;
 
             $gambar = "";
             if ($request->hasFile('gambar')) {

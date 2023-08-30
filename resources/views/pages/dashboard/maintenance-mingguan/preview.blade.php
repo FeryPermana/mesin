@@ -145,6 +145,19 @@
                 </tr>
             @endforeach
             <tr>
+                <td colspan="2"><strong>Keterangan</strong></td>
+                <td>Operator</td>
+                @foreach ($pengerjaan as $p)
+                    <td style="text-align: center;"><i style="font-size: 15px;">{{ $p->keterangan }}</i></td>
+                    @php
+                        $p = 5 - count($pengerjaan);
+                    @endphp
+                @endforeach
+                @for ($i = 1; $i < $p; $i++)
+                    <td>-</td>
+                @endfor
+            </tr>
+            <tr>
                 <td colspan="2"><strong>Dikerjakan</strong></td>
                 <td>Operator</td>
                 @foreach ($pengerjaan as $p)

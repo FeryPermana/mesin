@@ -64,6 +64,7 @@
                         <th>Nama</th>
                         <th>Line Produksi</th>
                         <th>Shift</th>
+                        <th>Tanggal</th>
                     </thead>
                     <tbody>
                         @forelse ($presensi as $p)
@@ -72,6 +73,7 @@
                                 <td>{{ $p->user->name }}</td>
                                 <td>{{ $p->lineproduksi->name }}</td>
                                 <td>{{ $p->shift->name }}</td>
+                                <td>{{ $p->tanggal }}</td>
                             </tr>
                         @empty
                             <tr>

@@ -76,6 +76,16 @@
                         <div class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label for="tanggal"
+                        class="form-label">Tanggal</label>
+                    <input type="date"
+                        class="form-control"
+                        name="tanggal">
+                    @error('tanggal')
+                        <div class="form-text text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
                 <button type="submit"
                     class="btn btn-primary">Simpan</button>
             </form>

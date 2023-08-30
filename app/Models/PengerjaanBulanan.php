@@ -10,7 +10,7 @@ class PengerjaanBulanan extends Model
     use HasFactory;
 
     protected $table = "pengerjaan_bulanan";
-    protected $fillable = ['mesin_id', 'shift_id', 'nik', 'tanggal', 'gambar', 'lineproduksi_id'];
+    protected $fillable = ['mesin_id', 'shift_id', 'nik', 'tanggal', 'gambar', 'lineproduksi_id', 'keterangan'];
 
     public function scopeFilter($query, $params)
     {

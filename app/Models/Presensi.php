@@ -10,7 +10,7 @@ class Presensi extends Model
     use HasFactory;
 
     protected $table = "presensi";
-    protected $fillable = ['user_id', 'lineproduksi_id', 'shift_id'];
+    protected $fillable = ['user_id', 'lineproduksi_id', 'shift_id', 'tanggal'];
 
 
     public function scopeFilter($query, $params)

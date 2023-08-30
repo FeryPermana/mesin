@@ -12,9 +12,6 @@
                         <p>Bulan / Tahun : {{ $monthYearString }} </p>
                     </div>
                 </div>
-                <div class="alert alert-warning text-center">
-                    Harus memilih semua indikator terlebih dahulu
-                </div>
                 <form action="">
                     <div class="row">
                         <div class="col-md-2">
@@ -41,7 +38,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        {{-- <div class="col-md-2">
                             <select name="bulan"
                                 class="form-control custom-select">
                                 <option value=""
@@ -67,7 +64,7 @@
                                         {{ $tahun }}</option>
                                 @endfor
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="col-md-4">
                             <button type="submit"
                                 class="btn btn-primary">Filter</button>
@@ -83,25 +80,17 @@
                     </div>
                 </form>
                 <br>
-                @if (@$_GET['lineproduksi'] && @$_GET['shift'])
-                    <div class="row">
-                        @foreach ($pengerjaan as $p)
-                            <div class="col-md-4 mt-3">
-                                <img src="{{ asset($p->gambar) }}"
-                                    alt=""
-                                    width="100%"
-                                    class="img-thumbnail">
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="alert alert-danger">
-                        <div class="text-center">
-                            Data belum ada silhakan pilih indikator lain
+                <div class="row">
+                    @foreach ($pengerjaan as $p)
+                        <div class="col-md-4 mt-3">
+                            <img src="{{ asset($p->gambar) }}"
+                                alt=""
+                                width="100%"
+                                class="img-thumbnail">
+                            <p class="text-center">{{ $p->tanggal }}</p>
                         </div>
-                    </div>
-                @endif
-
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
