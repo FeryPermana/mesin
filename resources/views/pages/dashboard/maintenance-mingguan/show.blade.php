@@ -68,7 +68,7 @@
                                 class="btn btn-primary">Filter</button>
                             {{-- <a href="{{ route('maintenance-harian.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-success">Excel</a> --}}
-                            <a href="{{ route('maintenance-mingguan.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
+                            <a href="{{ route('maintenance-mingguan.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}&bulan={{ @$_GET['bulan'] }}&tahun={{ @$_GET['tahun'] }}"
                                 class="btn btn-warning">Print</a>
                             <button type="submit"
                                 name="image"
@@ -137,10 +137,10 @@
                                 <td>Operator</td>
                                 @foreach ($pengerjaan as $p)
                                     <td><i class="text-sm">{{ $p->keterangan }}</i></td>
-                                    @php
-                                        $p = 5 - count($pengerjaan);
-                                    @endphp
                                 @endforeach
+                                @php
+                                    $p = 5 - count($pengerjaan);
+                                @endphp
                                 @for ($i = 1; $i < $p; $i++)
                                     <td>-</td>
                                 @endfor

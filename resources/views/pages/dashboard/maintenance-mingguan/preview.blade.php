@@ -60,7 +60,7 @@
                     $date = new DateTime($pengerjaan[0]->tanggal);
                     $monthYearString = generateMonthYearStringFromDate($date);
                 @endphp
-                <p>Periode Bulan/Tahun : {{ $monthYearString }}<br>
+                <p>Periode Bulan/Tahun : {{ @$_GET['bulan'] }} {{ @$_GET['tahun'] }}<br>
                     <strong>{{ $shiftname }}</strong>
                 </p>
             </div>
@@ -162,10 +162,10 @@
                 <td>Operator</td>
                 @foreach ($pengerjaan as $p)
                     <td><i style="font-size: 15px;">{{ $p->operator->name }}</i></td>
-                    @php
-                        $p = 5 - count($pengerjaan);
-                    @endphp
                 @endforeach
+                @php
+                    $p = 5 - count($pengerjaan);
+                @endphp
                 @for ($i = 1; $i < $p; $i++)
                     <td>-</td>
                 @endfor

@@ -55,7 +55,24 @@ class MaintenanceMingguanController extends Controller
             $lineproduksiname = LineProduksi::whereId($_GET['lineproduksi'])->first()->name;
         }
 
-        $pengerjaan = PengerjaanMingguan::with('checklistmingguan')->where('mesin_id', $mesin_id)->filter(request())->get();
+        $bulanMapping = [
+            "Januari" => 1,
+            "Februari" => 2,
+            "Maret" => 3,
+            "April" => 4,
+            "Mei" => 5,
+            "Juni" => 6,
+            "Juli" => 7,
+            "Agustus" => 8,
+            "September" => 9,
+            "Oktober" => 10,
+            "November" => 11,
+            "Desember" => 12
+        ];
+        $bulanvalue = @$_GET['bulan'] ? $_GET['bulan'] : bulanSaatIni();
+        $bulanNumeric = $bulanMapping[$bulanvalue];
+
+        $pengerjaan = PengerjaanMingguan::with('checklistmingguan')->where('mesin_id', $mesin_id)->whereMonth('tanggal', $bulanNumeric)->filter(request())->get();
 
         $data = [
             'lineproduksi' => $lineproduksi,
@@ -70,7 +87,7 @@ class MaintenanceMingguanController extends Controller
                 'lineproduksiname' => $lineproduksiname,
                 'shiftname' => $shiftname,
                 'jeniskegiatan' => $jeniskegiatan,
-                'pengerjaan' => $pengerjaan,
+                'pengerjaan' => $pengerjaan ?? [],
                 'mesin' => $mesin,
             ]);
         }

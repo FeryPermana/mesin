@@ -4,17 +4,17 @@
             <div class="card-body">
                 <div class="row">
                     @php
-                        $date = new DateTime($pengerjaan[0]->tanggal);
+                        $date = new DateTime($pengerjaan[0]->tanggal ?? '');
                         $monthYearString = generateMonthYearStringFromDate($date);
                     @endphp
                     <div class="col-md-12">
                         <h3>Maintenance mesin <strong>{{ $mesin->name }}</strong></h3>
-                        <p>Bulan / Tahun : {{ $monthYearString }} </p>
+                        <p>Bulan / Tahun : {{ @$_GET['bulan'] }} {{ @$_GET['tahun'] }} </p>
                     </div>
                 </div>
                 <form action="">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select name="shift"
                                 class="form-control custom-select">
                                 <option value=""
@@ -26,7 +26,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select name="lineproduksi"
                                 class="form-control custom-select">
                                 <option value=""
@@ -38,13 +38,38 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-2">
+                            <select name="bulan"
+                                class="form-control custom-select">
+                                <option value=""
+                                    selected>-- Bulan --</option>
+                                @foreach (bulan_list() as $bulan)
+                                    <option value="{{ $bulan }}"
+                                        {{ @$_GET['bulan'] == $bulan ? 'selected' : '' }}>
+                                        {{ $bulan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="tahun"
+                                class="form-control custom-select">
+                                <option value=""
+                                    selected>-- Tahun --</option>
+                                @php
+                                    $tahunSekarang = date('Y');
+                                @endphp
+                                @for ($tahun = $tahunSekarang; $tahun >= 2022; $tahun--)
+                                    <option value="{{ $tahun }}"
+                                        {{ @$_GET['tahun'] == $tahun ? 'selected' : '' }}>
+                                        {{ $tahun }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="col-md-4">
                             <button type="submit"
                                 class="btn btn-primary">Filter</button>
                             {{-- <a href="{{ route('maintenance-bulanan.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-success">Excel</a> --}}
-                            <a href="{{ route('maintenance-bulanan.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
-                                class="btn btn-warning">Print</a>
                             <button type="submit"
                                 name="image"
                                 value="1"

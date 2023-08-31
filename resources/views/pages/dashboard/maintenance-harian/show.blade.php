@@ -68,7 +68,7 @@
                                 class="btn btn-primary">Filter</button>
                             {{-- <a href="{{ route('maintenance-harian.show', $mesin->id) }}?harian=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-success">Excel</a> --}}
-                            <a href="{{ route('maintenance-harian.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
+                            <a href="{{ route('maintenance-harian.show', $mesin->id) }}?print=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}&bulan={{ @$_GET['bulan'] }}&tahun={{ @$_GET['tahun'] }}"
                                 class="btn btn-warning">Print</a>
                             <button type="submit"
                                 name="image"

@@ -149,10 +149,10 @@
                 <td>Operator</td>
                 @foreach ($pengerjaan as $p)
                     <td style="text-align: center;"><i style="font-size: 15px;">{{ $p->keterangan }}</i></td>
-                    @php
-                        $p = 2 - count($pengerjaan);
-                    @endphp
                 @endforeach
+                @php
+                    $p = 2 - count($pengerjaan);
+                @endphp
                 @for ($i = 1; $i < $p; $i++)
                     <td>-</td>
                 @endfor
