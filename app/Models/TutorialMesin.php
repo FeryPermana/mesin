@@ -11,7 +11,7 @@ class TutorialMesin extends Model
 
     protected $table = "tutorialmesin";
 
-    protected $fillable = ['mesin_id', 'lineproduksi_id', 'deskripsi', 'file', 'video'];
+    protected $fillable = ['title', 'mesin_id', 'lineproduksi_id', 'deskripsi', 'file', 'video'];
 
     public function mesin()
     {
@@ -21,5 +21,14 @@ class TutorialMesin extends Model
     public function lineproduksi()
     {
         return $this->belongsTo(LineProduksi::class);
+    }
+
+    public function scopeFilter($query, $params)
+    {
+        if (@$params->tutorialmesin) {
+            $query->where(function ($query) use ($params) {
+                $query->whereId(@$params->tutorialmesin);
+            });
+        }
     }
 }

@@ -52,6 +52,22 @@
                         <input type="hidden"
                             name="lineproduksi_id"
                             value="{{ @$_GET['lineproduksi'] }}">
+                        <input type="hidden"
+                            name="tutorialmesin_id"
+                            value="{{ @$tutorialmesin->id }}">
+                        <div class="mb-3">
+                            <label for="title"
+                                class="form-label">Judul Tutorial</label>
+                            <input type="text"
+                                name="title"
+                                class="form-control @error('title') border-danger @enderror"
+                                id="title"
+                                value="{{ old('title', @$tutorialmesin->title) }}">
+                            @error('title')
+                                <div id="title"
+                                    class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="mb-3">
                             <label for="deskripsi"
                                 class="form-label">Deskripsi</label>
@@ -90,28 +106,61 @@
                                     class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        @if (@$tutorialmesin->file)
-                            <div class="mb-3">
-                                <a href="{{ asset(@$tutorialmesin->file) }}"
-                                    class="btn btn-success btn-sm"
-                                    target="_blank">Lihat File</a>
-                            </div>
-                            <div class="mb-3">
-                                <style>
-                                    iframe {
-                                        width: 100%;
-                                    }
-                                </style>
-                                {!! @$tutorialmesin->video !!}
-                            </div>
-                        @endif
                     </div>
+                    <style>
+                        iframe {
+                            width: 200px;
+                            height: 100px;
+                        }
+                    </style>
                 </div>
                 <button type="submit"
                     class="btn btn-primary">Simpan</button>
             </form>
+            <br>
+            <div class="alert alert-info">
+                Lihat disini untuk hasil nya
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 200px;">Judul</th>
+                            <th>Line Produksi</th>
+                            <th>Deskripsi</th>
+                            <th style="width: 150px;">Pdf</th>
+                            <th>Video</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($tutorialmesins as $tms)
+                            <tr>
+                                <td>{{ $tms->title }}</td>
+                                <td>{{ $tms->lineproduksi->name }}</td>
+                                <td>{{ $tms->deskripsi }}</td>
+                                <td><a href="{{ asset($tms->file) }}"
+                                        class="btn btn-warning"
+                                        target="_blank">Lihat File</a></td>
+                                <td>{!! $tms->video !!}</td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a class="btn btn-warning"
+                                            href="{{ route('mesin.file', $mesin->id) }}?lineproduksi={{ $tms->lineproduksi->id }}&line={{ $tms->lineproduksi->id }}&tutorialmesin={{ $tms->id }}">Edit</a>
+                                        <button class="btn btn-danger delete-data"
+                                            data-url="{{ route('mesin.lessondelete', $tms->id) }}"
+                                            data-id="{{ $tms->id }}">Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+    @include('pages.partials.delete')
     @push('scripts')
         <script>
             $("#selectAll").click(function() {

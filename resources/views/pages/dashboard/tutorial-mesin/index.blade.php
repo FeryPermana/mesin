@@ -50,11 +50,32 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label for="title"
+                        class="form-label">Judul</label>
+                    <select name="title"
+                        required
+                        id="tutorialmesin"
+                        class="form-control @error('tutorialmesin') border-danger @enderror"
+                        onchange="this.form.submit()">
+                        <option value=""
+                            selected
+                            disabled>-- Pilih Judul --</option>
+                        @foreach ($tutorialmesin as $tm)
+                            <option value="{{ $tm->title }}"
+                                {{ @$_GET['title'] == $tm->title ? 'selected' : '' }}>{{ $tm->title }}</option>
+                        @endforeach
+                    </select>
+                    @error('tutorialmesin')
+                        <div id="tutorialmesin"
+                            class="form-text text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
             </form>
 
-            @if (@$_GET['mesinkey'] && @$_GET['lineproduksi'])
+            @if (@$_GET['mesinkey'] && @$_GET['lineproduksi'] && @$_GET['title'])
                 <div class="mb-3">
-                    <a href="{{ asset(@$tutorialmesin->file) }}"
+                    <a href="{{ asset(@$tutorial->file) }}"
                         class="btn btn-success"
                         target="_blank">Tutorial PDF</a>
                 </div>
@@ -65,11 +86,11 @@
                             height: 400px;
                         }
                     </style>
-                    {!! @$tutorialmesin->video !!}
+                    {!! @$tutorial->video !!}
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Deskripsi</label>
-                    <p>{{ @$tutorialmesin->deskripsi }}</p>
+                    <p>{{ @$tutorial->deskripsi }}</p>
                 </div>
             @endif
         </div>

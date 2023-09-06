@@ -47,6 +47,8 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('report-presensi', ReportPresensiController::class)->middleware(['auth', 'role:1,2']);
     Route::get('/mesin/{id}/file', [MesinController::class, 'file'])->name('mesin.file')->middleware(['auth', 'role:1,2']);
     Route::put('/mesin/{id}/lesson', [MesinController::class, 'lesson'])->name('mesin.lesson')->middleware(['auth', 'role:1,2']);
+    Route::put('/mesin/{id}/lessonupdate', [MesinController::class, 'lessonupdate'])->name('mesin.lessonupdate')->middleware(['auth', 'role:1,2']);
+    Route::delete('/mesin/{id}/lessondelete', [MesinController::class, 'lessondelete'])->name('mesin.lessondelete')->middleware(['auth', 'role:1,2']);
     Route::resource('lokasi', LokasiController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('user', UserController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('shift', ShiftController::class)->middleware(['auth', 'role:1']);

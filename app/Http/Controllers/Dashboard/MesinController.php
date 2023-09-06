@@ -203,65 +203,104 @@ class MesinController extends Controller
     public function file(string $id)
     {
         $method = "update";
-        $url = route('mesin.lesson', $id);
+        if (@$_GET['line']) {
+            $url = route('mesin.lessonupdate', $id);
+        } else {
+            $url = route('mesin.lesson', $id);
+        }
         $mesin = Mesin::findOrFail($id);
-        $tutorialmesin = TutorialMesin::where('mesin_id', $mesin->id)->where('lineproduksi_id', @$_GET['lineproduksi'])->first();
+        $tutorialmesin = TutorialMesin::where('id', @$_GET['tutorialmesin'])->first();
+        $tutorialmesins = TutorialMesin::where('mesin_id', $mesin->id)->where('lineproduksi_id', @$_GET['lineproduksi'])->get();
         $lineproduksi = DB::table('lineproduksi')
             ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
             ->select('lineproduksi.*', 'lineproduksi.name')
             ->where('hasline.mesin_id', $mesin->id)
             ->get();
 
-        return view('pages.dashboard.mesin.lesson', compact('method', 'url', 'mesin', 'lineproduksi', 'tutorialmesin'));
+        return view('pages.dashboard.mesin.lesson', compact('method', 'url', 'mesin', 'lineproduksi', 'tutorialmesin', 'tutorialmesins'));
     }
 
     public function lesson(Request $request, string $id)
     {
         // return $request->all();
         $request->validate([
+            'title' => 'required',
             'lineproduksi_id' => 'required',
             'deskripsi' => 'required',
             'video' => 'required',
             'file' => 'required|mimes:pdf',
         ]);
 
-        $tutorialmesin = TutorialMesin::where('lineproduksi_id', $request->lineproduksi_id)->where('mesin_id', $id)->first();
-        if ($tutorialmesin) {
-            $file = $request->hasFile('file') ? "" : $tutorialmesin->file;
-            if ($request->hasFile('file')) {
-                $image = $request->file;
-                $file = time() . $image->getClientOriginalName();
-                $image->move('file', $file);
+        $file = "";
+        if ($request->hasFile('file')) {
+            $image = $request->file;
+            $file = time() . $image->getClientOriginalName();
+            $image->move('file', $file);
 
-                $file = "file/" . $file;
-            }
-
-            TutorialMesin::whereId($tutorialmesin->id)->update([
-                'mesin_id' => $id,
-                'lineproduksi_id' => $request->lineproduksi_id,
-                'deskripsi' => $request->deskripsi,
-                'video' => $request->video,
-                'file' => $file,
-            ]);
-        } else {
-            $file = "";
-            if ($request->hasFile('file')) {
-                $image = $request->file;
-                $file = time() . $image->getClientOriginalName();
-                $image->move('file', $file);
-
-                $file = "file/" . $file;
-            }
-
-            TutorialMesin::create([
-                'mesin_id' => $id,
-                'lineproduksi_id' => $request->lineproduksi_id,
-                'deskripsi' => $request->deskripsi,
-                'video' => $request->video,
-                'file' => $file,
-            ]);
+            $file = "file/" . $file;
         }
 
-        return redirect()->back()->with('success', 'Berhasil mengupload tutorial');
+        $mesin = TutorialMesin::create([
+            'title' => $request->title,
+            'mesin_id' => $id,
+            'lineproduksi_id' => $request->lineproduksi_id,
+            'deskripsi' => $request->deskripsi,
+            'video' => $request->video,
+            'file' => $file,
+        ]);
+
+        return redirect('/dashboard/mesin/' . $id . '/file?lineproduksi=' . $mesin->lineproduksi_id)->with('success', 'Berhasil mengupload tutorial');
+    }
+
+    public function lessonupdate(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'lineproduksi_id' => 'required',
+            'deskripsi' => 'required',
+            'video' => 'required',
+            'file' => 'required|mimes:pdf',
+        ]);
+
+        $file = "";
+        if ($request->hasFile('file')) {
+            $image = $request->file;
+            $file = time() . $image->getClientOriginalName();
+            $image->move('file', $file);
+
+            $file = "file/" . $file;
+        }
+
+        $mesin = TutorialMesin::where('id', $request->tutorialmesin_id)->update([
+            'title' => $request->title,
+            'mesin_id' => $id,
+            'lineproduksi_id' => $request->lineproduksi_id,
+            'deskripsi' => $request->deskripsi,
+            'video' => $request->video,
+            'file' => $file,
+        ]);
+
+        return redirect('/dashboard/mesin/' . $id . '/file?lineproduksi=' . $request->lineproduksi_id)->with('success', 'Berhasil mengubah tutorial');
+    }
+
+    public function lessondelete($id)
+    {
+        try {
+            $tutorialmesin = TutorialMesin::findOrFail($id);
+
+            $tutorialmesin->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Delete tutorial success',
+            ]);
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Internal Server Error',
+            ]);
+
+            return back()->withInput();
+        }
     }
 }

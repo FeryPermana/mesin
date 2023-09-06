@@ -22,7 +22,8 @@ class TutorialMesinController extends Controller
                 ->select('lineproduksi.*', 'lineproduksi.name')
                 ->where('hasline.mesin_id', @$_GET['mesinkey'])
                 ->get(),
-            'tutorialmesin' => TutorialMesin::where('mesin_id', @$_GET['mesinkey'])->where('lineproduksi_id', @$_GET['lineproduksi'])->first(),
+            'tutorialmesin' => TutorialMesin::where('mesin_id', @$_GET['mesinkey'])->where('lineproduksi_id', @$_GET['lineproduksi'])->get(),
+            'tutorial' => TutorialMesin::where('title', @$_GET['title'])->first(),
         ];
 
         return view('pages.dashboard.tutorial-mesin.index', $data);
