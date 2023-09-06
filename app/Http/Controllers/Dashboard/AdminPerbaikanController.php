@@ -54,11 +54,19 @@ class AdminPerbaikanController extends Controller
         ];
 
         if (@$_GET['export-perbaikan']) {
-            toastr()->success('Berhasil export');
 
             // return $pdf->download('export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.pdf');
             return Excel::download(new PerbaikanExport($perbaikan), 'export perbaikan export ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.xlsx');
         }
         return view('pages.dashboard.perbaikan.show', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $perbaikan = Perbaikan::find($id);
+        $perbaikan->status = $request->status;
+        $perbaikan->update();
+
+        return response()->json('success');
     }
 }

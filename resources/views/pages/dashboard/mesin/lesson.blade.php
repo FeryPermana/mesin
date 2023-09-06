@@ -90,7 +90,7 @@
                                     class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        @if (@$_GET['lineproduksi'])
+                        @if (@$tutorialmesin->file)
                             <div class="mb-3">
                                 <a href="{{ asset(@$tutorialmesin->file) }}"
                                     class="btn btn-success btn-sm"

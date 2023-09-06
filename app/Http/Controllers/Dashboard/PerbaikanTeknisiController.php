@@ -102,6 +102,7 @@ class PerbaikanTeknisiController extends Controller
         $perbaikan = Perbaikan::findOrFail($id);
         $perbaikan->action = $request->action;
         $perbaikan->pergantian_spare = $request->pergantian_spare;
+        $perbaikan->teknisi_id = auth()->user()->id;
         $gambar = $perbaikan->gambar;
         if ($request->hasFile('gambar')) {
             $image = $request->gambar;

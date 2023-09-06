@@ -72,7 +72,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
     Route::resource('maintenance-downtime', MaintenanceDowntimeController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('request-perbaikan', AdminPerbaikanController::class)->middleware(['auth', 'role:1,2']);
-    Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth', 'role:3,5']);
+    Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth']);
     Route::resource('presensi', PresensiController::class)->middleware(['auth', 'role:3,5']);
 
     Route::resource('operator-perbaikan', PerbaikanOperatorController::class)->middleware(['auth', 'role:5']);

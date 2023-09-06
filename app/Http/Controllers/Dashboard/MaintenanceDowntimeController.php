@@ -68,7 +68,6 @@ class MaintenanceDowntimeController extends Controller
         ];
 
         if (@$_GET['export-downtime']) {
-            toastr()->success('Berhasil export');
 
             // return $pdf->download('export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.pdf');
             return Excel::download(new DowntimeExport($perawatan), 'export maintenance downtime ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . ' .xlsx');

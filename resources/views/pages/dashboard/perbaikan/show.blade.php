@@ -76,106 +76,134 @@
                     </div>
                 </form>
                 <br>
-                @if (@$_GET['lineproduksi'] && @$_GET['shift'])
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div style="width: 50px;">
+                                        Line
+                                    </div>
+                                </th>
+                                <th>
+                                    <div style="width: 60px;">
+                                        Lokasi
+                                    </div>
+                                </th>
+                                <th>
+                                    <div style="width: 60px;">
+                                        Shift
+                                    </div>
+                                </th>
+                                <th>
+                                    <div style="width: 70px;">
+                                        Tanggal Request
+                                    </div>
+                                </th>
+                                <th>
+                                    <div style="width: 200px;">
+                                        Tanggal Update
+                                    </div>
+                                </th>
+                                <th>
+                                    <div style="width: 200px;">
+                                        Lama Waktu
+                                    </div>
+                                </th>
+                                <th>
+                                    Operator
+                                </th>
+                                <th>
+                                    Teknisi
+                                </th>
+                                <th>
+                                    <div style="width: 200px;">
+                                        Action Perbaikan
+                                    </div>
+                                </th>
+                                <th>
+                                    <div style="width: 200px">
+                                        Pergantian Spare
+                                    </div>
+                                </th>
+                                <th>
+                                    <div style="width: 200px;">
+                                        Status
+                                    </div>
+                                </th>
+                                <th>Gambar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($perbaikan as $perb)
                                 <tr>
-                                    <th>
-                                        <div style="width: 50px;">
-                                            Line
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div style="width: 60px;">
-                                            Lokasi
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div style="width: 60px;">
-                                            Shift
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div style="width: 70px;">
-                                            Tanggal Request
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div style="width: 200px;">
-                                            Tanggal Update
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div style="width: 200px;">
-                                            Lama Waktu
-                                        </div>
-                                    </th>
-                                    <th>
-                                        Operator
-                                    </th>
-                                    <th>
-                                        Teknisi
-                                    </th>
-                                    <th>
-                                        <div style="width: 200px;">
-                                            Action Perbaikan
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div style="width: 200px">
-                                            Pergantian Spare
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div style="width: 200px;">
-                                            Status
-                                        </div>
-                                    </th>
-                                    <th>Gambar</th>
+                                    <td>{{ @$perb->lineproduksi->name }}</td>
+                                    <td>{{ @$perb->mesin->lokasi->lokasi }}</td>
+                                    <td>{{ @$perb->shift->name }}</td>
+                                    <td>{{ @$perb->tanggal_request }}</td>
+                                    <td>{{ @$perb->tanggal_update }}</td>
+                                    <td>{{ @$perb->lama_waktu }}</td>
+                                    <td>{{ @$perb->operator->name }}</td>
+                                    <td>{{ @$perb->teknisi->name }}</td>
+                                    <td>{{ @$perb->action }}</td>
+                                    <td>{{ @$perb->pergantian_spare }}</td>
+                                    <td>
+                                        <select name="status"
+                                            id="status"
+                                            class="form-control"
+                                            onchange="changestatus(`{{ $perb->id }}`)">
+                                            <option value="1"
+                                                {{ $perb->status == 1 ? 'selected' : '' }}>Open</option>
+                                            <option value="2"
+                                                {{ $perb->status == 2 ? 'selected' : '' }}>Closed</option>
+                                            <option value="3"
+                                                {{ $perb->status == 3 ? 'selected' : '' }}>Waiting</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <img src="{{ asset($perb->gambar) }}"
+                                            alt=""
+                                            width="100">
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($perbaikan as $perb)
-                                    <tr>
-                                        <td>{{ @$perb->lineproduksi->name }}</td>
-                                        <td>{{ @$perb->mesin->lokasi->lokasi }}</td>
-                                        <td>{{ @$perb->shift->name }}</td>
-                                        <td>{{ @$perb->tanggal_request }}</td>
-                                        <td>{{ @$perb->tanggal_update }}</td>
-                                        <td>{{ @$perb->lama_waktu }}</td>
-                                        <td>{{ @$perb->operator->name }}</td>
-                                        <td>{{ @$perb->teknisi->name }}</td>
-                                        <td>{{ @$perb->action }}</td>
-                                        <td>{{ @$perb->pergantian_spare }}</td>
-                                        <td>
-                                            @if (@$perb->status == 3)
-                                                Waiting
-                                            @elseif(@$perb->status == 2)
-                                                Closed
-                                            @else
-                                                Open
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <img src="{{ asset($perb->gambar) }}"
-                                                alt=""
-                                                width="100">
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @else
-                    <div class="alert alert-danger">
-                        <div class="text-center">
-                            Data belum ada silhakan pilih indikator lain
-                        </div>
-                    </div>
-                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function changestatus(perbaikan_id) {
+                var dataToSend = {
+                    status: $('#status').val(),
+                };
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{!! csrf_token() !!}',
+                    }
+                })
+
+                $.ajax({
+                    type: 'PUT',
+                    url: `{{ url('/dashboard/request-perbaikan/${perbaikan_id}') }}`,
+                    data: dataToSend,
+                    dataType: 'json',
+                    success: function(response) {
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: 'Berhasil mengubah status !!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                });
+            }
+        </script>
+    @endpush
 </x-admin-layout>
