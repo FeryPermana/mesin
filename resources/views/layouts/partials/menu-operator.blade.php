@@ -42,3 +42,14 @@
         <span class="hide-menu">Perawatan Harian</span>
     </a>
 </li>
+
+<li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('operator-perbaikan.*') ? 'active' : '' }}"
+        href="{{ route('operator-perbaikan.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-article"></i>
+        </span>
+        <span class="hide-menu">Permintaan Perbaikan</span>
+    </a>
+</li>

@@ -85,6 +85,16 @@
             <span class="hide-menu">Line Produksi</span>
         </a>
     </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('request-perbaikan.*') ? 'active' : '' }}"
+            href="{{ route('request-perbaikan.index') }}"
+            aria-expanded="false">
+            <span>
+                <i class="ti ti-star"></i>
+            </span>
+            <span class="hide-menu">Request Perbaikan</span>
+        </a>
+    </li>
     <li class="nav-small-cap">
         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
         <span class="hide-menu">REPORT</span>

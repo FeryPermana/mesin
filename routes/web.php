@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Dashboard\AdminPerbaikanController;
 use App\Http\Controllers\Dashboard\DowntimeController;
 use App\Http\Controllers\Dashboard\ExportController;
 use App\Http\Controllers\Dashboard\HarianController;
@@ -18,6 +19,8 @@ use App\Http\Controllers\Dashboard\OperatorDowntimeController;
 use App\Http\Controllers\Dashboard\PerawatanBulananController;
 use App\Http\Controllers\Dashboard\PerawatanController;
 use App\Http\Controllers\Dashboard\PerawatanMingguanController;
+use App\Http\Controllers\Dashboard\PerbaikanOperatorController;
+use App\Http\Controllers\Dashboard\PerbaikanTeknisiController;
 use App\Http\Controllers\Dashboard\PresensiController;
 use App\Http\Controllers\Dashboard\ProduksiController;
 use App\Http\Controllers\Dashboard\ReportPresensiController;
@@ -68,8 +71,12 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-bulanan', [MaintenanceBulananController::class, 'index'])->name('maintenance-bulanan.index')->middleware(['auth', 'role:1,2']);
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
     Route::resource('maintenance-downtime', MaintenanceDowntimeController::class)->middleware(['auth', 'role:1,2']);
+    Route::resource('request-perbaikan', AdminPerbaikanController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth', 'role:3,5']);
     Route::resource('presensi', PresensiController::class)->middleware(['auth', 'role:3,5']);
+
+    Route::resource('operator-perbaikan', PerbaikanOperatorController::class)->middleware(['auth', 'role:5']);
+    Route::resource('teknisi-perbaikan', PerbaikanTeknisiController::class)->middleware(['auth', 'role:3']);
 });
 
 
