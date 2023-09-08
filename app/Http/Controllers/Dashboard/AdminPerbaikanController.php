@@ -53,6 +53,17 @@ class AdminPerbaikanController extends Controller
             'shift' => $shift,
         ];
 
+        if (@$_GET['image']) {
+            return view('pages.dashboard.perbaikan.image', [
+                'lineproduksiname' => $lineproduksiname,
+                'shiftname' => $shiftname,
+                'lineproduksi' => $lineproduksi,
+                'shift' => $shift,
+                'perbaikan' => $perbaikan,
+                'mesin' => $mesin,
+            ]);
+        }
+
         if (@$_GET['export-perbaikan']) {
 
             // return $pdf->download('export maintenance harian ' . $mesin->name . ' ' . $shiftname . ' line ' . $lineproduksiname . '.pdf');

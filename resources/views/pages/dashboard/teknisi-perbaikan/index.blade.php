@@ -109,6 +109,11 @@
                                     Lama Waktu
                                 </div>
                             </th>
+                            <th>
+                                <div style="width: 200px">
+                                    Kerusakan
+                                </div>
+                            </th>
                             <th>Gambar</th>
                             <th>Aksi</th>
                         </tr>
@@ -134,13 +139,14 @@
                                     @endif
                                 </td>
                                 <td>{{ $perb->lama_waktu }}</td>
+                                <td>{{ $perb->downtime }}</td>
                                 <td>
                                     <img src="{{ asset($perb->gambar) }}"
                                         alt=""
                                         width="100">
                                 </td>
                                 <td>
-                                    <a href="{{ route('teknisi-perbaikan.edit', $perb->mesin->id) }}"
+                                    <a href="{{ route('teknisi-perbaikan.edit', $perb->id) }}"
                                         class="btn btn-warning">Edit</a>
                                 </td>
                             </tr>

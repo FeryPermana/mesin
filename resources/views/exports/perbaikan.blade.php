@@ -49,6 +49,11 @@
                     </div>
                 </th>
                 <th>
+                    <div style="width: 200px">
+                        Kerusakan
+                    </div>
+                </th>
+                <th>
                     <div style="width: 200px;">
                         Status
                     </div>
@@ -68,6 +73,7 @@
                     <td>{{ @$perb->teknisi->name }}</td>
                     <td>{{ @$perb->action }}</td>
                     <td>{{ @$perb->pergantian_spare }}</td>
+                    <td>{{ @$perb->downtime }}</td>
                     <td>
                         @if (@$perb->status == 3)
                             Waiting

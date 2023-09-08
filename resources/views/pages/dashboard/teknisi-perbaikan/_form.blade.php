@@ -8,7 +8,7 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('teknisi-perbaikan.update', $perbaikan->id) }}"
+            <form action="{{ route('teknisi-perbaikan.update', @$perbaikan->id) }}"
                 method="POST"
                 enctype="multipart/form-data">
                 @method('PUT')
@@ -27,7 +27,7 @@
                                     selected>-- Pilih Shift --</option>
                                 @foreach ($shift as $s)
                                     <option value="{{ $s->id }}"
-                                        {{ $perbaikan->shift_id == $s->id ? 'selected' : '' }}>{{ $s->name }}
+                                        {{ @$perbaikan->shift_id == $s->id ? 'selected' : '' }}>{{ $s->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -40,13 +40,13 @@
                         <div class="row"
                             id="checkline">
                             @foreach ($lineproduksi as $lp)
-                                @if ($perbaikan->lineproduksi_id == $lp->id)
+                                @if (@$perbaikan->lineproduksi_id == $lp->id)
                                     <div class="col-6 mb-2">
                                         <input type="radio"
                                             name="lineproduksi"
                                             disabled
                                             value="{{ $lp->id }}"
-                                            {{ $perbaikan->lineproduksi_id == $lp->id ? 'checked' : '' }}>
+                                            {{ @$perbaikan->lineproduksi_id == $lp->id ? 'checked' : '' }}>
                                         &nbsp;&nbsp;{{ $lp->name }}
                                     </div>
                                 @endif
@@ -63,7 +63,7 @@
                                 class="form-control @error('tanggal_request') border-danger @enderror"
                                 name="tanggal_request"
                                 disabled
-                                value="{{ $perbaikan->tanggal_request }}">
+                                value="{{ @$perbaikan->tanggal_request }}">
                             @error('tanggal_request')
                                 <div id="downtime"
                                     class="form-text text-danger">{{ $message }}</div>
@@ -72,11 +72,10 @@
                         <div class="mb-3">
                             <label for="tanggal_update"
                                 class="form-label">Tanggal Update <span class="text-danger">*</span></label>
-                            <input type="text"
-                                disabled
+                            <input type="datetime-local"
                                 class="form-control @error('tanggal_update') border-danger @enderror"
                                 name="tanggal_update"
-                                value="{{ $perbaikan->tanggal_update }}">
+                                value="{{ @$perbaikan->tanggal_update }}">
                             @error('tanggal_update')
                                 <div id="downtime"
                                     class="form-text text-danger">{{ $message }}</div>
@@ -88,7 +87,7 @@
                             <label for="action"
                                 class="form-label">Action Perbaikan <span class="text-danger">*</span></label>
                             <textarea class="form-control @error('action') border-danger @enderror"
-                                name="action">{{ $perbaikan->action }}</textarea>
+                                name="action">{{ @$perbaikan->action }}</textarea>
                             @error('action')
                                 <div id="downtime"
                                     class="form-text text-danger">{{ $message }}</div>
@@ -100,7 +99,7 @@
                             <input type="text"
                                 class="form-control @error('pergantian_spare') border-danger @enderror"
                                 name="pergantian_spare"
-                                value="{{ $perbaikan->pergantian_spare }}">
+                                value="{{ @$perbaikan->pergantian_spare }}">
                             @error('pergantian_spare')
                                 <div id="downtime"
                                     class="form-text text-danger">{{ $message }}</div>
@@ -116,7 +115,7 @@
                                 <input type="file"
                                     name="gambar"
                                     class="dropify"
-                                    data-default-file="{{ asset($perbaikan->gambar) }}">
+                                    data-default-file="{{ asset(@$perbaikan->gambar) }}">
                                 @error('gambar')
                                     <div class="invalid-feedback d-block">
                                         {{ $message }}

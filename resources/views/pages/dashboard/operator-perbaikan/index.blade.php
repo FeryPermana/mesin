@@ -81,39 +81,18 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="tanggal_request"
-                                class="form-label">Tanggal Request <span class="text-danger">*</span></label>
-                            <input type="datetime-local"
-                                class="form-control @error('tanggal_request') border-danger @enderror"
-                                name="tanggal_request">
-                            @error('tanggal_request')
-                                <div id="downtime"
-                                    class="form-text text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="tanggal_update"
-                                class="form-label">Tanggal Update <span class="text-danger">*</span></label>
-                            <input type="datetime-local"
-                                class="form-control @error('tanggal_update') border-danger @enderror"
-                                name="tanggal_update">
-                            @error('tanggal_update')
+                            <label for="downtime"
+                                class="form-label">Downtime / Kerusakan <span class="text-danger">*</span></label>
+                            <input type="text"
+                                class="form-control @error('downtime') border-danger @enderror"
+                                name="downtime">
+                            @error('downtime')
                                 <div id="downtime"
                                     class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="action"
-                                class="form-label">Action Perbaikan <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('action') border-danger @enderror"
-                                name="action"> </textarea>
-                            @error('action')
-                                <div id="downtime"
-                                    class="form-text text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
                         <div class="mb-3">
                             <label for="pergantian_spare"
                                 class="form-label">Pergantian Spare <span class="text-danger">*</span></label>
@@ -126,6 +105,17 @@
                             @enderror
                         </div>
                         <div class="mb-3">
+                            <label for="tanggal_request"
+                                class="form-label">Tanggal Request <span class="text-danger">*</span></label>
+                            <input type="datetime-local"
+                                class="form-control @error('tanggal_request') border-danger @enderror"
+                                name="tanggal_request">
+                            @error('tanggal_request')
+                                <div id="downtime"
+                                    class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <div class="form-group">
                                 <label>Gambar
                                     <br>
@@ -133,10 +123,10 @@
                                         5MB</small>
                                 </label>
                                 <input type="file"
-                                    name="gambar"
+                                    name="operator_gambar"
                                     class="dropify"
                                     data-default-file="file">
-                                @error('gambar')
+                                @error('operator_gambar')
                                     <div class="invalid-feedback d-block">
                                         {{ $message }}
                                     </div>
@@ -232,23 +222,8 @@
                                 </div>
                             </th>
                             <th>
-                                <div style="width: 200px;">
-                                    Tanggal Update
-                                </div>
-                            </th>
-                            <th>
-                                <div style="width: 200px;">
-                                    Action Perbaikan
-                                </div>
-                            </th>
-                            <th>
-                                <div style="width: 200px">
-                                    Pergantian Spare
-                                </div>
-                            </th>
-                            <th>
-                                <div style="width: 200px">
-                                    Lama Waktu
+                                <div style="width: 70px;">
+                                    Kerusakan
                                 </div>
                             </th>
                             <th>Gambar</th>
@@ -262,12 +237,9 @@
                                 <td>{{ $perb->mesin->lokasi->lokasi }}</td>
                                 <td>{{ $perb->shift->name }}</td>
                                 <td>{{ $perb->tanggal_request }}</td>
-                                <td>{{ $perb->tanggal_update }}</td>
-                                <td>{{ $perb->action }}</td>
-                                <td>{{ $perb->pergantian_spare }}</td>
-                                <td>{{ $perb->lama_waktu }}</td>
+                                <td>{{ $perb->downtime }}</td>
                                 <td>
-                                    <img src="{{ asset($perb->gambar) }}"
+                                    <img src="{{ asset($perb->operator_gambar) }}"
                                         alt=""
                                         width="100">
                                 </td>

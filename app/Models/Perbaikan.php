@@ -24,7 +24,9 @@ class Perbaikan extends Model
         'action',
         'pergantian_spare',
         'status',
-        'gambar'
+        'gambar',
+        'operator_gambar',
+        'kerusakan'
     ];
 
     public function operator()

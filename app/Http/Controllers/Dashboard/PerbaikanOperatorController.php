@@ -32,7 +32,7 @@ class PerbaikanOperatorController extends Controller
         $jenisdowntime = Downtime::all();
         $jamkerja = JamKerja::all();
 
-        $perbaikan = Perbaikan::where('mesin_id', @$_GET['mesin'])->where('shift_id', @$_GET['shift'])->where('lineproduksi_id', @$_GET['lineproduksi'])->where('operator_id', auth()->user()->id)->get();
+        $perbaikan = Perbaikan::filter(request())->where('operator_id', auth()->user()->id)->get();
 
         $data = [
             'perbaikan' => $perbaikan,
@@ -55,10 +55,6 @@ class PerbaikanOperatorController extends Controller
             'shift' => 'required',
             'lineproduksi' => 'required',
             'tanggal_request' => 'required',
-            'tanggal_update' => 'required',
-            'action' => 'required',
-            'pergantian_spare' => 'required',
-            'gambar' => 'required'
         ]);
 
         // Tanggal dan waktu mulai dalam format datetime
@@ -76,21 +72,20 @@ class PerbaikanOperatorController extends Controller
         $perbaikan->lineproduksi_id = $request->lineproduksi;
         $perbaikan->operator_id = auth()->user()->id;
         $perbaikan->tanggal_request = $request->tanggal_request;
-        $perbaikan->tanggal_update = $request->tanggal_update;
-        $perbaikan->action = $request->action;
-        $perbaikan->pergantian_spare = $request->pergantian_spare;
+        $perbaikan->downtime = $request->downtime;
         $perbaikan->status = 3;
         $perbaikan->lama_waktu = $timeDifference->format('%a hari, %h jam, %i menit, %s detik');
-        $gambar = "";
-        if ($request->hasFile('gambar')) {
-            $image = $request->gambar;
-            $gambar = time() . $image->getClientOriginalName();
-            $image->move('upload/perbaikan', $gambar);
 
-            $gambar = "upload/perbaikan/" . $gambar;
+        $operator_gambar = $perbaikan->operator_gambar;
+        if ($request->hasFile('operator_gambar')) {
+            $image = $request->operator_gambar;
+            $operator_gambar = time() . $image->getClientOriginalName();
+            $image->move('upload/perbaikan', $operator_gambar);
+
+            $operator_gambar = "upload/perbaikan/" . $operator_gambar;
         }
 
-        $perbaikan->gambar = $gambar;
+        $perbaikan->operator_gambar = $operator_gambar;
         $perbaikan->save();
 
         return redirect('/dashboard/operator-perbaikan?mesinkey=' . $perbaikan->mesin_id . '&mesin=' . $perbaikan->mesin_id . '&shift=' . $perbaikan->shift_id . '&lineproduksi=' . $perbaikan->lineproduksi_id)->with('success', 'berhasil');

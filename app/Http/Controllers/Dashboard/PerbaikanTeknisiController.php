@@ -8,6 +8,7 @@ use App\Models\Lokasi;
 use App\Models\Mesin;
 use App\Models\Perbaikan;
 use App\Models\Shift;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -97,12 +98,24 @@ class PerbaikanTeknisiController extends Controller
         $request->validate([
             'action' => 'required',
             'pergantian_spare' => 'required',
+            'tanggal_update' => 'required',
         ]);
+
 
         $perbaikan = Perbaikan::findOrFail($id);
         $perbaikan->action = $request->action;
         $perbaikan->pergantian_spare = $request->pergantian_spare;
+        $perbaikan->tanggal_update = $request->tanggal_update;
+        $startDate = new DateTime($perbaikan->tanggal_request); // Ganti dengan tanggal dan waktu mulai yang sesuai
+
+        // Tanggal dan waktu selesai dalam format datetime
+        $endDate = new DateTime($request->tanggal_update); // Ganti dengan tanggal dan waktu selesai yang sesuai
+
+        // Menghitung selisih waktu
+        $timeDifference = $startDate->diff($endDate);
         $perbaikan->teknisi_id = auth()->user()->id;
+
+        $perbaikan->lama_waktu = $timeDifference->format('%a hari, %h jam, %i menit, %s detik');
         $gambar = $perbaikan->gambar;
         if ($request->hasFile('gambar')) {
             $image = $request->gambar;
