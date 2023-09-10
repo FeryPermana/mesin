@@ -40,7 +40,6 @@
                             @endforeach
                         </select>
                     </div>
-
                     <div class="col-md-5 ml-auto">
                         <div class="custom-search">
                             <input type="text"
@@ -64,10 +63,22 @@
                     </thead>
                     <tbody>
                         @forelse ($perbaikan as $per)
+                            @php
+                                $notif = App\Models\Perbaikan::where('mesin_id', $per[0]->mesin_id)
+                                    ->where('status', '1')
+                                    ->get()
+                                    ->count();
+                            @endphp
                             @if (auth()->user()->role != 1)
                                 @if (auth()->user()->lokasi_id == $per[0]->mesin->lokasi_id)
                                     <tr>
-                                        <td>{{ $per[0]->mesin->name }}</td>
+                                        <td>
+                                            <p>{{ $per[0]->mesin->name }} <a
+                                                    href="{{ route('request-perbaikan.show', $per[0]->mesin->id) }}"
+                                                    class="badge bg-danger ms-4"><i class="ti ti-bell-ringing"></i>
+                                                    &nbsp; {{ $notif }}</a>
+                                            </p>
+                                        </td>
                                         <td>{{ $per[0]->mesin->merk }}</td>
                                         <td>{{ $per[0]->mesin->lokasi->lokasi }}</td>
                                         <td>{{ $per[0]->mesin->tahun_pembuatan }}</td>
@@ -80,7 +91,13 @@
                                 @endif
                             @else
                                 <tr>
-                                    <td>{{ $per[0]->mesin->name }}</td>
+                                    <td>
+                                        <p>{{ $per[0]->mesin->name }} <a
+                                                href="{{ route('request-perbaikan.show', $per[0]->mesin->id) }}"
+                                                class="badge bg-danger ms-4"><i class="ti ti-bell-ringing"></i> &nbsp;
+                                                {{ $notif }}</a>
+                                        </p>
+                                    </td>
                                     <td>{{ $per[0]->mesin->merk }}</td>
                                     <td>{{ $per[0]->mesin->lokasi->lokasi }}</td>
                                     <td>{{ $per[0]->mesin->tahun_pembuatan }}</td>

@@ -53,3 +53,13 @@
         <span class="hide-menu">Permintaan Perbaikan</span>
     </a>
 </li>
+<li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('monitoring-suhu.*') ? 'active' : '' }}"
+        href="{{ route('monitoring-suhu.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-aperture"></i>
+        </span>
+        <span class="hide-menu">Monitoring Suhu</span>
+    </a>
+</li>

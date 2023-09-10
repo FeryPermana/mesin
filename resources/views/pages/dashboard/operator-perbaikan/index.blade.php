@@ -94,17 +94,6 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="pergantian_spare"
-                                class="form-label">Pergantian Spare <span class="text-danger">*</span></label>
-                            <input type="text"
-                                class="form-control @error('pergantian_spare') border-danger @enderror"
-                                name="pergantian_spare">
-                            @error('pergantian_spare')
-                                <div id="downtime"
-                                    class="form-text text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
                             <label for="tanggal_request"
                                 class="form-label">Tanggal Request <span class="text-danger">*</span></label>
                             <input type="datetime-local"

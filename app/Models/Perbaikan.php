@@ -67,6 +67,11 @@ class Perbaikan extends Model
                 $query->where('teknisi_id', $params->teknisi);
             });
         }
+        if (@$params->status) {
+            $query->where(function ($query) use ($params) {
+                $query->where('status', $params->status);
+            });
+        }
 
         if (@$params->shift) {
             $query->where(function ($query) use ($params) {

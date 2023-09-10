@@ -95,6 +95,16 @@
             <span class="hide-menu">Request Perbaikan</span>
         </a>
     </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('report-suhu.*') ? 'active' : '' }}"
+            href="{{ route('report-suhu.index') }}"
+            aria-expanded="false">
+            <span>
+                <i class="ti ti-aperture"></i>
+            </span>
+            <span class="hide-menu">Monitoring Suhu</span>
+        </a>
+    </li>
     <li class="nav-small-cap">
         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
         <span class="hide-menu">REPORT</span>
@@ -139,7 +149,7 @@
             <span class="hide-menu">Maintenance Mingguan</span>
         </a>
     </li>
-    <li class="sidebar-item">
+    <li class="sidebar-item mb-5">
         <a class="sidebar-link {{ request()->routeIs('maintenance-bulanan.*') ? 'active' : '' }}"
             href="{{ route('maintenance-bulanan.index') }}"
             aria-expanded="false">

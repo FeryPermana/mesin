@@ -15,6 +15,7 @@ use App\Http\Controllers\Dashboard\MaintenanceDowntimeController;
 use App\Http\Controllers\Dashboard\MaintenanceHarianController;
 use App\Http\Controllers\Dashboard\MaintenanceMingguanController;
 use App\Http\Controllers\Dashboard\MesinController;
+use App\Http\Controllers\Dashboard\MonitoringSuhuController;
 use App\Http\Controllers\Dashboard\OperatorDowntimeController;
 use App\Http\Controllers\Dashboard\PerawatanBulananController;
 use App\Http\Controllers\Dashboard\PerawatanController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Dashboard\PerbaikanTeknisiController;
 use App\Http\Controllers\Dashboard\PresensiController;
 use App\Http\Controllers\Dashboard\ProduksiController;
 use App\Http\Controllers\Dashboard\ReportPresensiController;
+use App\Http\Controllers\Dashboard\ReportSuhuController;
 use App\Http\Controllers\Dashboard\ShiftController;
 use App\Http\Controllers\Dashboard\TeknisiDowntimeController;
 use App\Http\Controllers\Dashboard\TutorialMesinController;
@@ -44,6 +46,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/dashboard')->group(function () {
     Route::resource('mesin', MesinController::class)->middleware(['auth', 'role:1,2']);
+    Route::resource('report-suhu', ReportSuhuController::class)->middleware(['auth', 'role:1']);
     Route::resource('report-presensi', ReportPresensiController::class)->middleware(['auth', 'role:1,2']);
     Route::get('/mesin/{id}/file', [MesinController::class, 'file'])->name('mesin.file')->middleware(['auth', 'role:1,2']);
     Route::put('/mesin/{id}/lesson', [MesinController::class, 'lesson'])->name('mesin.lesson')->middleware(['auth', 'role:1,2']);
@@ -76,6 +79,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('request-perbaikan', AdminPerbaikanController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth']);
     Route::resource('presensi', PresensiController::class)->middleware(['auth', 'role:3,5']);
+    Route::resource('monitoring-suhu', MonitoringSuhuController::class)->middleware(['auth', 'role:5']);
 
     Route::resource('operator-perbaikan', PerbaikanOperatorController::class)->middleware(['auth', 'role:5']);
     Route::resource('teknisi-perbaikan', PerbaikanTeknisiController::class)->middleware(['auth', 'role:3']);

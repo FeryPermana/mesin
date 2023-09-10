@@ -14,6 +14,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <select name="shift"
+                                onchange="this.form.submit()"
                                 class="form-control custom-select">
                                 <option value=""
                                     selected>-- Shift --</option>
@@ -26,7 +27,8 @@
                         </div>
                         <div class="col-md-2">
                             <select name="lineproduksi"
-                                class="form-control custom-select">
+                                class="form-control custom-select"
+                                onchange="this.form.submit()">
                                 <option value=""
                                     selected>-- Line Produksi --</option>
                                 @foreach ($lineproduksi as $lps)
@@ -34,6 +36,26 @@
                                         {{ @$_GET['lineproduksi'] == $lps->id ? 'selected' : '' }}>
                                         {{ $lps->name }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3 pr-md-0 mb-3 mb-md-0">
+                            <select name="status"
+                                class="form-control custom-select"
+                                onchange="this.form.submit()">
+                                <option value=""
+                                    selected>Status</option>
+                                <option value="1"
+                                    {{ @$_GET['status'] == 1 ? 'selected' : '' }}>
+                                    Open
+                                </option>
+                                <option value="2"
+                                    {{ @$_GET['status'] == 1 ? 'selected' : '' }}>
+                                    Closed
+                                </option>
+                                <option value="3"
+                                    {{ @$_GET['status'] == 1 ? 'selected' : '' }}>
+                                    Waiting
+                                </option>
                             </select>
                         </div>
                         {{-- <div class="col-md-2">
@@ -64,8 +86,6 @@
                             </select>
                         </div> --}}
                         <div class="col-md-4">
-                            <button type="submit"
-                                class="btn btn-primary">Filter</button>
                             <a href="{{ route('request-perbaikan.show', $mesin->id) }}?export-perbaikan=1&shift={{ @$_GET['shift'] }}&lineproduksi={{ @$_GET['lineproduksi'] }}"
                                 class="btn btn-success">Excel</a>
                             <button type="submit"
