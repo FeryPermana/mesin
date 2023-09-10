@@ -80,4 +80,15 @@ class AdminPerbaikanController extends Controller
 
         return response()->json('success');
     }
+
+    public function print($id)
+    {
+        toastr()->success('Ctrl + Shift + p untuk print');
+
+        $perbaikan = Perbaikan::find($id);
+
+        return view('pages.dashboard.perbaikan.preview', [
+            'perbaikan' => $perbaikan,
+        ]);
+    }
 }

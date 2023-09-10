@@ -60,7 +60,6 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('jenis-kegiatan', JenisKegiatanController::class)->middleware(['auth', 'role:1']);
     Route::resource('line-produksi', LineproduksiController::class)->middleware(['auth', 'role:1']);
     Route::resource('teknisi-downtime', TeknisiDowntimeController::class)->middleware(['auth', 'role:3']);
-    Route::resource('operator-downtime', OperatorDowntimeController::class)->middleware(['auth', 'role:5']);
     Route::resource('produksi', ProduksiController::class)->middleware(['auth', 'role:4']);
     Route::get('/perawatan', [PerawatanController::class, 'index'])->name('perawatan.index')->middleware(['auth', 'role:5']);
     Route::post('/perawatan', [PerawatanController::class, 'store'])->name('perawatan.store')->middleware(['auth', 'role:5']);
@@ -77,6 +76,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
     Route::resource('maintenance-downtime', MaintenanceDowntimeController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('request-perbaikan', AdminPerbaikanController::class)->middleware(['auth', 'role:1,2']);
+    Route::get('/request-perbaikan-print/{id}', [AdminPerbaikanController::class, 'print'])->name('request-perbaikan.print')->middleware(['auth', 'role:1,2']);
     Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth']);
     Route::resource('presensi', PresensiController::class)->middleware(['auth', 'role:3,5']);
     Route::resource('monitoring-suhu', MonitoringSuhuController::class)->middleware(['auth', 'role:5']);

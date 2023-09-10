@@ -58,6 +58,7 @@
                                 </option>
                             </select>
                         </div>
+
                         {{-- <div class="col-md-2">
                             <select name="bulan"
                                 class="form-control custom-select">
@@ -157,6 +158,7 @@
                                     </div>
                                 </th>
                                 <th>Gambar</th>
+                                <th>Print</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -190,6 +192,10 @@
                                         <img src="{{ asset($perb->gambar) }}"
                                             alt=""
                                             width="100">
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('request-perbaikan.print', @$perb->id) }}"
+                                            class="btn btn-warning">Print</a>
                                     </td>
                                 </tr>
                             @endforeach

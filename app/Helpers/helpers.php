@@ -43,3 +43,12 @@ function bulanSaatIni()
 
     return $currentMonthString;
 }
+
+function getPukul($datetime)
+{
+    if ($datetime instanceof DateTime) {
+        return $datetime->format('H:i'); // Format H:i akan menghasilkan pukul (jam:menit)
+    } else {
+        return ''; // Handle jika $datetime bukan instance dari DateTime
+    }
+}
