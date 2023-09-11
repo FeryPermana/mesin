@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\LineProduksi;
 use App\Models\MonitoringSuhu;
+use App\Models\Shift;
 use Illuminate\Http\Request;
 
 class MonitoringSuhuController extends Controller
@@ -15,7 +17,10 @@ class MonitoringSuhuController extends Controller
     {
         $monitoringsuhu = MonitoringSuhu::where('operator_id', auth()->user()->id)->get();
 
-        return view('pages.dashboard.suhu.index', compact('monitoringsuhu'));
+        $lineproduksi = LineProduksi::all();
+        $shift = Shift::all();
+
+        return view('pages.dashboard.suhu.index', compact('monitoringsuhu', 'lineproduksi', 'shift'));
     }
 
     /**
@@ -36,10 +41,15 @@ class MonitoringSuhuController extends Controller
             'suhu' => 'required',
             'rh' => 'required',
             'keterangan' => 'required',
+            'lineproduksi' => 'required',
+            'shift_id'
         ]);
 
         $data = $request->all();
         $data['operator_id'] = auth()->user()->id;
+        $data['lineproduksi_id'] = $request->lineproduksi;
+        $data['shift_id'] = $request->shift;
+
 
         MonitoringSuhu::create($data);
         return redirect()->back()->with('success', 'Berhasil !!!');

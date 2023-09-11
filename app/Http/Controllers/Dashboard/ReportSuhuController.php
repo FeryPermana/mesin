@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\LineProduksi;
 use App\Models\MonitoringSuhu;
+use App\Models\Shift;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,6 +18,8 @@ class ReportSuhuController extends Controller
     {
         $monitoringsuhu = MonitoringSuhu::filter(request())->paginate(10);
         $operators = User::whereRole('5')->get();
+        $lineproduksi = LineProduksi::all();
+        $shift = Shift::all();
 
         if (@$_GET['print']) {
             toastr()->success('Ctrl + Shift + p untuk print');
@@ -26,7 +30,7 @@ class ReportSuhuController extends Controller
             ]);
         }
 
-        return view('pages.dashboard.report-suhu.index', compact('monitoringsuhu', 'operators'));
+        return view('pages.dashboard.report-suhu.index', compact('monitoringsuhu', 'operators', 'lineproduksi', 'shift'));
     }
 
     /**

@@ -56,6 +56,45 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
+                            <label for="shift"
+                                class="form-label">Shift</label>
+                            <select name="shift"
+                                id="shift"
+                                class="form-control @error('shift') border-danger @enderror">
+                                <option value=""
+                                    selected
+                                    disabled>-- Pilih Shift --</option>
+                                @foreach ($shift as $s)
+                                    <option value="{{ $s->id }}"
+                                        {{ old('shift') == $s->id ? 'selected' : '' }}>{{ $s->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('shift')
+                                <div id="shift"
+                                    class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="lineproduksi"
+                                class="form-label">Line Produksi</label>
+                            <select name="lineproduksi"
+                                id="lineproduksi"
+                                class="form-control @error('lineproduksi') border-danger @enderror">
+                                <option value=""
+                                    selected
+                                    disabled>-- Pilih Line Produksi --</option>
+                                @foreach ($lineproduksi as $l)
+                                    <option value="{{ $l->id }}"
+                                        {{ old('lineproduksi') == $l->id ? 'selected' : '' }}>{{ $l->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('lineproduksi')
+                                <div id="lineproduksi"
+                                    class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label for="keterangan"
                                 class="form-label">Keterangan</label>
                             <textarea name="keterangan"

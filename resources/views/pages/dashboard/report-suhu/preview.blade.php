@@ -98,7 +98,7 @@
                     style="border-color: white;">
                     <tr>
                         @php
-                            $date = new DateTime($pengerjaan[0]->tanggal ?? '');
+                            $date = new DateTime($monitoringsuhu[0]->tanggal ?? '');
                             $monthYearString = generateMonthYearStringFromDate($date);
                         @endphp
                         <td>Bulan</td>
@@ -106,9 +106,14 @@
                         <td>{{ @$_GET['bulan'] }} {{ @$_GET['tahun'] }}</td>
                     </tr>
                     <tr>
-                        <td>Lokasi</td>
+                        <td>Shift</td>
                         <td>:</td>
-                        <td>AMDK 1</td>
+                        <td>{{ @$monitoringsuhu[0]->shift->name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Line Produksi</td>
+                        <td>:</td>
+                        <td>{{ @$monitoringsuhu[0]->lineproduksi->name }}</td>
                     </tr>
                 </table>
             </div>

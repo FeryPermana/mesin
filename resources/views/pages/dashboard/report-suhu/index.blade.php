@@ -10,7 +10,7 @@
             </div>
             <form>
                 <div class="row my-5">
-                    <div class="col-2 pr-md-0 mb-3 mb-md-0">
+                    <div class="col-2 mt-2">
                         @php
                             $rows = [10, 50, 100, 500];
                         @endphp
@@ -26,7 +26,7 @@
                         </select>
                     </div>
 
-                    <div class="col-3 pr-md-0 mb-3 mb-md-0">
+                    <div class="col-3 mt-2">
                         <select name="operator"
                             class="form-control custom-select"
                             onchange="this.form.submit()">
@@ -41,7 +41,37 @@
                         </select>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-3 mt-2">
+                        <select name="lineproduksi"
+                            class="form-control custom-select"
+                            onchange="this.form.submit()">
+                            <option value=""
+                                selected>Line Produksi</option>
+                            @foreach ($lineproduksi as $lp)
+                                <option value="{{ $lp->id }}"
+                                    {{ @$_GET['lp'] == $lp->id ? 'selected' : '' }}>
+                                    {{ $lp->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-3 mt-2">
+                        <select name="shift"
+                            class="form-control custom-select"
+                            onchange="this.form.submit()">
+                            <option value=""
+                                selected>Shift</option>
+                            @foreach ($shift as $shift)
+                                <option value="{{ $shift->id }}"
+                                    {{ @$_GET['shift'] == $shift->id ? 'selected' : '' }}>
+                                    {{ $shift->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-3 mt-2">
                         <select name="bulan"
                             class="form-control custom-select"
                             onchange="this.form.submit()">
@@ -54,7 +84,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-3 mt-2">
                         <select name="tahun"
                             class="form-control custom-select"
                             onchange="this.form.submit()">
@@ -70,7 +100,7 @@
                             @endfor
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-2 mt-2">
                         <button class="btn btn-warning"
                             onclick="this.form.submit()"
                             name="print"

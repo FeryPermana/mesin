@@ -12,6 +12,8 @@ class MonitoringSuhu extends Model
     protected $table = "monitoring_suhu";
     protected $fillable = [
         'tanggal',
+        'lineproduksi_id',
+        'shift_id',
         'suhu',
         'rh',
         'keterangan',
@@ -21,6 +23,16 @@ class MonitoringSuhu extends Model
     public function operator()
     {
         return $this->belongsTo(User::class, 'operator_id');
+    }
+
+    public function lineproduksi()
+    {
+        return $this->belongsTo(LineProduksi::class);
+    }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
     }
 
     public function scopeFilter($query, $params)
@@ -36,6 +48,18 @@ class MonitoringSuhu extends Model
         if (@$params->operator) {
             $query->where(function ($query) use ($params) {
                 $query->where('operator_id', 'LIKE', '%' . $params->operator . '%');
+            });
+        }
+
+        if (@$params->lineproduksi) {
+            $query->where(function ($query) use ($params) {
+                $query->where('lineproduksi_id', 'LIKE', '%' . $params->lineproduksi . '%');
+            });
+        }
+
+        if (@$params->shift) {
+            $query->where(function ($query) use ($params) {
+                $query->where('shift_id', 'LIKE', '%' . $params->shift . '%');
             });
         }
 
