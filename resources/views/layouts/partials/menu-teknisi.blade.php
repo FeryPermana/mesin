@@ -33,6 +33,16 @@
     </a>
 </li>
 <li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('teknisi-sparepart.*') ? 'active' : '' }}"
+        href="{{ route('teknisi-sparepart.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-tool"></i>
+        </span>
+        <span class="hide-menu">Spare Part</span>
+    </a>
+</li>
+<li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('perawatan-mingguan.*') ? 'active' : '' }}"
         href="{{ route('perawatan-mingguan.index') }}"
         aria-expanded="false">

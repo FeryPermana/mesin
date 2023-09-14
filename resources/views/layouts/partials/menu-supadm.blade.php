@@ -66,6 +66,16 @@
         </a>
     </li>
     <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('sparepart.*') ? 'active' : '' }}"
+            href="{{ route('sparepart.index') }}"
+            aria-expanded="false">
+            <span>
+                <i class="ti ti-tool"></i>
+            </span>
+            <span class="hide-menu">Spare Part</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
         <a class="sidebar-link {{ request()->routeIs('jenis-kegiatan.*') ? 'active' : '' }}"
             href="{{ route('jenis-kegiatan.index') }}"
             aria-expanded="false">

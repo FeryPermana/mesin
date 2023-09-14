@@ -27,7 +27,9 @@ use App\Http\Controllers\Dashboard\ProduksiController;
 use App\Http\Controllers\Dashboard\ReportPresensiController;
 use App\Http\Controllers\Dashboard\ReportSuhuController;
 use App\Http\Controllers\Dashboard\ShiftController;
+use App\Http\Controllers\Dashboard\SparepartController;
 use App\Http\Controllers\Dashboard\TeknisiDowntimeController;
+use App\Http\Controllers\Dashboard\TeknisiSparepartController;
 use App\Http\Controllers\Dashboard\TutorialMesinController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Models\Perawatan;
@@ -76,6 +78,10 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('maintenance-bulanan/{mesin_id}', [MaintenanceBulananController::class, 'show'])->name('maintenance-bulanan.show')->middleware(['auth', 'role:1,2']);
     Route::resource('maintenance-downtime', MaintenanceDowntimeController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('request-perbaikan', AdminPerbaikanController::class)->middleware(['auth', 'role:1,2']);
+
+    Route::resource('sparepart', SparepartController::class)->middleware(['auth', 'role:1']);
+    Route::resource('teknisi-sparepart', TeknisiSparepartController::class)->middleware(['auth', 'role:3']);
+
     Route::get('/request-perbaikan-print/{id}', [AdminPerbaikanController::class, 'print'])->name('request-perbaikan.print')->middleware(['auth', 'role:1,2']);
     Route::resource('tutorial-mesin', TutorialMesinController::class)->middleware(['auth']);
     Route::resource('presensi', PresensiController::class)->middleware(['auth', 'role:3,5']);
