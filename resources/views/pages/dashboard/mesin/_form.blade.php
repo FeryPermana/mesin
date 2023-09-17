@@ -173,7 +173,8 @@
                                 class="btn {{ @$_GET['type'] == 'bulanan' ? 'btn-primary' : 'btn-outline-primary' }}">Bulanan</a>
                             <br><br>
                             <label class="form-label">Jenis Kegiatan</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered"
+                                id="selectJenisKegiatan">
                                 <tr>
                                     <td>
                                         <input type="checkbox"
@@ -213,7 +214,7 @@
     @push('scripts')
         <script>
             $("#selectAll").click(function() {
-                $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+                $("#selectJenisKegiatan input[type=checkbox]").prop('checked', $(this).prop('checked'));
             });
             $("#selectLine").click(function() {
                 $("#checkline input[type=checkbox]").prop('checked', $(this).prop('checked'));

@@ -10,11 +10,33 @@ class Sparepart extends Model
     use HasFactory;
 
     protected $table = 'sparepart';
-    protected $fillable = ['item', 'jumlah', 'tanggal_update', 'user_id', 'keterangan'];
+    protected $fillable = [
+        'item',
+        'jumlah',
+        'tanggal_update',
+        'user_id',
+        'keterangan',
+        'tanggal_masuk',
+        'kode_barang',
+        'stock',
+        'tanggal_keluar',
+        'lineproduksi_id',
+        'shift_id'
+    ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
+
+    public function lineproduksi()
+    {
+        return $this->belongsTo(LineProduksi::class);
     }
 
     public function scopeFilter($query, $params)

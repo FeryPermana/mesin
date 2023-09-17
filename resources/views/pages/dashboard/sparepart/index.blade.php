@@ -41,13 +41,18 @@
                 </div>
             </form>
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered"
+                    style="width: max-content;">
                     <thead>
                         <th>No</th>
-                        <th>Item</th>
-                        <th>jumlah</th>
-                        <th>Tanggal Update</th>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Tanggal Update Masuk</th>
+                        <th>Stock Update</th>
+                        <th>Shift</th>
+                        <th>Alokasi Line</th>
                         <th>Teknisi Update</th>
+                        <th>Tanggal Update Keluar</th>
                         <th>Keterangan</th>
                         <th>Aksi</th>
                     </thead>
@@ -55,10 +60,14 @@
                         @forelse ($sparepart as $s)
                             <tr>
                                 <td>{{ increment($sparepart, $loop) }}</td>
+                                <td>{{ $s->kode_barang ?? '-' }}</td>
                                 <td>{{ $s->item ?? '-' }}</td>
-                                <td>{{ $s->jumlah ?? '-' }}</td>
-                                <td>{{ formatTanggalIndo($s->tanggal_update) }}</td>
+                                <td>{{ formatTanggalIndo($s->tanggal_masuk) }}</td>
+                                <td>{{ $s->stock ?? '-' }}</td>
+                                <td>{{ @$s->shift->name ?? '-' }}</td>
+                                <td>{{ @$s->lineproduksi->name ?? '-' }}</td>
                                 <td>{{ @$s->user->name ?? '-' }}</td>
+                                <td>{{ formatTanggalIndo($s->tanggal_keluar) }}</td>
                                 <td>{{ $s->keterangan ?? '-' }}</td>
                                 <td>
                                     <a href="{{ route('sparepart.edit', $s->id) }}"

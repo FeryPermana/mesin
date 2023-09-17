@@ -37,10 +37,16 @@ class SparepartController extends Controller
     {
         $request->validate([
             'item' => 'required',
+            'kode_barang' => 'required',
+            'stock' => 'required',
+            'tanggal_masuk',
         ]);
 
         $sparepart = new Sparepart();
         $sparepart->item = $request->item;
+        $sparepart->kode_barang = $request->kode_barang;
+        $sparepart->stock = $request->stock;
+        $sparepart->tanggal_masuk = $request->tanggal_masuk;
         $sparepart->save();
 
         return redirect()->route('sparepart.index')->with('success', 'Berhasil menambahkan');
@@ -73,10 +79,16 @@ class SparepartController extends Controller
     {
         $request->validate([
             'item' => 'required',
+            'kode_barang' => 'required',
+            'stock' => 'required',
+            'tanggal_masuk',
         ]);
 
         $sparepart = Sparepart::find($id);
         $sparepart->item = $request->item;
+        $sparepart->kode_barang = $request->kode_barang;
+        $sparepart->stock = $request->stock;
+        $sparepart->tanggal_masuk = $request->tanggal_masuk;
         $sparepart->save();
 
         return redirect()->route('sparepart.index')->with('success', 'Berhasil merubah');

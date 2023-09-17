@@ -150,10 +150,10 @@
                                 <td>Operator</td>
                                 @foreach ($pengerjaan as $p)
                                     <td><i class="text-sm">{{ $p->operator->name }}</i></td>
-                                    @php
-                                        $p = 2 - count($pengerjaan);
-                                    @endphp
                                 @endforeach
+                                @php
+                                    $p = 2 - count($pengerjaan);
+                                @endphp
                                 @for ($i = 1; $i < $p; $i++)
                                     <td>-</td>
                                 @endfor

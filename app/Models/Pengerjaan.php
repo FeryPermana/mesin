@@ -61,6 +61,6 @@ class Pengerjaan extends Model
 
     public function checklist()
     {
-        return $this->hasMany(checklist::class);
+        return $this->hasMany(Checklist::class);
     }
 }
