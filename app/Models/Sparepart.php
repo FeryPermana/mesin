@@ -43,7 +43,7 @@ class Sparepart extends Model
     {
         if (@$params->search) {
             $query->where(function ($query) use ($params) {
-                $query->where('item', 'LIKE', '%' . $params->search . '%');
+                $query->where('item', 'LIKE', '%' . $params->search . '%')->orWhere('kode_barang', 'LIKE', '%' . $params->search . '%');
             });
         }
     }

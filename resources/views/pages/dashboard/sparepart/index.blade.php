@@ -82,7 +82,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8">
+                                <td colspan="11">
                                     <div class="text-center">
                                         <div class="alert alert-warning"
                                             role="alert">
