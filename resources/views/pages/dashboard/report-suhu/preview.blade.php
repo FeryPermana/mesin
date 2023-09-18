@@ -52,43 +52,39 @@
 
 <body>
     <div class="container">
-        <div class="grid-container"
+        <div class="row"
             style="margin-bottom: -30px;">
-            <div class="item">
+            <div class="col-6">
                 <img src="{{ asset('assets/images/logos/tanobel-logo-w300.png') }}"
                     alt=""
                     width="180">
             </div>
-            <div class="item"
-                style="text-align: center;">
-
-            </div>
-            <div class="item">
-                <div class="border border-dark p-2">
+            <div class="col-6">
+                <div class="border border-dark p-2 mt-3">
                     <table class="table-dokumen"
                         border="0"
                         style="border-color: white;">
                         <tr>
-                            <td>No. Dokumen</td>
-                            <td>:</td>
-                            <td>FR-TEK-02-04</td>
+                            <td style="font-size: 10px;">No. Dokumen</td>
+                            <td style="font-size: 10px;">:</td>
+                            <td style="font-size: 10px;">FR-TEK-02-04</td>
                         </tr>
                         <tr>
-                            <td>Tgl. Efektif</td>
-                            <td>:</td>
-                            <td>08-02-2017</td>
+                            <td style="font-size: 10px;">Tgl. Efektif</td>
+                            <td style="font-size: 10px;">:</td>
+                            <td style="font-size: 10px;">08-02-2017</td>
                         </tr>
                         <tr>
-                            <td>Rev</td>
-                            <td>:</td>
-                            <td>0</td>
+                            <td style="font-size: 10px;">Rev</td>
+                            <td style="font-size: 10px;">:</td>
+                            <td style="font-size: 10px;">0</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
         <div class="text-center mt-5">
-            <h4>CATATAN MONITORING SUHU DAN KELEMBAPAN</h4>
+            <h6>CATATAN MONITORING SUHU DAN KELEMBAPAN</h6>
         </div>
         <div class="grid-container"
             style="margin-bottom: -30px;">
