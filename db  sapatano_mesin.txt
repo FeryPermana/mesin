@@ -1,0 +1,3 @@
+db : sapatano_mesin
+user : sapatano_mesin
+pass : *59173Pati*
