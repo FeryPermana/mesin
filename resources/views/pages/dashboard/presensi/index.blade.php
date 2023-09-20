@@ -77,6 +77,25 @@
                     @enderror
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Enumerate</label>
+                    <select name="enumerate"
+                        class="form-control custom-select">
+                        <option value=""
+                            selected>-- Enumerate --</option>
+                        <option value="1"
+                            {{ old('enumerate') == '1' ? 'selected' : '' }}>
+                            Shift Panjang
+                        </option>
+                        <option value="1"
+                            {{ old('enumerate') == '2' ? 'selected' : '' }}>
+                            Shift Pendek
+                        </option>
+                    </select>
+                    @error('enumerate')
+                        <div class="form-text text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="tanggal"
                         class="form-label">Tanggal</label>
                     <input type="date"

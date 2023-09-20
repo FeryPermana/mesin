@@ -39,7 +39,8 @@ class PresensiController extends Controller
             'mesin' => 'required',
             'lineproduksi' => 'required',
             'shift' => 'required',
-            'tanggal' => 'required'
+            'tanggal' => 'required',
+            'enumerate' => 'required'
         ]);
         $presensilast = Presensi::where('user_id', auth()->user()->id)->where('lineproduksi_id', $request->lineproduksi)->where('shift_id', $request->shift)->whereYear('tanggal', date('Y'))->whereMonth('tanggal', date('m'))->first();
         if ($presensilast) {
@@ -51,6 +52,7 @@ class PresensiController extends Controller
             'lineproduksi_id' => $request->lineproduksi,
             'shift_id' => $request->shift,
             'tanggal' => $request->tanggal,
+            'enumerate' => $request->enumerate,
         ]);
 
         return redirect()->back()->with('success', 'Presensi berhasil !!!');

@@ -96,6 +96,16 @@
         </a>
     </li>
     <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('reject.index') ? 'active' : '' }}"
+            href="{{ route('reject.index') }}"
+            aria-expanded="false">
+            <span>
+                <i class="ti ti-layout-dashboard"></i>
+            </span>
+            <span class="hide-menu">Data Reject</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
         <a class="sidebar-link {{ request()->routeIs('request-perbaikan.*') ? 'active' : '' }}"
             href="{{ route('request-perbaikan.index') }}"
             aria-expanded="false">

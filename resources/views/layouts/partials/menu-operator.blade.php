@@ -1,17 +1,23 @@
-{{-- <li class="sidebar-item">
-    <a class="sidebar-link {{ request()->routeIs('operator-downtime.*') ? 'active' : '' }}"
-        href="{{ route('operator-downtime.index') }}"
+<li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('reject-operator.create') ? 'active' : '' }}"
+        href="{{ route('reject-operator.create') }}"
         aria-expanded="false">
         <span>
-            <i class="ti ti-clock-stop"></i>
+            <i class="ti ti-layout-dashboard"></i>
         </span>
-        <span class="hide-menu">Input DownTime</span>
+        <span class="hide-menu">Input Reject</span>
     </a>
-</li> --}}
-{{-- <li class="nav-small-cap">
-    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-    <span class="hide-menu">Perawatan</span>
-</li> --}}
+</li>
+<li class="sidebar-item">
+    <a class="sidebar-link {{ request()->routeIs('reject-operator.index') ? 'active' : '' }}"
+        href="{{ route('reject-operator.index') }}"
+        aria-expanded="false">
+        <span>
+            <i class="ti ti-layout-dashboard"></i>
+        </span>
+        <span class="hide-menu">Data Reject</span>
+    </a>
+</li>
 <li class="sidebar-item">
     <a class="sidebar-link {{ request()->routeIs('tutorial-mesin.*') ? 'active' : '' }}"
         href="{{ route('tutorial-mesin.index') }}"

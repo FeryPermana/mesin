@@ -24,6 +24,10 @@ use App\Http\Controllers\Dashboard\PerbaikanOperatorController;
 use App\Http\Controllers\Dashboard\PerbaikanTeknisiController;
 use App\Http\Controllers\Dashboard\PresensiController;
 use App\Http\Controllers\Dashboard\ProduksiController;
+use App\Http\Controllers\Dashboard\ProduksiKaruController;
+use App\Http\Controllers\Dashboard\RejectController;
+use App\Http\Controllers\Dashboard\RejectKaruController;
+use App\Http\Controllers\Dashboard\RejectOperatorControler;
 use App\Http\Controllers\Dashboard\ReportPresensiController;
 use App\Http\Controllers\Dashboard\ReportSuhuController;
 use App\Http\Controllers\Dashboard\ShiftController;
@@ -89,6 +93,10 @@ Route::prefix('/dashboard')->group(function () {
 
     Route::resource('operator-perbaikan', PerbaikanOperatorController::class)->middleware(['auth', 'role:5']);
     Route::resource('teknisi-perbaikan', PerbaikanTeknisiController::class)->middleware(['auth', 'role:3']);
+
+    Route::resource('produksi-karu', ProduksiKaruController::class)->middleware(['auth', 'role:4']);
+    Route::resource('reject-operator', RejectOperatorControler::class)->middleware(['auth', 'role:5']);
+    Route::resource('reject', RejectController::class)->middleware(['auth', 'role:1']);
 });
 
 
