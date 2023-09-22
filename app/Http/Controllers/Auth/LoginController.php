@@ -36,7 +36,7 @@ class LoginController extends Controller
                 return redirect()->route('perawatan-mingguan.index')->with('success', 'Berhasil login');
             }
             if ($user->role == '4') {
-                return redirect()->route('produksi.index')->with('success', 'Berhasil login');
+                return redirect()->route('produksi-karu.index')->with('success', 'Berhasil login');
             }
             if ($user->role == '5') {
                 return redirect()->route('perawatan.index')->with('success', 'Berhasil login');

@@ -64,6 +64,7 @@
                         <th>Nama</th>
                         <th>Line Produksi</th>
                         <th>Shift</th>
+                        <th>Enumerate</th>
                         <th>Tanggal</th>
                     </thead>
                     <tbody>
@@ -73,11 +74,12 @@
                                 <td>{{ $p->user->name }}</td>
                                 <td>{{ $p->lineproduksi->name }}</td>
                                 <td>{{ $p->shift->name }}</td>
+                                <td>{{ $p->enumerate == 1 ? 'Shift Panjang' : 'Shift Pendek' }}</td>
                                 <td>{{ $p->tanggal }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">
+                                <td colspan="5">
                                     <div class="text-center">
                                         <div class="alert alert-warning"
                                             role="alert">

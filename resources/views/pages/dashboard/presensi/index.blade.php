@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="card">
+    {{-- <div class="card">
         <div class="card-body">
             <div class="my-5">
                 <div class="row">
@@ -77,6 +77,25 @@
                     @enderror
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Enumerate</label>
+                    <select name="enumerate"
+                        class="form-control custom-select">
+                        <option value=""
+                            selected>-- Enumerate --</option>
+                        <option value="1"
+                            {{ old('enumerate') == '1' ? 'selected' : '' }}>
+                            Shift Panjang
+                        </option>
+                        <option value="1"
+                            {{ old('enumerate') == '2' ? 'selected' : '' }}>
+                            Shift Pendek
+                        </option>
+                    </select>
+                    @error('enumerate')
+                        <div class="form-text text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="tanggal"
                         class="form-label">Tanggal</label>
                     <input type="date"
@@ -90,5 +109,15 @@
                     class="btn btn-primary">Simpan</button>
             </form>
         </div>
-    </div>
+    </div> --}}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a
+        href="https://docs.google.com/spreadsheets/d/1pwz3MbO9Hglcd_ug5EHsdvDBEsWYimhzMIMtXye_k5Y/edit#gid=715737916">excel</a><br>
+    <iframe width="1000"
+        height="1000"
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR5BPdIZnbpP7KVPt2VmCoiTtSAKKu-8OdBqLVM8XlH2amR29kSncaEMscgT_GvKFRN8Lz8r8lWT2tO/pubhtml?widget=true&amp;headers=false"></iframe>
 </x-admin-layout>
