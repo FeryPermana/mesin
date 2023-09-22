@@ -13,24 +13,27 @@ class PresensiController extends Controller
 {
     public function index()
     {
-        $mesin = Mesin::all();
+        if (auth()->user()->lokasi_id == '3') {
+            $mesin = Mesin::all();
 
-        $lineproduksi = DB::table('lineproduksi')
-            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
-            ->select('lineproduksi.*', 'lineproduksi.name')
-            ->where('hasline.mesin_id', @$_GET['mesinkey'])
-            ->get();
-        $mesinone = Mesin::find(@$_GET['mesinkey']);
-        $shift = Shift::all();
+            $lineproduksi = DB::table('lineproduksi')
+                ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+                ->select('lineproduksi.*', 'lineproduksi.name')
+                ->where('hasline.mesin_id', @$_GET['mesinkey'])
+                ->get();
+            $mesinone = Mesin::find(@$_GET['mesinkey']);
+            $shift = Shift::all();
 
-        $data = [
-            'mesin' => $mesin,
-            'lineproduksi' => $lineproduksi,
-            'mesinone' => $mesinone,
-            'shift' => $shift,
-        ];
+            $data = [
+                'mesin' => $mesin,
+                'lineproduksi' => $lineproduksi,
+                'mesinone' => $mesinone,
+                'shift' => $shift,
+            ];
 
-        return view('pages.dashboard.presensi.index', $data);
+            return view('pages.dashboard.presensi.index', $data);
+        }
+        return abort('404');
     }
 
     public function store(Request $request)

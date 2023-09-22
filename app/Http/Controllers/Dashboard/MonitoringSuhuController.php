@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\LineProduksi;
+use App\Models\Mesin;
 use App\Models\MonitoringSuhu;
 use App\Models\Shift;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MonitoringSuhuController extends Controller
 {
@@ -17,10 +19,16 @@ class MonitoringSuhuController extends Controller
     {
         $monitoringsuhu = MonitoringSuhu::where('operator_id', auth()->user()->id)->get();
 
-        $lineproduksi = LineProduksi::all();
+        $mesin = Mesin::all();
+        $mesinkey = @$_GET['mesinkey'];
+        $lineproduksi = DB::table('lineproduksi')
+            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+            ->select('lineproduksi.*', 'lineproduksi.name')
+            ->where('hasline.mesin_id', $mesinkey)
+            ->get();
         $shift = Shift::all();
 
-        return view('pages.dashboard.suhu.index', compact('monitoringsuhu', 'lineproduksi', 'shift'));
+        return view('pages.dashboard.suhu.index', compact('monitoringsuhu', 'lineproduksi', 'shift', 'mesin'));
     }
 
     /**

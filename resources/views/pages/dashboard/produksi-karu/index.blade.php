@@ -60,6 +60,7 @@
                             <th>Tanggal</th>
                             <th>Shift</th>
                             <th>LineProduksi</th>
+                            <th>Jam Kerja</th>
                             <th>Pallet</th>
                             <th>Keterangan</th>
                         </tr>
@@ -70,6 +71,7 @@
                                 <td>{{ formatTanggalIndo($produksi->tanggal) }}</td>
                                 <td>{{ $produksi->shift->name }}</td>
                                 <td>{{ $produksi->lineproduksi->name }}</td>
+                                <td>{{ $produksi->jamkerja->name }}</td>
                                 <td>{{ $produksi->pallet }}</td>
                                 <td>{{ $produksi->keterangan }}</td>
                             </tr>

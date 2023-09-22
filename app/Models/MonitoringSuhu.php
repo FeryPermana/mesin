@@ -14,6 +14,8 @@ class MonitoringSuhu extends Model
         'tanggal',
         'lineproduksi_id',
         'shift_id',
+        'lokasi_id',
+        'mesin_id',
         'suhu',
         'rh',
         'keterangan',

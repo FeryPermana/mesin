@@ -36,7 +36,7 @@ class Produksi extends Model
 
     public function jamkerja()
     {
-        return $this->belongsTo(JamKerja::class);
+        return $this->belongsTo(JamKerja::class, 'jam_kerja_id');
     }
 
     public function scopeFilter($query, $params)
