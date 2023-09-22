@@ -53,10 +53,14 @@ class ProduksiKaruController extends Controller
             $lineproduksi = LineProduksi::all();
         }
 
+        if (@$_GET['shiftkey']) {
+            $jamkerja = JamKerja::where('shift_id', @$_GET['shiftkey'])->get();
+        } else {
+            $jamkerja = JamKerja::all();
+        }
+
         $shift = Shift::all();
         $lokasi = Lokasi::all();
-
-        $jamkerja = JamKerja::all();
 
         $data = [
             'mesin' => $mesin,
@@ -83,7 +87,7 @@ class ProduksiKaruController extends Controller
 
         $arraypallet = $request->pallet;
         $arrayketerangan = $request->keterangan;
-        $jamkerja = JamKerja::all();
+        $jamkerja = JamKerja::where('shift_id', $request->shift)->get();
         foreach ($jamkerja as $key => $value) {
             $produksi = new Produksi();
             $produksi->mesin_id = $request->mesin;

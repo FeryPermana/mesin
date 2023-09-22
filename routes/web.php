@@ -95,6 +95,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('teknisi-perbaikan', PerbaikanTeknisiController::class)->middleware(['auth', 'role:3']);
 
     Route::resource('produksi-karu', ProduksiKaruController::class)->middleware(['auth', 'role:4']);
+    Route::resource('produksi-karu', ProduksiKaruController::class)->middleware(['auth', 'role:4']);
     Route::resource('reject-operator', RejectOperatorControler::class)->middleware(['auth', 'role:5']);
     Route::resource('reject', RejectController::class)->middleware(['auth', 'role:1']);
 });

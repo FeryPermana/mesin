@@ -45,10 +45,14 @@ class RejectKaruController extends Controller
             $lineproduksi = LineProduksi::all();
         }
 
+        if (@$_GET['shiftkey']) {
+            $jamkerja = JamKerja::where('shift_id', @$_GET['shiftkey'])->get();
+        } else {
+            $jamkerja = JamKerja::all();
+        }
+
         $shift = Shift::all();
         $lokasi = Lokasi::all();
-
-        $jamkerja = JamKerja::all();
 
         $data = [
             'mesin' => $mesin,

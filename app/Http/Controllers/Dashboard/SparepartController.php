@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mesin;
+use App\Models\Shift;
 use App\Models\Sparepart;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SparepartController extends Controller
 {
@@ -27,7 +30,16 @@ class SparepartController extends Controller
         $method = "store";
         $url = route('sparepart.store');
 
-        return view('pages.dashboard.sparepart._form', compact('method', 'url'));
+        $mesin = Mesin::all();
+        $mesinkey = @$_GET['mesinkey'];
+        $lineproduksi = DB::table('lineproduksi')
+            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+            ->select('lineproduksi.*', 'lineproduksi.name')
+            ->where('hasline.mesin_id', $mesinkey)
+            ->get();
+        $shift = Shift::all();
+
+        return view('pages.dashboard.sparepart._form', compact('method', 'url', 'mesin', 'lineproduksi', 'shift'));
     }
 
     /**
@@ -37,9 +49,12 @@ class SparepartController extends Controller
     {
         $request->validate([
             'item' => 'required',
+            'mesin' => 'required',
             'kode_barang' => 'required',
             'stock' => 'required',
             'tanggal_masuk',
+            'lineproduksi' => 'required',
+            'shift' => 'required',
         ]);
 
         $sparepart = new Sparepart();
@@ -47,6 +62,9 @@ class SparepartController extends Controller
         $sparepart->kode_barang = $request->kode_barang;
         $sparepart->stock = $request->stock;
         $sparepart->tanggal_masuk = $request->tanggal_masuk;
+        $sparepart->mesin_id = $request->mesin;
+        $sparepart->lineproduksi_id = $request->lineproduksi;
+        $sparepart->shift_id = $request->shift;
         $sparepart->save();
 
         return redirect()->route('sparepart.index')->with('success', 'Berhasil menambahkan');
@@ -68,8 +86,16 @@ class SparepartController extends Controller
         $method = "update";
         $url = route('sparepart.update', $id);
         $sparepart = Sparepart::find($id);
+        $mesin = Mesin::all();
+        $mesinkey = @$_GET['mesinkey'] ?? $sparepart->mesin_id;
+        $lineproduksi = DB::table('lineproduksi')
+            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+            ->select('lineproduksi.*', 'lineproduksi.name')
+            ->where('hasline.mesin_id', $mesinkey)
+            ->get();
+        $shift = Shift::all();
 
-        return view('pages.dashboard.sparepart._form', compact('method', 'url', 'sparepart'));
+        return view('pages.dashboard.sparepart._form', compact('method', 'url', 'sparepart', 'mesin', 'lineproduksi', 'shift'));
     }
 
     /**
@@ -79,9 +105,12 @@ class SparepartController extends Controller
     {
         $request->validate([
             'item' => 'required',
+            'mesin' => 'required',
             'kode_barang' => 'required',
             'stock' => 'required',
             'tanggal_masuk',
+            'lineproduksi' => 'required',
+            'shift' => 'required',
         ]);
 
         $sparepart = Sparepart::find($id);
@@ -89,6 +118,9 @@ class SparepartController extends Controller
         $sparepart->kode_barang = $request->kode_barang;
         $sparepart->stock = $request->stock;
         $sparepart->tanggal_masuk = $request->tanggal_masuk;
+        $sparepart->mesin_id = $request->mesin;
+        $sparepart->lineproduksi_id = $request->lineproduksi;
+        $sparepart->shift_id = $request->shift;
         $sparepart->save();
 
         return redirect()->route('sparepart.index')->with('success', 'Berhasil merubah');

@@ -60,6 +60,7 @@
                             <th>Tanggal</th>
                             <th>Shift</th>
                             <th>LineProduksi</th>
+                            <th>Jam Kerja</th>
                             <th>Reject Botol</th>
                             <th>Reject Tutup</th>
                             <th>Reject Produksi</th>
@@ -72,6 +73,7 @@
                                 <td>{{ formatTanggalIndo($reject->tanggal) }}</td>
                                 <td>{{ $reject->shift->name }}</td>
                                 <td>{{ $reject->lineproduksi->name }}</td>
+                                <td>{{ $reject->jamkerja->name }}</td>
                                 <td>{{ $reject->reject_botol }}</td>
                                 <td>{{ $reject->reject_tutup }}</td>
                                 <td>{{ $reject->reject_produksi }}</td>

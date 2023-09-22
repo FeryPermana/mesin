@@ -4,7 +4,7 @@
             <div class="my-5">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>{{ $method == 'update' ? 'Ubah Mesin' : 'Tambah Mesin' }}</h3>
+                        <h3>{{ $method == 'update' ? 'Update Sparepart' : 'Tambah Sparepart' }}</h3>
                     </div>
                     <div class="col-md-6 text-end">
                         <a href="{{ route('mesin.index') }}"
@@ -12,14 +12,63 @@
                     </div>
                 </div>
             </div>
+            <form action=""
+                method="GET">
+                <div class="mb-3">
+                    <label for="mesinkey"
+                        class="form-label">Mesin</label>
+                    <select name="mesinkey"
+                        required
+                        id="mesin"
+                        class="form-control @error('mesin') border-danger @enderror"
+                        onchange="this.form.submit()">
+                        <option value=""
+                            selected
+                            disabled>-- Pilih Mesin --</option>
+                        @foreach ($mesin as $m)
+                            @if (auth()->user()->lokasi_id == $m->lokasi_id)
+                                <option value="{{ $m->id }}"
+                                    {{ @$_GET['mesinkey'] || @$sparepart->mesin_id == $m->id ? 'selected' : '' }}>
+                                    {{ $m->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    @error('mesin')
+                        <div id="mesin"
+                            class="form-text text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </form>
             <form action="{{ $url }}"
                 method="POST">
                 @csrf
                 @if ($method == 'update')
                     @method('PUT')
                 @endif
+                <input type="hidden"
+                    name="mesin"
+                    value="{{ @$_GET['mesinkey'] }}">
                 <div class="row">
                     <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="shift"
+                                class="form-label">Shift</label>
+                            <select name="shift"
+                                id="shift"
+                                class="form-control @error('shift') border-danger @enderror">
+                                <option value=""
+                                    selected
+                                    disabled>-- Pilih Shift --</option>
+                                @foreach ($shift as $s)
+                                    <option value="{{ $s->id }}"
+                                        {{ old('shift') == $s->id ? 'selected' : '' }}>{{ $s->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('shift')
+                                <div id="shift"
+                                    class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="mb-3">
                             <label for="item"
                                 class="form-label">Item Spare Part</label>
@@ -75,11 +124,11 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="lineproduksi_id"
+                            <label for="lineproduksi"
                                 class="form-label">Alokasi Line <span class="text-danger">*</span></label>
-                            <select name="lineproduksi_id"
-                                id="lineproduksi_id"
-                                class="form-control @error('lineproduksi_id') border-danger @enderror">
+                            <select name="lineproduksi"
+                                id="lineproduksi"
+                                class="form-control @error('lineproduksi') border-danger @enderror">
                                 <option value=""
                                     selected>-- Pilih Line Produksi --</option>
                                 @foreach ($lineproduksi as $lp)
@@ -89,8 +138,8 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('lineproduksi_id')
-                                <div id="lineproduksi_id"
+                            @error('lineproduksi')
+                                <div id="lineproduksi"
                                     class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>

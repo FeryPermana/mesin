@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\LineProduksi;
+use App\Models\Mesin;
 use App\Models\Shift;
 use App\Models\Sparepart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeknisiSparepartController extends Controller
 {
@@ -52,10 +54,16 @@ class TeknisiSparepartController extends Controller
         $method = "update";
         $url = route('teknisi-sparepart.update', $id);
         $sparepart = Sparepart::find($id);
-        $lineproduksi = LineProduksi::all();
+        $mesin = Mesin::all();
+        $mesinkey = @$_GET['mesinkey'] ?? $sparepart->mesin_id;
+        $lineproduksi = DB::table('lineproduksi')
+            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+            ->select('lineproduksi.*', 'lineproduksi.name')
+            ->where('hasline.mesin_id', $mesinkey)
+            ->get();
         $shift = Shift::all();
 
-        return view('pages.dashboard.teknisi-sparepart._form', compact('method', 'url', 'sparepart', 'lineproduksi', 'shift'));
+        return view('pages.dashboard.teknisi-sparepart._form', compact('method', 'url', 'sparepart', 'lineproduksi', 'shift', 'mesin'));
     }
 
     /**
@@ -65,6 +73,7 @@ class TeknisiSparepartController extends Controller
     {
         $request->validate([
             'item' => 'required',
+            'mesin' => 'required',
             'kode_barang' => 'required',
             'stock' => 'required',
             'tanggal_keluar' => 'required',
@@ -75,6 +84,7 @@ class TeknisiSparepartController extends Controller
 
         $sparepart = Sparepart::find($id);
         $sparepart->item = $request->item;
+        $sparepart->mesin_id = $request->mesin;
         $sparepart->jumlah = $request->jumlah;
         $sparepart->tanggal_keluar = $request->tanggal_keluar;
         $sparepart->stock = $request->stock;

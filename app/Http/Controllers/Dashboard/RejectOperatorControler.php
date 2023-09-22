@@ -52,10 +52,14 @@ class RejectOperatorControler extends Controller
             $lineproduksi = LineProduksi::all();
         }
 
+        if (@$_GET['shiftkey']) {
+            $jamkerja = JamKerja::where('shift_id', @$_GET['shiftkey'])->get();
+        } else {
+            $jamkerja = JamKerja::all();
+        }
+
         $shift = Shift::all();
         $lokasi = Lokasi::all();
-
-        $jamkerja = JamKerja::all();
 
         $data = [
             'mesin' => $mesin,
@@ -85,7 +89,7 @@ class RejectOperatorControler extends Controller
         $arrayrejectproduksi = $request->reject_produksi;
         $arrayketerangan = $request->keterangan;
 
-        $jamkerja = JamKerja::all();
+        $jamkerja = JamKerja::where('shift_id', $request->shift)->get();
         foreach ($jamkerja as $key => $value) {
             $reject = new Reject();
             $reject->mesin_id = $request->mesin;

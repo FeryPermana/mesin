@@ -9,9 +9,37 @@
                 </div>
             </div>
             <br>
+            <form action=""
+                method="GET">
+                <div class="mb-3">
+                    <label for="mesinkey"
+                        class="form-label">Mesin</label>
+                    <select name="mesinkey"
+                        required
+                        id="mesin"
+                        class="form-control @error('mesin') border-danger @enderror"
+                        onchange="this.form.submit()">
+                        <option value=""
+                            selected
+                            disabled>-- Pilih Mesin --</option>
+                        @foreach ($mesin as $m)
+                            <option value="{{ $m->id }}"
+                                {{ @$_GET['mesinkey'] || @$sparepart->mesin_id == $m->id ? 'selected' : '' }}>
+                                {{ $m->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('mesin')
+                        <div id="mesin"
+                            class="form-text text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </form>
             <form action="{{ route('monitoring-suhu.store') }}"
                 method="POST">
                 @csrf
+                <input type="hidden"
+                    name="mesin"
+                    value="{{ @$_GET['mesinkey'] }}">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
