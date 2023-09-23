@@ -23,7 +23,7 @@
             </div>
             <form action="">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <select name="tanggal"
                             id="tanggal"
                             class="form-control">
@@ -35,7 +35,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <select name="shift"
                             id="shift"
                             class="form-control">
@@ -47,7 +47,20 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <select name="lineproduksi"
+                            id="lineproduksi"
+                            class="form-control">
+                            <option value="">select line produksi</option>
+                            @foreach ($lineproduksis as $lineproduksi)
+                                <option value="{{ $lineproduksi->id }}"
+                                    {{ @$_GET['lineproduksi'] == $lineproduksi->id ? 'selected' : '' }}>
+                                    {{ $lineproduksi->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
                         <button type="submit"
                             class="btn btn-primary">Filter</button>
                     </div>
@@ -65,6 +78,7 @@
                             <th>Reject Tutup</th>
                             <th>Reject Produksi</th>
                             <th>Keterangan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,6 +92,10 @@
                                 <td>{{ $reject->reject_tutup }}</td>
                                 <td>{{ $reject->reject_produksi }}</td>
                                 <td>{{ $reject->keterangan }}</td>
+                                <td>
+                                    <a href="{{ route('reject-operator.edit', ['mesin_id' => $reject->mesin_id, 'shift_id' => $reject->shift_id, 'lineproduksi_id' => $reject->lineproduksi_id]) }}?mesinkey={{ $reject->mesin_id }}&shiftkey={{ $reject->shift_id }}"
+                                        class="btn btn-warning btn-sm">Edit</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

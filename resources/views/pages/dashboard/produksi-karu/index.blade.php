@@ -88,7 +88,8 @@
                                 <td>{{ $produksi->jamkerja->name }}</td>
                                 <td>{{ $produksi->pallet }}</td>
                                 <td>{{ $produksi->keterangan }}</td>
-                                <td><a href="{{ route('produksi-karu.edit', ['shift_id' => $produksi->shift_id, 'lineproduksi_id' => $produksi->lineproduksi_id]) }}?shiftkey={{ $produksi->shift_id }}"
+                                <td>
+                                    <a href="{{ route('produksi-karu.edit', ['shift_id' => $produksi->shift_id, 'lineproduksi_id' => $produksi->lineproduksi_id]) }}?shiftkey={{ $produksi->shift_id }}"
                                         class="btn btn-warning btn-sm">Edit</a>
                                 </td>
                             </tr>
