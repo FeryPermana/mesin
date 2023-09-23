@@ -106,6 +106,16 @@
         </a>
     </li>
     <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('admin-produksi.index') ? 'active' : '' }}"
+            href="{{ route('admin-produksi.index') }}"
+            aria-expanded="false">
+            <span>
+                <i class="ti ti-layout-dashboard"></i>
+            </span>
+            <span class="hide-menu">Data Produksi</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
         <a class="sidebar-link {{ request()->routeIs('request-perbaikan.*') ? 'active' : '' }}"
             href="{{ route('request-perbaikan.index') }}"
             aria-expanded="false">

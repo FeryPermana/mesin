@@ -35,15 +35,7 @@ class RejectKaruController extends Controller
     {
         $mesin = Mesin::all();
 
-        if (@$_GET['mesinkey']) {
-            $lineproduksi = DB::table('lineproduksi')
-                ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
-                ->select('lineproduksi.*', 'lineproduksi.name')
-                ->where('hasline.mesin_id', @$_GET['mesinkey'])
-                ->get();
-        } else {
-            $lineproduksi = LineProduksi::all();
-        }
+        $lineproduksi = LineProduksi::all();
 
         if (@$_GET['shiftkey']) {
             $jamkerja = JamKerja::where('shift_id', @$_GET['shiftkey'])->get();
@@ -71,7 +63,6 @@ class RejectKaruController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mesin' => 'required',
             'shift' => 'required',
             'lineproduksi' => 'required',
             'tanggal' => 'required',
@@ -81,7 +72,6 @@ class RejectKaruController extends Controller
         $jamkerja = JamKerja::all();
         foreach ($jamkerja as $key => $value) {
             $reject = new Reject();
-            $reject->mesin_id = $request->mesin;
             $reject->shift_id = $request->shift;
             $reject->lineproduksi_id = $request->lineproduksi;
             $reject->tanggal = $request->tanggal;

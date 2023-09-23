@@ -72,27 +72,32 @@
                         <tr>
                             <th>Tanggal</th>
                             <th>Shift</th>
-                            <th>LineProduksi</th>
                             <th>Jam Kerja</th>
                             <th>Jumlah</th>
                             <th>Keterangan</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $total = [];
+                        @endphp
                         @foreach ($produksis as $produksi)
+                            @php
+                                $total[] = $produksi->pallet;
+                            @endphp
                             <tr>
                                 <td>{{ formatTanggalIndo($produksi->tanggal) }}</td>
                                 <td>{{ $produksi->shift->name }}</td>
-                                <td>{{ $produksi->lineproduksi->name }}</td>
                                 <td>{{ $produksi->jamkerja->name }}</td>
-                                <td>{{ $produksi->pallet }}</td>
+                                <td>{{ number_format($produksi->pallet) }}</td>
                                 <td>{{ $produksi->keterangan }}</td>
-                                <td><a href="{{ route('produksi-karu.edit', ['shift_id' => $produksi->shift_id, 'lineproduksi_id' => $produksi->lineproduksi_id]) }}?shiftkey={{ $produksi->shift_id }}"
-                                        class="btn btn-warning btn-sm">Edit</a>
-                                </td>
                             </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="3">Jumlah Pallet</td>
+                            <td>{{ number_format(array_sum($total)) }}</td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

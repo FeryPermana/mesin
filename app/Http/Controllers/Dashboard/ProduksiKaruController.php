@@ -26,11 +26,14 @@ class ProduksiKaruController extends Controller
 
         $shifts = Shift::all();
 
+        $lineproduksis = LineProduksi::all();
+
 
         $data = [
             'produksis' => $produksis,
             'tanggal' => $tanggal,
-            'shifts' => $shifts
+            'shifts' => $shifts,
+            'lineproduksis' => $lineproduksis
         ];
 
         return view('pages.dashboard.produksi-karu.index', $data);
@@ -67,7 +70,9 @@ class ProduksiKaruController extends Controller
             'lineproduksi' => $lineproduksi,
             'shift' => $shift,
             'lokasi' => $lokasi,
-            'jamkerja' => $jamkerja
+            'jamkerja' => $jamkerja,
+            'url' => route('produksi-karu.store'),
+            'method' => 'store'
         ];
 
         return view('pages.dashboard.produksi-karu.create', $data);
@@ -79,7 +84,6 @@ class ProduksiKaruController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mesin' => 'required',
             'shift' => 'required',
             'lineproduksi' => 'required',
             'tanggal' => 'required',
@@ -90,7 +94,6 @@ class ProduksiKaruController extends Controller
         $jamkerja = JamKerja::where('shift_id', $request->shift)->get();
         foreach ($jamkerja as $key => $value) {
             $produksi = new Produksi();
-            $produksi->mesin_id = $request->mesin;
             $produksi->shift_id = $request->shift;
             $produksi->lineproduksi_id = $request->lineproduksi;
             $produksi->tanggal = $request->tanggal;
@@ -114,17 +117,71 @@ class ProduksiKaruController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($shift_id, $lineproduksi_id)
     {
-        //
+        $produksi = Produksi::where('shift_id', $shift_id)->where('lineproduksi_id', $lineproduksi_id)->get();
+        $mesin = Mesin::all();
+
+        if (@$_GET['mesinkey']) {
+            $lineproduksi = DB::table('lineproduksi')
+                ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+                ->select('lineproduksi.*', 'lineproduksi.name')
+                ->where('hasline.mesin_id', @$_GET['mesinkey'])
+                ->get();
+        } else {
+            $lineproduksi = LineProduksi::all();
+        }
+
+        if (@$_GET['shiftkey']) {
+            $jamkerja = JamKerja::where('shift_id', @$_GET['shiftkey'])->get();
+        } else {
+            $jamkerja = JamKerja::where('shift_id', $produksi[0]->shift_id)->get();
+        }
+
+        $shift = Shift::all();
+        $lokasi = Lokasi::all();
+
+        $data = [
+            'produksi' => $produksi,
+            'mesin' => $mesin,
+            'lineproduksi' => $lineproduksi,
+            'shift' => $shift,
+            'lokasi' => $lokasi,
+            'jamkerja' => $jamkerja,
+            'url' => route('produksi-karu.update', ['shift_id' => $produksi[0]->shift_id, 'lineproduksi_id' => $produksi[0]->lineproduksi_id]),
+            'method' => 'update'
+        ];
+
+        return view('pages.dashboard.produksi-karu.create', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $shift_id, $lineproduksi_id)
     {
-        //
+        $request->validate([
+            'lineproduksi' => 'required',
+            'tanggal' => 'required',
+        ]);
+
+        $arraypallet = $request->pallet;
+        $arrayketerangan = $request->keterangan;
+        $jamkerja = JamKerja::where('shift_id', $request->shift)->get();
+        $prod = Produksi::where('shift_id', $shift_id)->where('lineproduksi_id', $lineproduksi_id)->get();
+
+        foreach ($jamkerja as $key => $value) {
+            $produksi = $prod[$key];
+            $produksi->shift_id = $request->shift;
+            $produksi->lineproduksi_id = $request->lineproduksi;
+            $produksi->tanggal = $request->tanggal;
+            $produksi->pallet = $arraypallet[$key];
+            $produksi->keterangan = $arrayketerangan[$key];
+            $produksi->jam_kerja_id = $value->id;
+            $produksi->save();
+        }
+
+        return redirect('dashboard/produksi-karu/' . $request->shift . '/' . $request->lineproduksi . '?shiftkey=' . $request->shift)->with('success', 'Berhasil');
     }
 
     /**

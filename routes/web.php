@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Dashboard\AdminPerbaikanController;
+use App\Http\Controllers\Dashboard\AdminProduksiController;
 use App\Http\Controllers\Dashboard\DowntimeController;
 use App\Http\Controllers\Dashboard\ExportController;
 use App\Http\Controllers\Dashboard\HarianController;
@@ -94,10 +95,12 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('operator-perbaikan', PerbaikanOperatorController::class)->middleware(['auth', 'role:5']);
     Route::resource('teknisi-perbaikan', PerbaikanTeknisiController::class)->middleware(['auth', 'role:3']);
 
-    Route::resource('produksi-karu', ProduksiKaruController::class)->middleware(['auth', 'role:4']);
-    Route::resource('produksi-karu', ProduksiKaruController::class)->middleware(['auth', 'role:4']);
+    Route::resource('produksi-karu', ProduksiKaruController::class)->except(['edit', 'update'])->middleware(['auth', 'role:4']);
+    Route::get('/produksi-karu/{shift_id}/{lineproduksi_id}', [ProduksiKaruController::class, 'edit'])->name('produksi-karu.edit')->middleware(['auth', 'role:4']);
+    Route::put('/produksi-karu/{shift_id}/{lineproduksi_id}', [ProduksiKaruController::class, 'update'])->name('produksi-karu.update')->middleware(['auth', 'role:4']);
     Route::resource('reject-operator', RejectOperatorControler::class)->middleware(['auth', 'role:5']);
     Route::resource('reject', RejectController::class)->middleware(['auth', 'role:1']);
+    Route::resource('admin-produksi', AdminProduksiController::class)->middleware(['auth', 'role:1']);
 });
 
 

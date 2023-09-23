@@ -77,8 +77,8 @@ class TeknisiSparepartController extends Controller
             'kode_barang' => 'required',
             'stock' => 'required',
             'tanggal_keluar' => 'required',
-            'lineproduksi_id' => 'required',
-            'shift_id' => 'required',
+            'lineproduksi' => 'required',
+            'shift' => 'required',
             'keterangan' => 'required'
         ]);
 
@@ -89,8 +89,8 @@ class TeknisiSparepartController extends Controller
         $sparepart->tanggal_keluar = $request->tanggal_keluar;
         $sparepart->stock = $request->stock;
         $sparepart->kode_barang = $request->kode_barang;
-        $sparepart->lineproduksi_id = $request->lineproduksi_id;
-        $sparepart->shift_id = $request->shift_id;
+        $sparepart->lineproduksi_id = $request->lineproduksi;
+        $sparepart->shift_id = $request->shift;
         $sparepart->keterangan = $request->keterangan;
         $sparepart->user_id = auth()->user()->id;
         $sparepart->save();
