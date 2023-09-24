@@ -59,7 +59,7 @@ class PerawatanController extends Controller
             'mesin' => 'required',
             'shift' => 'required',
             'lineproduksi' => 'required',
-            'gambar' => 'required'
+
         ]);
 
         $countpengerjaan = Pengerjaan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->get()->count();
