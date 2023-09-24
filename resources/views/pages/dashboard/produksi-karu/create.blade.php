@@ -99,6 +99,7 @@
                                 <input type="number"
                                     class="form-control"
                                     id="pallet{{ $jk->id }}"
+                                    name="plt{{ $jk->id }}"
                                     onchange="jumlah({{ $jk->id }})"
                                     required
                                     value="{{ @$produksi[$index]->pallet ? @$produksi[$index]->pallet / 144 : '' }}">
