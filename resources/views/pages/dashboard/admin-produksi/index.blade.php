@@ -17,7 +17,7 @@
             <div class="my-5">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>Reject</h3>
+                        <h3>Produksi</h3>
                     </div>
                 </div>
             </div>
@@ -72,32 +72,32 @@
                         <tr>
                             <th>Tanggal</th>
                             <th>Shift</th>
-                            <th>LineProduksi</th>
                             <th>Jam Kerja</th>
-                            <th>Reject Botol</th>
-                            <th>Reject Tutup</th>
-                            <th>Reject Produksi</th>
+                            <th>Jumlah</th>
                             <th>Keterangan</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($rejects as $reject)
+                        @php
+                            $total = [];
+                        @endphp
+                        @foreach ($produksis as $produksi)
+                            @php
+                                $total[] = $produksi->pallet;
+                            @endphp
                             <tr>
-                                <td>{{ formatTanggalIndo($reject->tanggal) }}</td>
-                                <td>{{ $reject->shift->name }}</td>
-                                <td>{{ $reject->lineproduksi->name }}</td>
-                                <td>{{ $reject->jamkerja->name }}</td>
-                                <td>{{ $reject->reject_botol }}</td>
-                                <td>{{ $reject->reject_tutup }}</td>
-                                <td>{{ $reject->reject_produksi }}</td>
-                                <td>{{ $reject->keterangan }}</td>
-                                <td>
-                                    <a href="{{ route('reject-operator.edit', ['mesin_id' => $reject->mesin_id, 'shift_id' => $reject->shift_id, 'lineproduksi_id' => $reject->lineproduksi_id]) }}?mesinkey={{ $reject->mesin_id }}&shiftkey={{ $reject->shift_id }}"
-                                        class="btn btn-warning btn-sm">Edit</a>
-                                </td>
+                                <td>{{ formatTanggalIndo($produksi->tanggal) }}</td>
+                                <td>{{ $produksi->shift->name }}</td>
+                                <td>{{ $produksi->jamkerja->name }}</td>
+                                <td>{{ number_format($produksi->pallet) }}</td>
+                                <td>{{ $produksi->keterangan }}</td>
                             </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="3">Jumlah Pallet</td>
+                            <td>{{ number_format(array_sum($total)) }}</td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

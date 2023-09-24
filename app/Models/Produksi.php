@@ -12,6 +12,7 @@ class Produksi extends Model
     protected $table = "produksi";
     protected $fillable = [
         'tanggal',
+        'mesin_id',
         'shift_id',
         'lineproduksi_id',
         'jam_kerja_id',

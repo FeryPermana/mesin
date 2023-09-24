@@ -8,34 +8,8 @@
                     </div>
                 </div>
             </div>
-            <div class="alert alert-warning">
-                Pilih Mesin terlebih dahulu !!
-            </div>
             <form action=""
                 method="GET">
-                <div class="mb-3">
-                    <label for="mesinkey"
-                        class="form-label">Mesin</label>
-                    <select name="mesinkey"
-                        required
-                        id="mesin"
-                        class="form-control @error('mesin') border-danger @enderror"
-                        onchange="this.form.submit()">
-                        <option value=""
-                            selected
-                            disabled>-- Pilih Mesin --</option>
-                        @foreach ($mesin as $m)
-                            @if (auth()->user()->lokasi_id == $m->lokasi_id)
-                                <option value="{{ $m->id }}"
-                                    {{ @$_GET['mesinkey'] == $m->id ? 'selected' : '' }}>{{ $m->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    @error('mesin')
-                        <div id="mesin"
-                            class="form-text text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -50,7 +24,8 @@
                                     selected>-- Pilih Shift --</option>
                                 @foreach ($shift as $s)
                                     <option value="{{ $s->id }}"
-                                        {{ @$_GET['shiftkey'] == $s->id ? 'selected' : '' }}>{{ $s->name }}
+                                        {{ @$_GET['shiftkey'] == $s->id ? 'selected' : '' }}>
+                                        {{ $s->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -59,13 +34,13 @@
                                     class="form-text text-danger">{{ $message }}</div>
                             @enderror
             </form>
-            <form action="{{ route('produksi-karu.store') }}"
+            <form action="{{ $url }}"
                 method="POST"
                 enctype="multipart/form-data">
                 @csrf
-                <input type="hidden"
-                    name="mesin"
-                    value="{{ @$_GET['mesinkey'] }}">
+                @if ($method == 'update')
+                    @method('PUT')
+                @endif
                 <input type="hidden"
                     name="shift"
                     value="{{ @$_GET['shiftkey'] }}">
@@ -77,7 +52,8 @@
                 <div class="col-6 mb-2">
                     <input type="radio"
                         name="lineproduksi"
-                        value="{{ $lp->id }}">
+                        value="{{ $lp->id }}"
+                        {{ @$produksi[0]->lineproduksi_id == $lp->id ? 'checked' : '' }}>
                     &nbsp;&nbsp;{{ $lp->name }}
                 </div>
             @endforeach
@@ -93,7 +69,8 @@
                 class="form-label">Tanggal <span class="text-danger">*</span></label>
             <input type="date"
                 class="form-control @error('tanggal') border-danger @enderror"
-                name="tanggal">
+                name="tanggal"
+                value="{{ @$produksi[0]->tanggal }}">
             @error('tanggal')
                 <div id="downtime"
                     class="form-text text-danger">{{ $message }}</div>
@@ -112,20 +89,29 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $index = 0;
+                    @endphp
                     @foreach ($jamkerja as $jk)
                         <tr>
                             <td>{{ $jk->name }}</td>
                             <td>
                                 <input type="number"
                                     class="form-control"
-                                    name="pallet[]"
                                     id="pallet{{ $jk->id }}"
                                     onchange="jumlah({{ $jk->id }})"
-                                    required>
+                                    required
+                                    value="{{ @$produksi[$index]->pallet ? @$produksi[$index]->pallet / 144 : '' }}">
                             </td>
                             <td>
+                                <input type="hidden"
+                                    class="form-control"
+                                    id="jumlah-pallet{{ $jk->id }}"
+                                    name="pallet[]"
+                                    required
+                                    value="{{ @$produksi[$index]->pallet }}">
                                 <div id="jumlah{{ $jk->id }}">
-
+                                    {{ @$produksi[$index]->pallet }}
                                 </div>
                             </td>
                             <td>
@@ -133,9 +119,13 @@
                                     class="form-control"
                                     name="keterangan[]"
                                     id="keterangan{{ $jk->id }}"
-                                    required>
+                                    required
+                                    value="{{ @$produksi[$index]->keterangan }}">
                             </td>
                         </tr>
+                        @php
+                            $index++;
+                        @endphp
                     @endforeach
                 </tbody>
             </table>
@@ -153,6 +143,7 @@
                 var pallet = $('#pallet' + id).val();
                 var jumlah = pallet * 144;
                 $('#jumlah' + id).text(jumlah);
+                $('#jumlah-pallet' + id).val(jumlah);
             }
         </script>
     @endpush

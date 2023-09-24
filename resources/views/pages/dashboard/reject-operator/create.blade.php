@@ -59,10 +59,13 @@
                                     class="form-text text-danger">{{ $message }}</div>
                             @enderror
             </form>
-            <form action="{{ route('reject-operator.store') }}"
+            <form action="{{ $url }}"
                 method="POST"
                 enctype="multipart/form-data">
                 @csrf
+                @if ($method == 'update')
+                    @method('PUT')
+                @endif
                 <input type="hidden"
                     name="mesin"
                     value="{{ @$_GET['mesinkey'] }}">
@@ -77,7 +80,8 @@
                 <div class="col-6 mb-2">
                     <input type="radio"
                         name="lineproduksi"
-                        value="{{ $lp->id }}">
+                        value="{{ $lp->id }}"
+                        {{ @$reject[0]->lineproduksi_id == $lp->id ? 'checked' : '' }}>
                     &nbsp;&nbsp;{{ $lp->name }}
                 </div>
             @endforeach
@@ -93,7 +97,8 @@
                 class="form-label">Tanggal <span class="text-danger">*</span></label>
             <input type="date"
                 class="form-control @error('tanggal') border-danger @enderror"
-                name="tanggal">
+                name="tanggal"
+                value="{{ @$reject[0]->tanggal }}">
             @error('tanggal')
                 <div id="downtime"
                     class="form-text text-danger">{{ $message }}</div>
@@ -113,6 +118,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $index = 0;
+                    @endphp
                     @foreach ($jamkerja as $jk)
                         <tr>
                             <td>{{ $jk->name }}</td>
@@ -120,28 +128,35 @@
                                 <input type="number"
                                     class="form-control"
                                     name="reject_botol[]"
-                                    required>
+                                    required
+                                    value="{{ @$reject[$index]->reject_botol }}">
                             </td>
                             <td>
                                 <input type="number"
                                     class="form-control"
                                     name="reject_tutup[]"
-                                    required>
+                                    required
+                                    value="{{ @$reject[$index]->reject_tutup }}">
                             </td>
                             <td>
                                 <input type="number"
                                     class="form-control"
                                     name="reject_produksi[]"
-                                    required>
+                                    required
+                                    value="{{ @$reject[$index]->reject_produksi }}">
                             </td>
                             <td>
                                 <input type="text"
                                     class="form-control"
                                     name="keterangan[]"
                                     id="keterangan{{ $jk->id }}"
-                                    required>
+                                    required
+                                    value="{{ @$reject[$index]->keterangan }}">
                             </td>
                         </tr>
+                        @php
+                            $index++;
+                        @endphp
                     @endforeach
                 </tbody>
             </table>

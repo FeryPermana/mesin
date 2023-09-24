@@ -98,7 +98,7 @@
                                 <td>{{ number_format($reject->reject_botol) }} pcs</td>
                                 <td>{{ number_format($reject->reject_tutup) }} pcs</td>
                                 <td>{{ number_format($reject->reject_produksi) }} pcs</td>
-                                <td>{{ $reject->keterangan }} pcs</td>
+                                <td>{{ $reject->keterangan }}</td>
                             </tr>
                         @endforeach
                         <tr>
