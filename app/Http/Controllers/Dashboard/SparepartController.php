@@ -105,7 +105,6 @@ class SparepartController extends Controller
     {
         $request->validate([
             'item' => 'required',
-            'mesin' => 'required',
             'kode_barang' => 'required',
             'stock' => 'required',
             'tanggal_masuk',

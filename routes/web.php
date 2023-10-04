@@ -70,6 +70,8 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('produksi', ProduksiController::class)->middleware(['auth', 'role:4']);
     Route::get('/perawatan', [PerawatanController::class, 'index'])->name('perawatan.index')->middleware(['auth', 'role:5']);
     Route::post('/perawatan', [PerawatanController::class, 'store'])->name('perawatan.store')->middleware(['auth', 'role:5']);
+    Route::get('/perawatan/{id}/edit', [PerawatanController::class, 'edit'])->name('perawatan.edit')->middleware(['auth', 'role:5']);
+    Route::post('/perawatan/{id}', [PerawatanController::class, 'update'])->name('perawatan.update')->middleware(['auth', 'role:5']);
     Route::get('/perawatan-mingguan', [PerawatanMingguanController::class, 'index'])->name('perawatan-mingguan.index')->middleware(['auth', 'role:3']);
     Route::post('/perawatan-mingguan', [PerawatanMingguanController::class, 'store'])->name('perawatan-mingguan.store')->middleware(['auth', 'role:3']);
     Route::get('/perawatan-bulanan', [PerawatanBulananController::class, 'index'])->name('perawatan-bulanan.index')->middleware(['auth', 'role:3']);

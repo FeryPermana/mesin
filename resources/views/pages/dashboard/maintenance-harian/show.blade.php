@@ -54,7 +54,7 @@
                                 <option value=""
                                     selected>-- Tahun --</option>
                                 @php
-                                    $tahunSekarang = date('Y');
+                                    $tahunSekarang = 2025;
                                 @endphp
                                 @for ($tahun = $tahunSekarang; $tahun >= 2022; $tahun--)
                                     <option value="{{ $tahun }}"
@@ -114,12 +114,51 @@
                                             $checklists = $p->checklist;
                                             
                                             $arraycheck = [];
+                                            $imgcheck = [];
                                             foreach ($checklists as $checklist) {
                                                 $arraycheck[] = $checklist->is_check ? $checklist->jenis_kegiatan_id : 0;
+                                                $imgcheck[] = $checklist->is_check ? $checklist->gambar : '';
                                             }
                                         @endphp
                                         @if (in_array($j->id, $arraycheck))
-                                            <td><i class="ti ti-check"></i></td>
+                                            @php
+                                                $cari = array_search($j->id, $arraycheck);
+                                            @endphp
+                                            <td>
+                                                @if ($checklists[$cari]->gambar != '')
+                                                    <a href="#"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#checkModal{{ $cari }}"><i
+                                                            class="ti ti-check"></i></a>
+                                                @else
+                                                    <i class="ti ti-check"></i>
+                                                @endif
+                                            </td>
+                                            <div class="modal fade"
+                                                id="checkModal{{ $cari }}"
+                                                tabindex="-1"
+                                                aria-labelledby="checkModal{{ $cari }}Label"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5"
+                                                                id="checkModal{{ $cari }}Label">Preview
+                                                                Gambar
+                                                            </h1>
+                                                            <button type="button"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img src="{{ asset($checklists[$cari]->gambar) }}"
+                                                                alt=""
+                                                                width="100%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @else
                                             <td>-</td>
                                         @endif
@@ -133,10 +172,43 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="2"><strong>Dikerjakan</strong></td>
-                                <td>Operator</td>
+                                <td colspan="3">Gambar</td>
                                 @foreach ($pengerjaan as $p)
-                                    <td><i class="text-sm">{{ $p->operator->name }}</i></td>
+                                    @if ($p->gambar)
+                                        <td><img src="{{ asset($p->gambar) }}"
+                                                alt=""
+                                                width="50"
+                                                style="cursor: pointer;"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#pengerjaanModal{{ $p->id }}"></td>
+                                        <!-- Modal -->
+                                        <div class="modal fade"
+                                            id="pengerjaanModal{{ $p->id }}"
+                                            tabindex="-1"
+                                            aria-labelledby="pengerjaanModal{{ $p->id }}Label"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5"
+                                                            id="pengerjaanModal{{ $p->id }}Label">Preview Gambar
+                                                        </h1>
+                                                        <button type="button"
+                                                            class="btn-close"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{ asset($p->gambar) }}"
+                                                            alt=""
+                                                            width="100%">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <td>-</td>
+                                    @endif
                                 @endforeach
                                 @php
                                     $p = 32 - count($pengerjaan);

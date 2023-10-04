@@ -46,6 +46,8 @@ class PerawatanController extends Controller
             'shift' => $shift,
             'jeniskegiatan' => $jeniskegiatan,
             'pengerjaan' => $pengerjaan,
+            'method' => 'store',
+            'url' => route('perawatan.store')
         ];
 
         return view('pages.dashboard.perawatan.index', $data);
@@ -97,7 +99,7 @@ class PerawatanController extends Controller
                 ->where('jeniskegiatanmesin.type', 'harian')
                 ->get();
 
-            foreach ($jenkeg as $jk) {
+            foreach ($jenkeg as $key => $jk) {
                 if (in_array($jk->id, $jenis_kegiatan)) {
                     $checklist = new Checklist();
                     $checklist->jenis_kegiatan_id = $jk->id;
@@ -106,6 +108,18 @@ class PerawatanController extends Controller
                     $checklist->harian = date('d');
                     $checklist->bulan = bulanSaatIni();
                     $checklist->tahun = date('Y');
+                    $img = "";
+                    if ($request->hasFile('img')) {
+                        $image = $request->img[$key] ?? null;
+                        if ($image != null) {
+                            $img = time() . $image->getClientOriginalName();
+                            $image->move('upload/pengerjaan', $img);
+
+                            $img = "upload/pengerjaan/" . $img;
+                            $checklist->gambar = $img;
+                        }
+                    }
+
                     $checklist->save();
                 } else {
                     $checklist = new Checklist();
@@ -115,11 +129,122 @@ class PerawatanController extends Controller
                     $checklist->harian = date('d');
                     $checklist->bulan = bulanSaatIni();
                     $checklist->tahun = date('Y');
+                    $img = "";
+                    if ($request->hasFile('img')) {
+                        $image = $request->img[$key] ?? null;
+                        if ($image != null) {
+                            $img = time() . $image->getClientOriginalName();
+                            $image->move('upload', $img);
+
+                            $img = "upload/" . $img;
+                            $checklist->gambar = $img;
+                        }
+                    }
+
                     $checklist->save();
                 }
             }
 
             return redirect('/dashboard/perawatan?mesinkey=' . $pengerjaan->mesin_id . '&mesin=' . $pengerjaan->mesin_id . '&shift=' . $pengerjaan->shift_id . '&lineproduksi=' . $pengerjaan->lineproduksi_id)->with('success', 'berhasil');
         }
+    }
+
+    public function edit($id)
+    {
+        $pengerjaanedit = Pengerjaan::with('checklist')->whereId($id)->first();
+
+        $pengerjaan = Pengerjaan::with('checklist')->filter(request())->get();
+
+        $jeniskegiatan = DB::table('jenis_kegiatan')
+            ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
+            ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
+            ->where('jeniskegiatanmesin.mesin_id', $pengerjaanedit->mesin_id)
+            ->where('jeniskegiatanmesin.bulan', bulanSaatIni())
+            ->where('jeniskegiatanmesin.tahun', date('Y'))
+            ->where('jeniskegiatanmesin.type', 'harian')
+            ->get();
+
+        $lineproduksi = DB::table('lineproduksi')
+            ->join('hasline', 'lineproduksi.id', '=', 'hasline.lineproduksi_id')
+            ->select('lineproduksi.*', 'lineproduksi.name')
+            ->where('hasline.mesin_id', $pengerjaanedit->mesin_id)
+            ->get();
+        $shift = Shift::all();
+
+        $data = [
+            'pengerjaan' => $pengerjaan,
+            'pengerjaanedit' => $pengerjaanedit,
+            'mesin' => Mesin::all(),
+            'method' => 'update',
+            'url' => route('perawatan.update', $pengerjaanedit->id),
+            'jeniskegiatan' => $jeniskegiatan,
+            'lineproduksi' => $lineproduksi,
+            'shift' => $shift
+        ];
+
+        return view('pages.dashboard.perawatan.index', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $pengerjaanedit = Pengerjaan::with('checklist')->whereId($id)->first();
+
+        $jenkeg = DB::table('jenis_kegiatan')
+            ->join('jeniskegiatanmesin', 'jenis_kegiatan.id', '=', 'jeniskegiatanmesin.jenis_kegiatan_id')
+            ->select('jenis_kegiatan.*', 'jenis_kegiatan.name', 'jenis_kegiatan.standart')
+            ->where('jeniskegiatanmesin.mesin_id', $pengerjaanedit->mesin_id)
+            ->where('jeniskegiatanmesin.bulan', bulanSaatIni())
+            ->where('jeniskegiatanmesin.tahun', date('Y'))
+            ->where('jeniskegiatanmesin.type', 'harian')
+            ->get();
+
+        $jenis_kegiatan = $request->jenis_kegiatan ?? [];
+        Checklist::where('pengerjaan_id', $id)->delete();
+        foreach ($jenkeg as $key => $jk) {
+            if (in_array($jk->id, $jenis_kegiatan)) {
+                $checklist = new Checklist();
+                $checklist->jenis_kegiatan_id = $jk->id;
+                $checklist->pengerjaan_id = $id;
+                $checklist->is_check = 1;
+                $checklist->harian = date('d');
+                $checklist->bulan = bulanSaatIni();
+                $checklist->tahun = date('Y');
+                $img = "";
+                if ($request->hasFile('img')) {
+                    $image = $request->img[$key] ?? null;
+                    if ($image != null) {
+                        $img = time() . $image->getClientOriginalName();
+                        $image->move('upload/pengerjaan', $img);
+
+                        $img = "upload/pengerjaan/" . $img;
+                        $checklist->gambar = $img;
+                    }
+                }
+
+                $checklist->save();
+            } else {
+                $checklist = new Checklist();
+                $checklist->jenis_kegiatan_id = $jk->id;
+                $checklist->pengerjaan_id = $id;
+                $checklist->is_check = 0;
+                $checklist->harian = date('d');
+                $checklist->bulan = bulanSaatIni();
+                $checklist->tahun = date('Y');
+                $img = "";
+                if ($request->hasFile('img')) {
+                    $image = $request->img[$key] ?? null;
+                    if ($image != null) {
+                        $img = time() . $image->getClientOriginalName();
+                        $image->move('upload', $img);
+
+                        $img = "upload/" . $img;
+                        $checklist->gambar = $img;
+                    }
+                }
+
+                $checklist->save();
+            }
+        }
+        return redirect('/dashboard/perawatan?mesinkey=' . $pengerjaanedit->mesin_id . '&mesin=' . $pengerjaanedit->mesin_id . '&shift=' . $pengerjaanedit->shift_id . '&lineproduksi=' . $pengerjaanedit->lineproduksi_id)->with('success', 'berhasil');
     }
 }
