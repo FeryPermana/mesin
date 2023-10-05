@@ -39,7 +39,7 @@
                         @foreach ($mesin as $m)
                             @if (auth()->user()->lokasi_id == $m->lokasi_id)
                                 <option value="{{ $m->id }}"
-                                    {{ @$_GET['mesinkey'] || @$pengerjaanedit->mesin_id == $m->id ? 'selected' : '' }}>
+                                    {{ @$_GET['mesinkey'] == $m->id || @$pengerjaanedit->mesin_id == $m->id ? 'selected' : '' }}>
                                     {{ $m->name }}</option>
                             @endif
                         @endforeach
