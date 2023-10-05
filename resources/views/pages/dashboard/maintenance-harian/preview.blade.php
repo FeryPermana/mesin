@@ -73,25 +73,27 @@
                     <h2>{{ $mesin->name }}</h2>
                 </div>
                 <div class="item">
-                    <table class="table-dokumen"
-                        border="0"
-                        style="border-color: white;">
-                        <tr>
-                            <td>No. Dokumen</td>
-                            <td>:</td>
-                            <td>FR-TEK-02-04</td>
-                        </tr>
-                        <tr>
-                            <td>Tgl. Efektif</td>
-                            <td>:</td>
-                            <td>08-02-2017</td>
-                        </tr>
-                        <tr>
-                            <td>Rev</td>
-                            <td>:</td>
-                            <td>0</td>
-                        </tr>
-                    </table>
+                    <div style="border: 3px solid black; padding: 5px;">
+                        <table class="table-dokumen"
+                            border="0"
+                            style="border-color: white;">
+                            <tr>
+                                <td>No. Dokumen</td>
+                                <td>:</td>
+                                <td>FR-TEK-02-04</td>
+                            </tr>
+                            <tr>
+                                <td>Tgl. Efektif</td>
+                                <td>:</td>
+                                <td>08-02-2017</td>
+                            </tr>
+                            <tr>
+                                <td>Rev</td>
+                                <td>:</td>
+                                <td>0</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
             <table class="table-hasil"
@@ -188,7 +190,7 @@
             <div class="grid-container"
                 style="margin-bottom: -36px;">
                 <div class="item">
-                    <img src="http://localhost:4040/assets/images/logos/tanobel-logo-w300.png"
+                    <img src="{{ asset('assets/images/logos/tanobel-logo-w300.png') }}"
                         alt=""
                         width="100">
                     <p>Periode Bulan/Tahun : {{ @$_GET['bulan'] }} {{ @$_GET['tahun'] }}<br>
@@ -199,30 +201,37 @@
                     <h2>{{ $mesin->name }} line {{ $lineproduksiname }}</h2>
                 </div>
                 <div class="item">
-                    <table class="table-dokumen"
-                        border="0"
-                        style="border-color: white;">
-                        <tbody>
-                            <tr>
-                                <td>No. Dokumen</td>
-                                <td>:</td>
-                                <td>FR-TEK-02-04</td>
-                            </tr>
-                            <tr>
-                                <td>Tgl. Efektif</td>
-                                <td>:</td>
-                                <td>08-02-2017</td>
-                            </tr>
-                            <tr>
-                                <td>Rev</td>
-                                <td>:</td>
-                                <td>0</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div style="border: 3px solid black; padding: 5px;">
+                        <table class="table-dokumen"
+                            border="0"
+                            style="border-color: white;">
+                            <tbody>
+                                <tr>
+                                    <td>No. Dokumen</td>
+                                    <td>:</td>
+                                    <td>FR-TEK-02-04</td>
+                                </tr>
+                                <tr>
+                                    <td>Tgl. Efektif</td>
+                                    <td>:</td>
+                                    <td>08-02-2017</td>
+                                </tr>
+                                <tr>
+                                    <td>Rev</td>
+                                    <td>:</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             @foreach ($shift as $s)
+                @php
+                    $pengerjaan = App\Models\Pengerjaan::where('shift_id', $s->id)
+                        ->where('lineproduksi_id', @$_GET['lineproduksi'])
+                        ->get();
+                @endphp
                 <div style="margin-top: 2px; margin-bottom: 16px;">
                     <div style="width: 97%; margin: auto;">
                         <div style="display: flex; justify-content: space-between;">
