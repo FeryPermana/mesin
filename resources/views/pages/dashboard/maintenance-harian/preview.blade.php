@@ -184,37 +184,25 @@
             </div>
         </div>
     @else
-        @foreach ($shift as $s)
-            @php
-                $pengerjaan = App\Models\Pengerjaan::where('shift_id', $s->id)
-                    ->where('lineproduksi_id', @$_GET['lineproduksi'])
-                    ->get();
-            @endphp
-            <div class="container"
-                style="margin-top: 10px;">
-                <div class="grid-container"
-                    style="margin-bottom: -30px;">
-                    <div class="item">
-                        <img src="{{ asset('assets/images/logos/tanobel-logo-w300.png') }}"
-                            alt=""
-                            width="100">
-                        @php
-                            $date = new DateTime($pengerjaan[0]->tanggal ?? '');
-                            $monthYearString = generateMonthYearStringFromDate($date);
-                        @endphp
-                        <p>Periode Bulan/Tahun : {{ @$_GET['bulan'] }} {{ @$_GET['tahun'] }}<br>
-                            Shift : <strong>{{ $s->name }}</strong> <br>
-                            Line : <strong>{{ $lineproduksiname }}</strong>
-                        </p>
-                    </div>
-                    <div class="item"
-                        style="text-align: center;">
-                        <h2>{{ $mesin->name }}</h2>
-                    </div>
-                    <div class="item">
-                        <table class="table-dokumen"
-                            border="0"
-                            style="border-color: white;">
+        <div class="container">
+            <div class="grid-container"
+                style="margin-bottom: -36px;">
+                <div class="item">
+                    <img src="http://localhost:4040/assets/images/logos/tanobel-logo-w300.png"
+                        alt=""
+                        width="100">
+                    <p>Periode Bulan/Tahun : {{ @$_GET['bulan'] }} {{ @$_GET['tahun'] }}<br>
+                    </p>
+                </div>
+                <div class="item"
+                    style="text-align: center;">
+                    <h2>{{ $mesin->name }} line {{ $lineproduksiname }}</h2>
+                </div>
+                <div class="item">
+                    <table class="table-dokumen"
+                        border="0"
+                        style="border-color: white;">
+                        <tbody>
                             <tr>
                                 <td>No. Dokumen</td>
                                 <td>:</td>
@@ -230,99 +218,112 @@
                                 <td>:</td>
                                 <td>0</td>
                             </tr>
-                        </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @foreach ($shift as $s)
+                <div style="margin-top: 2px; margin-bottom: 16px;">
+                    <div style="width: 97%; margin: auto;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <strong>Shift : {{ $s->name }}</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <table class="table-hasil"
-                    width="200px;"
-                    style="margin: auto;">
-                    <tr>
-                        <th rowspan="2">No</th>
-                        <th rowspan="2">
-                            <div style="width: 100px;">
-                                Jenis Kegiatan
-                            </div>
-                        </th>
-                        <th rowspan="2">
-                            <div style="width: 60px;">
-                                Standart
-                            </div>
-                        </th>
-                        <th colspan="31"
-                            style="text-align: center;">Pelaksanaan</th>
-                    </tr>
-                    <tr>
-                        @for ($i = 1; $i < 32; $i++)
-                            <th>{{ $i }}</th>
-                        @endfor
-                    </tr>
-                    @php
-                        $no = 1;
-                    @endphp
-                    @foreach ($jeniskegiatan as $j)
+                <div style="width: 98%; margin: auto;">
+                    <table class="table-hasil"
+                        width="100%;"
+                        style="margin: auto; margin-top: -10px;">
                         <tr>
-                            <td>{{ $no++ }}</td>
-                            <td>{{ $j->name }}</td>
-                            <td>{{ $j->standart }}</td>
-                            @foreach ($pengerjaan as $p)
+                            <th rowspan="2">No</th>
+                            <th rowspan="2">
+                                <div style="width: 100px;">
+                                    Jenis Kegiatan
+                                </div>
+                            </th>
+                            <th rowspan="2">
+                                <div style="width: 60px;">
+                                    Standart
+                                </div>
+                            </th>
+                            <th colspan="31"
+                                style="text-align: center;">Pelaksanaan</th>
+                        </tr>
+                        <tr>
+                            @for ($i = 1; $i < 32; $i++)
+                                <th>{{ $i }}</th>
+                            @endfor
+                        </tr>
+                        @php
+                            $no = 1;
+                        @endphp
+                        @foreach ($jeniskegiatan as $j)
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $j->name }}</td>
+                                <td>{{ $j->standart }}</td>
+                                @foreach ($pengerjaan as $p)
+                                    @php
+                                        $checklists = $p->checklist;
+                                        
+                                        $arraycheck = [];
+                                        foreach ($checklists as $checklist) {
+                                            $arraycheck[] = $checklist->is_check ? $checklist->jenis_kegiatan_id : 0;
+                                        }
+                                    @endphp
+                                    @if (in_array($j->id, $arraycheck))
+                                        <td style="text-align: center;">v</td>
+                                    @else
+                                        <td style="text-align: center;">-</td>
+                                    @endif
+                                @endforeach
                                 @php
-                                    $checklists = $p->checklist;
-                                    
-                                    $arraycheck = [];
-                                    foreach ($checklists as $checklist) {
-                                        $arraycheck[] = $checklist->is_check ? $checklist->jenis_kegiatan_id : 0;
-                                    }
+                                    $p = 32 - count($pengerjaan);
                                 @endphp
-                                @if (in_array($j->id, $arraycheck))
-                                    <td style="text-align: center;">v</td>
-                                @else
+                                @for ($i = 1; $i < $p; $i++)
                                     <td style="text-align: center;">-</td>
-                                @endif
+                                @endfor
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="2"><strong>Dikerjakan</strong></td>
+                            <td>Operator</td>
+                            @foreach ($pengerjaan as $p)
+                                <td><i style="font-size: 8px;">{{ $p->operator->name }}</i></td>
                             @endforeach
                             @php
                                 $p = 32 - count($pengerjaan);
                             @endphp
                             @for ($i = 1; $i < $p; $i++)
-                                <td style="text-align: center;">-</td>
+                                <td>-</td>
                             @endfor
                         </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="2"><strong>Dikerjakan</strong></td>
-                        <td>Operator</td>
-                        @foreach ($pengerjaan as $p)
-                            <td><i style="font-size: 8px;">{{ $p->operator->name }}</i></td>
-                        @endforeach
-                        @php
-                            $p = 32 - count($pengerjaan);
-                        @endphp
-                        @for ($i = 1; $i < $p; $i++)
-                            <td>-</td>
-                        @endfor
-                    </tr>
-                </table>
-                <div style="display: flex; justify-content: space-between;">
-                    <div style="margin-top: 10px; width: 50%;">
-                        <strong>Note :</strong> <br>
-                        <ul>
-                            <li>Beri tanda (v) jika sudah dilakukan, beri tanda (x). Jika libur atau mesin OFF</li>
-                            <li>Ketika ada yang tidak sesuai standart. Lapor ke pihak teknisi jika Operator tidak bisa
-                                memperbaiki
-                                sendiri</li>
-                        </ul>
-                    </div>
+                    </table>
+                </div>
+            @endforeach
+            <div style="width: 98%; margin: auto; display: flex; justify-content: space-between;">
+                <div style="margin-top: 10px; width: 50%;">
+                    <strong>Note :</strong> <br>
+                    <ul>
+                        <li>Beri tanda (v) jika sudah dilakukan, beri tanda (x). Jika libur atau mesin OFF</li>
+                        <li>Ketika ada yang tidak sesuai standart. Lapor ke pihak teknisi jika Operator tidak bisa
+                            memperbaiki
+                            sendiri</li>
+                    </ul>
+                </div>
 
-                    <div>
-                        <p style="text-align: center;">Mengetahui</p><br><br><br>
+                <div>
+                    <p style="text-align: center;">Mengetahui</p><br><br><br>
 
-                        <p>(Ka. Produksi) &nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;
-                            (Ka. Teknik)
-                        </p>
-                    </div>
+                    <p>(Ka. Produksi) &nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;
+                        (Ka. Teknik)
+                    </p>
                 </div>
             </div>
-        @endforeach
+        </div>
     @endif
 
 </body>
