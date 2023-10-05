@@ -78,7 +78,6 @@ class MaintenanceHarianController extends Controller
 
         $pengerjaan = Pengerjaan::with('checklist')->where('mesin_id', $mesin_id)->whereMonth('tanggal', $bulanNumeric)->filter(request())->get();
 
-
         $data = [
             'lineproduksi' => $lineproduksi,
             'shift' => $shift,
@@ -105,6 +104,7 @@ class MaintenanceHarianController extends Controller
             return view('pages.dashboard.maintenance-harian.preview', [
                 'lineproduksiname' => $lineproduksiname,
                 'shiftname' => $shiftname,
+                'shift' => $shift,
                 'jeniskegiatan' => $jeniskegiatan,
                 'pengerjaan' => $pengerjaan,
                 'mesin' => $mesin,

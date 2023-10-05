@@ -232,6 +232,168 @@
                             </tr>
                         </table>
                     </div>
+                @elseif (@$_GET['lineproduksi'])
+                    @foreach ($shift as $s)
+                        @php
+                            $pengerjaan = App\Models\Pengerjaan::where('shift_id', $s->id)
+                                ->where('lineproduksi_id', @$_GET['lineproduksi'])
+                                ->get();
+                        @endphp
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th rowspan="2">No</th>
+                                    <th rowspan="2">
+                                        <div style="width: 250px;">
+                                            Jenis Kegiatan
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div>
+                                            Standart
+                                        </div>
+                                    </th>
+                                    <th colspan="31"
+                                        class="text-center">Pelaksanaan</th>
+                                </tr>
+                                <tr>
+                                    @for ($i = 1; $i < 32; $i++)
+                                        <th>{{ $i }}</th>
+                                    @endfor
+                                </tr>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                @foreach ($jeniskegiatan as $j)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $j->name }}</td>
+                                        <td>{{ $j->standart }}</td>
+                                        @foreach ($pengerjaan as $p)
+                                            @php
+                                                $checklists = $p->checklist;
+                                                
+                                                $arraycheck = [];
+                                                $imgcheck = [];
+                                                foreach ($checklists as $checklist) {
+                                                    $arraycheck[] = $checklist->is_check ? $checklist->jenis_kegiatan_id : 0;
+                                                    $imgcheck[] = $checklist->is_check ? $checklist->gambar : '';
+                                                }
+                                            @endphp
+                                            @if (in_array($j->id, $arraycheck))
+                                                @php
+                                                    $cari = array_search($j->id, $arraycheck);
+                                                @endphp
+                                                <td>
+                                                    @if ($checklists[$cari]->gambar != '')
+                                                        <a href="#"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#checkModal{{ $cari }}"><i
+                                                                class="ti ti-check"></i></a>
+                                                    @else
+                                                        <i class="ti ti-check"></i>
+                                                    @endif
+                                                </td>
+                                                <div class="modal fade"
+                                                    id="checkModal{{ $cari }}"
+                                                    tabindex="-1"
+                                                    aria-labelledby="checkModal{{ $cari }}Label"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5"
+                                                                    id="checkModal{{ $cari }}Label">Preview
+                                                                    Gambar
+                                                                </h1>
+                                                                <button type="button"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img src="{{ asset($checklists[$cari]->gambar) }}"
+                                                                    alt=""
+                                                                    width="100%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <td>-</td>
+                                            @endif
+                                        @endforeach
+                                        @php
+                                            $p = 32 - count($pengerjaan);
+                                        @endphp
+                                        @for ($i = 1; $i < $p; $i++)
+                                            <td>-</td>
+                                        @endfor
+                                    </tr>
+                                @endforeach
+                                <tr>
+                                    <td colspan="3">Gambar</td>
+                                    @foreach ($pengerjaan as $p)
+                                        @if ($p->gambar)
+                                            <td><img src="{{ asset($p->gambar) }}"
+                                                    alt=""
+                                                    width="50"
+                                                    style="cursor: pointer;"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#pengerjaanModal{{ $p->id }}"></td>
+                                            <!-- Modal -->
+                                            <div class="modal fade"
+                                                id="pengerjaanModal{{ $p->id }}"
+                                                tabindex="-1"
+                                                aria-labelledby="pengerjaanModal{{ $p->id }}Label"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5"
+                                                                id="pengerjaanModal{{ $p->id }}Label">Preview
+                                                                Gambar
+                                                            </h1>
+                                                            <button type="button"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img src="{{ asset($p->gambar) }}"
+                                                                alt=""
+                                                                width="100%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <td>-</td>
+                                        @endif
+                                    @endforeach
+                                    @php
+                                        $p = 32 - count($pengerjaan);
+                                    @endphp
+                                    @for ($i = 1; $i < $p; $i++)
+                                        <td>-</td>
+                                    @endfor
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><strong>Dikerjakan</strong></td>
+                                    <td>Operator</td>
+                                    @foreach ($pengerjaan as $p)
+                                        <td><i style="font-size: 8px;">{{ $p->operator->name }}</i></td>
+                                    @endforeach
+                                    @php
+                                        $p = 32 - count($pengerjaan);
+                                    @endphp
+                                    @for ($i = 1; $i < $p; $i++)
+                                        <td>-</td>
+                                    @endfor
+                                </tr>
+                            </table>
+                        </div>
+                    @endforeach
                 @else
                     <div class="alert alert-danger">
                         <div class="text-center">
