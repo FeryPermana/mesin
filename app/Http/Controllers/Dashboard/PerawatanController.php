@@ -198,10 +198,24 @@ class PerawatanController extends Controller
             ->where('jeniskegiatanmesin.type', 'harian')
             ->get();
 
+        $pengerjaan = Pengerjaan::find($id);
+        $gambar = $pengerjaan->gambar;
+        if ($request->hasFile('gambar')) {
+            $image = $request->gambar;
+            $gambar = time() . $image->getClientOriginalName();
+            $image->move('upload', $gambar);
+
+            $gambar = "upload/" . $gambar;
+        }
+
+        $pengerjaan->gambar = $gambar;
+        $pengerjaan->save();
+
         $jenis_kegiatan = $request->jenis_kegiatan ?? [];
         Checklist::where('pengerjaan_id', $id)->delete();
         foreach ($jenkeg as $key => $jk) {
             if (in_array($jk->id, $jenis_kegiatan)) {
+                $arr = array_search($jk->id, $jenis_kegiatan);
                 $checklist = new Checklist();
                 $checklist->jenis_kegiatan_id = $jk->id;
                 $checklist->pengerjaan_id = $id;
@@ -211,7 +225,7 @@ class PerawatanController extends Controller
                 $checklist->tahun = date('Y');
                 $img = "";
                 if ($request->hasFile('img')) {
-                    $image = $request->img[$key] ?? null;
+                    $image = $request->img[$arr] ?? null;
                     if ($image != null) {
                         $img = time() . $image->getClientOriginalName();
                         $image->move('upload/pengerjaan', $img);
@@ -230,17 +244,6 @@ class PerawatanController extends Controller
                 $checklist->harian = date('d');
                 $checklist->bulan = bulanSaatIni();
                 $checklist->tahun = date('Y');
-                $img = "";
-                if ($request->hasFile('img')) {
-                    $image = $request->img[$key] ?? null;
-                    if ($image != null) {
-                        $img = time() . $image->getClientOriginalName();
-                        $image->move('upload', $img);
-
-                        $img = "upload/" . $img;
-                        $checklist->gambar = $img;
-                    }
-                }
 
                 $checklist->save();
             }

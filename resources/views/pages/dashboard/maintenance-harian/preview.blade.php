@@ -62,7 +62,8 @@
                     $monthYearString = generateMonthYearStringFromDate($date);
                 @endphp
                 <p>Periode Bulan/Tahun : {{ @$_GET['bulan'] }} {{ @$_GET['tahun'] }}<br>
-                    <strong>{{ $shiftname }}</strong>
+                    Shift : <strong>{{ $shiftname }}</strong> <br>
+                    Shift : <strong>{{ $lineproduksiname }}</strong>
                 </p>
             </div>
             <div class="item"

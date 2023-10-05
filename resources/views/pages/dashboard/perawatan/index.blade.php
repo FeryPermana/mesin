@@ -52,7 +52,8 @@
             </form>
             <form action="{{ $url }}"
                 method="POST"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data"
+                id="perawatan-form">
                 @csrf
                 <div class="mb-3">
                     <input type="hidden"
@@ -170,9 +171,9 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit"
+                <a href="#"
                     class="btn btn-primary"
-                    onclick="return confirm('Ceklist anda belum lengkap apakah ingin submit ?')">Simpan</button>
+                    onclick="submit()">Simpan</a>
             </form>
         </div>
     </div>
@@ -289,35 +290,35 @@
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#checkModal{{ $cari }}"><i
                                                         class="ti ti-check"></i></a>
+                                                <div class="modal fade"
+                                                    id="checkModal{{ $cari }}"
+                                                    tabindex="-1"
+                                                    aria-labelledby="checkModal{{ $cari }}Label"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5"
+                                                                    id="checkModal{{ $cari }}Label">Preview
+                                                                    Gambar
+                                                                </h1>
+                                                                <button type="button"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img src="{{ asset($checklists[$cari]->gambar) }}"
+                                                                    alt=""
+                                                                    width="100%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @else
                                                 <i class="ti ti-check"></i>
                                             @endif
                                         </td>
-                                        <div class="modal fade"
-                                            id="checkModal{{ $cari }}"
-                                            tabindex="-1"
-                                            aria-labelledby="checkModal{{ $cari }}Label"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5"
-                                                            id="checkModal{{ $cari }}Label">Preview
-                                                            Gambar
-                                                        </h1>
-                                                        <button type="button"
-                                                            class="btn-close"
-                                                            data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <img src="{{ asset($checklists[$cari]->gambar) }}"
-                                                            alt=""
-                                                            width="100%">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     @else
                                         <td>-</td>
                                     @endif
@@ -341,37 +342,43 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#pengerjaanModal{{ $p->id }}"></td>
                                     <!-- Modal -->
-                                    <div class="modal fade"
-                                        id="pengerjaanModal{{ $p->id }}"
-                                        tabindex="-1"
-                                        aria-labelledby="pengerjaanModal{{ $p->id }}Label"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5"
-                                                        id="pengerjaanModal{{ $p->id }}Label">Preview Gambar
-                                                    </h1>
-                                                    <button type="button"
-                                                        class="btn-close"
-                                                        data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
+                                @else
+                                    <td><a href="#"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#pengerjaanModal{{ $p->id }}">-</a></td>
+                                @endif
+                                <div class="modal fade"
+                                    id="pengerjaanModal{{ $p->id }}"
+                                    tabindex="-1"
+                                    aria-labelledby="pengerjaanModal{{ $p->id }}Label"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5"
+                                                    id="pengerjaanModal{{ $p->id }}Label">Preview Gambar
+                                                </h1>
+                                                <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if ($p->gambar)
                                                     <img src="{{ asset($p->gambar) }}"
                                                         alt=""
                                                         width="100%">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a href="{{ route('perawatan.edit', $p->id) }}?mesinkey={{ $p->mesin_id }}&mesin={{ $p->mesin_id }}&shift={{ $p->shift_id }}&lineproduksi={{ $p->lineproduksi_id }}"
-                                                        class="btn btn-warning">Edit Atau Lengkapi Checklist</a>
-                                                </div>
+                                                @else
+                                                    <h3>Tidak ada Gambar</h3>
+                                                @endif
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="{{ route('perawatan.edit', $p->id) }}?mesinkey={{ $p->mesin_id }}&mesin={{ $p->mesin_id }}&shift={{ $p->shift_id }}&lineproduksi={{ $p->lineproduksi_id }}"
+                                                    class="btn btn-warning">Edit Atau Lengkapi Checklist</a>
                                             </div>
                                         </div>
                                     </div>
-                                @else
-                                    <td>-</td>
-                                @endif
+                                </div>
                             @endforeach
                             @php
                                 $p = 32 - count($pengerjaan);
@@ -394,6 +401,22 @@
     </div>
 
     @push('scripts')
+        <script>
+            function submit() {
+                Swal.fire({
+                    title: 'Checklist anda belum lengkap apakah ingin submit ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#perawatan-form').submit();
+                    }
+                })
+            }
+        </script>
         <script>
             $("#selectAll").click(function() {
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));

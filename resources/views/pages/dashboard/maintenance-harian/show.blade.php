@@ -217,6 +217,19 @@
                                     <td>-</td>
                                 @endfor
                             </tr>
+                            <tr>
+                                <td colspan="2"><strong>Dikerjakan</strong></td>
+                                <td>Operator</td>
+                                @foreach ($pengerjaan as $p)
+                                    <td><i style="font-size: 8px;">{{ $p->operator->name }}</i></td>
+                                @endforeach
+                                @php
+                                    $p = 32 - count($pengerjaan);
+                                @endphp
+                                @for ($i = 1; $i < $p; $i++)
+                                    <td>-</td>
+                                @endfor
+                            </tr>
                         </table>
                     </div>
                 @else
