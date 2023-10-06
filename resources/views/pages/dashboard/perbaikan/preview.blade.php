@@ -64,7 +64,8 @@
 
             </div>
             <div class="item">
-                <div class="border border-dark p-2">
+                <div class="border border-dark p-2"
+                    style="margin-top: -20px;">
                     <table class="table-dokumen"
                         border="0"
                         style="border-color: white;">
@@ -88,7 +89,7 @@
             </div>
         </div>
         <div class="text-center mt-5">
-            <h4>CATATAN MONITORING SUHU DAN KELEMBAPAN</h4>
+            <h4>PERMINTAAN PERBAIKAN MESIN</h4>
         </div>
         <div class="grid-container"
             style="margin-bottom: -30px;">
@@ -182,6 +183,11 @@
             <div class="border border-black p-2 mt-2">
                 {{ $perbaikan->action }}
             </div>
+        </div>
+        <div class="container">
+            <img src="{{ asset('assets/images/permintaanperbaikan-01.png') }}"
+                alt=""
+                style="width: 100%;">
         </div>
     </div>
 </body>

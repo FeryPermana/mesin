@@ -150,10 +150,9 @@ class MesinController extends Controller
         $mesin->tahun_pembuatan = $request->tahun_pembuatan;
         $mesin->periode_pakai = $request->periode_pakai;
 
-        $mesin->save();
+        HasLine::where('mesin_id', $mesin->id)->delete();
 
         foreach ($request->lineproduksi as $lp) {
-            HasLine::where('mesin_id', $mesin->id)->where('lineproduksi_id', $lp)->delete();
             HasLine::create([
                 'lineproduksi_id' => $lp,
                 'mesin_id' => $mesin->id,
@@ -171,6 +170,7 @@ class MesinController extends Controller
             ]);
         }
 
+        $mesin->save();
 
 
         return redirect()->back()->with('success', 'Data berhasil disimpan');
