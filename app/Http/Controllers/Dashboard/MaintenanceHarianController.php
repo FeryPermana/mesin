@@ -73,10 +73,26 @@ class MaintenanceHarianController extends Controller
             "November" => 11,
             "Desember" => 12
         ];
+
+        $bulanMapping = [
+            "Januari" => 1,
+            "Februari" => 2,
+            "Maret" => 3,
+            "April" => 4,
+            "Mei" => 5,
+            "Juni" => 6,
+            "Juli" => 7,
+            "Agustus" => 8,
+            "September" => 9,
+            "Oktober" => 10,
+            "November" => 11,
+            "Desember" => 12
+        ];
+
         $bulanvalue = @$_GET['bulan'] ? $_GET['bulan'] : bulanSaatIni();
         $bulanNumeric = $bulanMapping[$bulanvalue];
 
-        $pengerjaan = Pengerjaan::with('checklist')->where('mesin_id', $mesin_id)->whereMonth('tanggal', $bulanNumeric)->filter(request())->get();
+        $pengerjaan = Pengerjaan::with('checklist')->where('mesin_id', $mesin_id)->whereMonth('tanggal', $bulanNumeric)->whereYear('tanggal', @$_GET['tahun'])->filter(request())->get();
 
         $data = [
             'lineproduksi' => $lineproduksi,
@@ -84,6 +100,7 @@ class MaintenanceHarianController extends Controller
             'jeniskegiatan' => $jeniskegiatan,
             'pengerjaan' => $pengerjaan ?? [],
             'mesin' => $mesin,
+            'bulanNumeric' => $bulanNumeric
         ];
 
         if (@$_GET['harian']) {
@@ -108,6 +125,7 @@ class MaintenanceHarianController extends Controller
                 'jeniskegiatan' => $jeniskegiatan,
                 'pengerjaan' => $pengerjaan,
                 'mesin' => $mesin,
+                'bulanNumeric' => $bulanNumeric
             ]);
         }
 
@@ -120,6 +138,7 @@ class MaintenanceHarianController extends Controller
                 'jeniskegiatan' => $jeniskegiatan,
                 'pengerjaan' => $pengerjaan,
                 'mesin' => $mesin,
+                'bulanNumeric' => $bulanNumeric
             ]);
         }
 

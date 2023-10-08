@@ -237,6 +237,10 @@
                         @php
                             $pengerjaan = App\Models\Pengerjaan::where('shift_id', $s->id)
                                 ->where('lineproduksi_id', @$_GET['lineproduksi'])
+                                ->where('mesin_id', @$mesin->id)
+                                ->whereMonth('tanggal', @$bulanNumeric)
+                                ->whereYear('tanggal', @$_GET['tahun'])
+                                ->filter(request())
                                 ->get();
                         @endphp
                         <div class="table-responsive">

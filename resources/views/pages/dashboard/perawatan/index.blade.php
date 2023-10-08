@@ -188,7 +188,7 @@
                     name="mesinkey"
                     value="{{ @$_GET['mesinkey'] }}">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-2">
                         <select name="mesin"
                             class="form-control custom-select">
                             <option value=""
@@ -203,7 +203,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-2">
                         <select name="shift"
                             class="form-control custom-select">
                             <option value=""
@@ -216,7 +216,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-2">
                         <select name="lineproduksi"
                             class="form-control custom-select">
                             <option value=""
@@ -229,7 +229,34 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-2">
+                        <select name="bulan"
+                            class="form-control custom-select">
+                            <option value=""
+                                selected>-- Bulan --</option>
+                            @foreach (bulan_list() as $bulan)
+                                <option value="{{ $bulan }}"
+                                    {{ @$_GET['bulan'] == $bulan ? 'selected' : '' }}>
+                                    {{ $bulan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <select name="tahun"
+                            class="form-control custom-select">
+                            <option value=""
+                                selected>-- Tahun --</option>
+                            @php
+                                $tahunSekarang = 2025;
+                            @endphp
+                            @for ($tahun = $tahunSekarang; $tahun >= 2022; $tahun--)
+                                <option value="{{ $tahun }}"
+                                    {{ @$_GET['tahun'] == $tahun ? 'selected' : '' }}>
+                                    {{ $tahun }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="col-md-3 mt-2">
                         <button type="submit"
                             class="btn btn-primary">Filter</button>
                         <a href="{{ route('perawatan.index') }}"
