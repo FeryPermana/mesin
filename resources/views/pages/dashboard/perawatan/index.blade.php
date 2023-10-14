@@ -299,7 +299,7 @@
                                 @foreach ($pengerjaan as $p)
                                     @php
                                         $checklists = $p->checklist;
-                                        
+
                                         $arraycheck = [];
                                         $imgcheck = [];
                                         foreach ($checklists as $checklist) {
@@ -431,7 +431,7 @@
         <script>
             function submit() {
                 Swal.fire({
-                    title: 'Checklist anda belum lengkap apakah ingin submit ?',
+                    title: 'Apakah anda yakin ingin submit ?',
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

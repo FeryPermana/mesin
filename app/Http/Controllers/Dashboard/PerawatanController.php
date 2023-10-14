@@ -82,7 +82,7 @@ class PerawatanController extends Controller
 
         ]);
 
-        $countpengerjaan = Pengerjaan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->get()->count();
+        $countpengerjaan = Pengerjaan::where('shift_id', $request->shift)->where('lineproduksi_id', $request->lineproduksi)->where('mesin_id', $request->mesin)->get()->count();
 
         if ($countpengerjaan == 31) {
             return redirect()->back()->with('error', 'checklist sudah selesai !!');
